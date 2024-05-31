@@ -24,12 +24,38 @@
             
         </nav>
         <div class="row px-3">
-            <div class="col-lg-3 col-md-auto col-sm-12">
-                <div class="card mb-3" style="background-color: #66CDAA; border-color: #66CDAA;" style="width: 18rem;">
+            <div class="card"> <!-- Card ETL PROCESS -->
+                <div class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;"> <!-- Card HEADER ETL PROCESS -->
+                    ETL Process
+                </div> <!-- Card HEADER ETL PROCESS -->
+                <div class="card-body"> <!-- Card  BODY ETL PROCESS -->
+                <div class="col-lg-12 col-md-auto col-sm-12">
+
                 <form action="#" method="POST">
-                    <div class="card-body">
-                        <h5 class="card-title" style="color: white;">Mencari Dataset</h5>
-                        <p class="card-text" style="color: white;">Tahun</p>
+                <div class="row">
+                    <div class="col-lg-3 col-md-auto col-sm-12">
+                            <h5 class="text" style="color: black;">URL Profilkes</h5>
+                            <input class="form-control" type="text" placeholder="Ketik URL" aria-label="default input example">
+                            <!-- <select id='' class='form-select'>
+                                <option selected>Pilih dataset</option>
+                            </select> -->
+                            <!-- Ajax loader -->
+                            <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
+                                    <span class="visually-hidden">Loading...</span>
+                            </div>
+                    </div>
+                    <div class="col-lg-3 col-md-auto col-sm-12">
+                        <h5 class="text" style="color: black;">Wilyah Profilkes</h5>
+                        <select id='' class='form-select'>
+                            <option selected>Pilih wilayah</option>
+                        </select>
+                        <!-- Ajax loader -->
+                        <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
+                                <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-auto col-sm-12">
+                        <h5 class="text" style="color: black;">Tahun</h5>
                         <?php 
                         function get_profilkescurl($url) {
                             $ch = curl_init($url);
@@ -77,7 +103,11 @@
                             echo "</div>";
                         }
                         ?>
-                        <p class="card-text" style="color: white;">Dataset</p>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-6 col-md-auto col-sm-12">
+                        <h5 class="text" style="color: black;">Dataset</h5>
                         <select id='datasetDropdown' class='form-select' onchange='getKodewilayah(this.value)'>
                             <option selected>Pilih dataset</option>
                         </select>
@@ -85,25 +115,26 @@
                         <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
                                 <span class="visually-hidden">Loading...</span>
                         </div>
-                    </div>
+                        </div>
+                        </div>
                 </form>
-                </div>
+
             </div>
-            <div class="col-lg-9 col-md-auto col-sm-12">
+            <div class="col-lg-12 col-md-auto col-sm-12 mt-3">
                 <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="tab-data" data-bs-toggle="tab" data-bs-target="#datatabpanel" type="button" role="tab" aria-controls="datatabpanel" aria-selected="true">1. Extract</button>
+                        <button class="nav-link active" id="extract-tab" data-bs-toggle="tab" data-bs-target="#extracttabpanel" type="button" role="tab" aria-controls="extracttabpanel" aria-selected="true">1. Extract</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="configure-tab" data-bs-toggle="tab" data-bs-target="#configuretabpanel" type="button" role="tab" aria-controls="configuretabpanel" aria-selected="false">2. Transform</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="configure-tab" data-bs-toggle="tab" data-bs-target="#configuretabpanel" type="button" role="tab" aria-controls="configuretabpanel" aria-selected="false">3. Load</button>
+                        <button class="nav-link" id="load-tab" data-bs-toggle="tab" data-bs-target="#loadtabpanel" type="button" role="tab" aria-controls="loadtabpanel" aria-selected="false">3. Load</button>
                     </li>
                 </ul>           
                 <div class="tab-content">
                     <!-- tabpanel 1 -->
-                    <div class="tab-pane fade show active" id="datatabpanel" role="tabpanel" aria-labelledby="tab-data">
+                    <div class="tab-pane fade show active" id="extracttabpanel" role="tabpanel" aria-labelledby="extract-tab">
                         <div class="card  mb-3">
                             <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Tabel Dataset</h5>
                             <div class="card-body">
@@ -193,7 +224,10 @@
                     </div> <!-- akhir tabpanel 2-->
                 </div> <!-- akhir tab-content -->
                 </div> <!-- akhir col-9 -->
-            </div> <!-- akhir row -->
+                </div> <!-- Card  BODY ETL PROCESS -->
+            </div> <!-- Card ETL PROCESS -->
+            
+        </div> <!-- akhir row -->
         </div> <!-- akhir container -->
         <script>
         function getDataset(tahun) {
