@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>ETL - PROFILKES</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.1/font/bootstrap-icons.min.css" rel="stylesheet">
     </head>
     <body>
         <!-- <h1>ETL - PROFILKES</h1> -->
@@ -14,10 +15,10 @@
                 <a class="navbar-brand mb-0 h1 navbar-light"><i class="bi bi-file-earmark-medical"></i> ETL - PROFILKES</a>
                 <ul class="nav justify-content-end">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="etl_profilkes.php" style="color: white;">ETL-Process</a>
+                        <a class="nav-link active" aria-current="page" href="etl_profilkes.php" style="color: white;"><i class="bi bi-list"></i> ETL-Process</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" style="color: white;">Info</a>
+                        <a class="nav-link" href="#" style="color: white;"><i class="bi bi-info-circle-fill"></i> Info</a>
                     </li>
                 </ul>
             </div>
@@ -82,9 +83,9 @@
 
                         // Buat dropdown untuk menampilkan tahun
                         if (isset($test)) {
-                            echo "<div class='container-fluid mt-3'>";
+                            echo "<div class='container-fluid'>";
                             echo "<div class='row'>";
-                            echo "<div class='col mb-3'>";
+                            echo "<div class='col'>";
                             echo "<select id='tahunDropdown' class='form-select' onchange='getDataset(this.value)'>";
                             echo "<option selected>Pilih tahun</option>";
                             foreach ($test as $waktu) {
@@ -105,7 +106,7 @@
                         ?>
                         </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-2 mb-2">
                         <div class="col-lg-6 col-md-auto col-sm-12">
                         <h5 class="text" style="color: black;">Dataset</h5>
                         <select id='datasetDropdown' class='form-select' onchange='getKodewilayah(this.value)'>
@@ -126,7 +127,7 @@
                         <button class="nav-link active" id="extract-tab" data-bs-toggle="tab" data-bs-target="#extracttabpanel" type="button" role="tab" aria-controls="extracttabpanel" aria-selected="true">1. Extract</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="configure-tab" data-bs-toggle="tab" data-bs-target="#configuretabpanel" type="button" role="tab" aria-controls="configuretabpanel" aria-selected="false">2. Transform</button>
+                        <button class="nav-link" id="trasform-tab" data-bs-toggle="tab" data-bs-target="#trasformtabpanel" type="button" role="tab" aria-controls="trasformtabpanel" aria-selected="false">2. Transform</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="load-tab" data-bs-toggle="tab" data-bs-target="#loadtabpanel" type="button" role="tab" aria-controls="loadtabpanel" aria-selected="false">3. Load</button>
@@ -144,12 +145,57 @@
                             </div>
                         </div>
                     </div> <!-- akhir tabpanel 1 -->
+
                     <!-- tabpanel 2 -->
-                    <div class="tab-pane fade" id="configuretabpanel" role="tabpanel" aria-labelledby="configure-tab">
+                    <div class="tab-pane fade" id="trasformtabpanel" role="tabpanel" aria-labelledby="trasform-tab">
+                    <div class="row mb-3">
+                        <div class="col-lg-3 col-md-auto col-sm-12">
+                            <h5 class="text" style="color: black;">URL SatuData</h5>
+                            <input class="form-control" type="text" placeholder="Ketik URL" aria-label="default input example">
+        
+                            <!-- Ajax loader -->
+                            <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
+                                    <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-auto col-sm-12">
+                            <h5 class="text" style="color: black;">Key App SatuData</h5>
+                            <input class="form-control" type="text" placeholder="Ketik Key App" aria-label="default input example">
+        
+                            <!-- Ajax loader -->
+                            <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
+                                    <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-auto col-sm-12">
+                            <h5 class="text" style="color: black;">Tahun SatuData</h5>
+                            <input class="form-control" type="text" placeholder="2023" aria-label="default input example" disabled>
+        
+                            <!-- Ajax loader -->
+                            <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
+                                    <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-auto col-sm-12 mt-2">
+                            <h5 class="text" style="color: black;">Cari Dataset SatuData</h5>
+                            <form class="d-flex" role="search">
+                            <input type="search" class="form-control" placeholder="Search"  aria-label="Search" aria-describedby="basic-addon2">
+                            <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
+                                <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> -->
+                                <button class="btn btn-success" class="bi bi-search" type="submit">Find</button>
+                            </form>
+        
+                            <!-- Ajax loader -->
+                            <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
+                                    <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    
+                        </div>
                         <div class="row">
-                            <div class="col-lg-5 col-md-auto col-sm-12">
+                            <div class="col-lg-3 col-md-auto col-sm-12">
                                 <div class="card mb-3">
-                                    <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Select Configure</h5>
+                                    <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Kolom Dataset Profilkes</h5>
                                     <div class="card-body">
                                         <form id="selectFrom"> <!-- Ubah id formulir agar unik -->
                                             <div class="mb-3">
@@ -177,7 +223,7 @@
 
                                                     echo "</select>"; // Selesai dropdown
                                                 ?>
-                                                <button type="submit" class="btn btn-primary">Apply Filter</button>
+
                                             </div>
                                         </form>
                                     </div>
@@ -191,9 +237,9 @@
                                     <button type="button" id="moveLeft" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">&lt;&lt;</button>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-auto col-sm-12">
+                            <div class="col-lg-3 col-md-auto col-sm-12">
                                 <div class="card mb-3">
-                                    <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Result</h5>
+                                    <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Transform Fields</h5>
                                     <div class="card-body">
                                         <form id="#selectTo"> <!-- Ubah id formulir agar unik -->
                                             <div class="mb-3">
@@ -214,16 +260,62 @@
                                                     echo "</select>"; // Selesai dropdown
                                                 ?>
                                             
-                                                <button type="submit" class="btn btn-primary">Apply Filter</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                            </div> <!-- col-6 -->
+                            </div> <!-- col-3 -->
+                            <div class="col-lg-2 col-md-auto col-sm-12 align-self-center text-center">
+                                <div class="mb-2">
+                                    <button type="button" id="" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">Match</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-auto col-sm-12">
+                                <div class="card mb-3">
+                                    <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Kolom Dataset SatuData</h5>
+                                    <div class="card-body">
+                                        <form id="#selectTo"> <!-- Ubah id formulir agar unik -->
+                                            <div class="mb-3">
+                                                <label for="filterInput" class="form-label multiple">Hasil:</label>
+                                            
+                                                <?php
+                                                    // Tentukan header tabel secara manual (gantilah dengan header yang sesuai)
+                                                    
+                                                    $headers = array();
+
+                                                    // Mulai membuat dropdown
+                                                    echo "<select id='filterDropdown2' class='form-select' multiple>"; // Ubah id dropdown agar unik
+                                                    
+                                                    // Loop melalui setiap header dan tambahkan sebagai opsi dropdown
+                                                    foreach ($headers as $header) {
+                                                        echo "<option value='" . $header . "'>" . $header . "</option>";
+                                                    }
+                                                    echo "</select>"; // Selesai dropdown
+                                                ?>
+                                            
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div> <!-- col-3 -->
                         </div> <!-- row -->
                     </div> <!-- akhir tabpanel 2-->
+                    
+                    <!-- tabpanel 3 -->
+                    <div class="tab-pane fade" id="loadtabpanel" role="tabpanel" aria-labelledby="load-tab">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-auto col-sm-12">
+                                <div class="card mb-3">
+                                    <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Load Tabel</h5>
+                                    <div class="card-body">
+                                        
+                                    </div>
+                                </div>
+                            </div> <!-- col-6 -->
+                        </div> <!-- row -->
+                    </div> <!-- akhir tabpanel 3-->
                 </div> <!-- akhir tab-content -->
-                </div> <!-- akhir col-9 -->
+                </div> <!-- akhir col-12 -->
                 </div> <!-- Card  BODY ETL PROCESS -->
             </div> <!-- Card ETL PROCESS -->
             
