@@ -12,21 +12,24 @@
         <div class="container-fluid">
         <nav class="navbar navbar-expand-lg navbar-dark mb-3" style="background-color: #66CDAA; border-color: 66CDAA;">
             <div class="container-fluid">
-                <a class="navbar-brand mb-0 h1 navbar-light"><i class="bi bi-file-earmark-medical"></i> ETL - PROFILKES</a>
-                <ul class="nav justify-content-end">
+                <a class="navbar-brand mb-0 h1 navbar-light"><i class="bi bi-globe"></i> ETL - PROFILKES</a>
+                <ul class="nav nav-underline justify-content-end" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="etl_profilkes.php" style="color: white;"><i class="bi bi-list"></i> ETL-Process</a>
+                        <a class="nav-link active" id="etlprocess-tab" data-bs-toggle="tab" data-bs-target="#etlprocesstabpanel" type="button" role="tab" aria-controls="etlprocesstabpanel" aria-selected="true" style="color: white;"><i class="bi bi-list"></i> ETL-Process</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" style="color: white;"><i class="bi bi-info-circle-fill"></i> Info</a>
+                        <a class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#infotabpanel" type="button" role="tab" aria-controls="infotabpanel" aria-selected="false" style="color: white;"><i class="bi bi-info-circle-fill"></i> Info</a>
                     </li>
                 </ul>
             </div>
             
         </nav>
+        <div class="tab-content"> <!-- tabcontent -->
+        <!-- tabpanel ETL PROCESS -->
+        <div class="tab-pane fade show active" id="etlprocesstabpanel" role="tabpanel" aria-labelledby="etlprocess-tab">
         <div class="row px-3">
-            <div class="card"> <!-- Card ETL PROCESS -->
-                <div class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;"> <!-- Card HEADER ETL PROCESS -->
+            <div class="card" style="border-color: #66CDAA;"> <!-- Card ETL PROCESS -->
+                <div class="card-header" style=" color: white; background-color: #66CDAA; border-color: #66CDAA;"> <!-- Card HEADER ETL PROCESS -->
                     ETL Process
                 </div> <!-- Card HEADER ETL PROCESS -->
                 <div class="card-body"> <!-- Card  BODY ETL PROCESS -->
@@ -36,10 +39,7 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-auto col-sm-12">
                             <h5 class="text" style="color: black;">URL Profilkes</h5>
-                            <input class="form-control" type="text" placeholder="Ketik URL" aria-label="default input example">
-                            <!-- <select id='' class='form-select'>
-                                <option selected>Pilih dataset</option>
-                            </select> -->
+                            <input class="form-control" type="text" placeholder="Ketik URL" aria-label="urlprofilkes">
                             <!-- Ajax loader -->
                             <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
                                     <span class="visually-hidden">Loading...</span>
@@ -49,6 +49,7 @@
                         <h5 class="text" style="color: black;">Wilyah Profilkes</h5>
                         <select id='' class='form-select'>
                             <option selected>Pilih wilayah</option>
+                            <option>Aceh</option>
                         </select>
                         <!-- Ajax loader -->
                         <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
@@ -136,7 +137,7 @@
                 <div class="tab-content">
                     <!-- tabpanel 1 -->
                     <div class="tab-pane fade show active" id="extracttabpanel" role="tabpanel" aria-labelledby="extract-tab">
-                        <div class="card  mb-3">
+                        <div class="card  mb-3" style="border-color: #66CDAA;">
                             <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Tabel Dataset</h5>
                             <div class="card-body">
                                 <div class='col'>
@@ -151,7 +152,7 @@
                     <div class="row mb-3">
                         <div class="col-lg-3 col-md-auto col-sm-12">
                             <h5 class="text" style="color: black;">URL SatuData</h5>
-                            <input class="form-control" type="text" placeholder="Ketik URL" aria-label="default input example">
+                            <input class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata">
         
                             <!-- Ajax loader -->
                             <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
@@ -160,7 +161,7 @@
                         </div>
                         <div class="col-lg-3 col-md-auto col-sm-12">
                             <h5 class="text" style="color: black;">Key App SatuData</h5>
-                            <input class="form-control" type="text" placeholder="Ketik Key App" aria-label="default input example">
+                            <input class="form-control" type="text" placeholder="Ketik Key App" aria-label="keyappsatudata">
         
                             <!-- Ajax loader -->
                             <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
@@ -194,8 +195,8 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-3 col-md-auto col-sm-12">
-                                <div class="card mb-3">
-                                    <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Kolom Dataset Profilkes</h5>
+                                <div class="card mb-3" style="border-color: #66CDAA;">
+                                    <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Kolom Dataset Profilkes</h5>
                                     <div class="card-body">
                                         <form id="selectFrom"> <!-- Ubah id formulir agar unik -->
                                             <div class="mb-3">
@@ -238,8 +239,8 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-auto col-sm-12">
-                                <div class="card mb-3">
-                                    <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Transform Fields</h5>
+                                <div class="card mb-3" style="border-color: #66CDAA;">
+                                    <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Transform Fields</h5>
                                     <div class="card-body">
                                         <form id="#selectTo"> <!-- Ubah id formulir agar unik -->
                                             <div class="mb-3">
@@ -271,8 +272,8 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-auto col-sm-12">
-                                <div class="card mb-3">
-                                    <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Kolom Dataset SatuData</h5>
+                                <div class="card mb-3" style="border-color: #66CDAA;">
+                                    <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Kolom Dataset SatuData</h5>
                                     <div class="card-body">
                                         <form id="#selectTo"> <!-- Ubah id formulir agar unik -->
                                             <div class="mb-3">
@@ -305,7 +306,7 @@
                     <div class="tab-pane fade" id="loadtabpanel" role="tabpanel" aria-labelledby="load-tab">
                         <div class="row">
                             <div class="col-lg-12 col-md-auto col-sm-12">
-                                <div class="card mb-3">
+                                <div class="card mb-3" style="border-color: #66CDAA;">
                                     <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Load Tabel</h5>
                                     <div class="card-body">
                                         
@@ -318,9 +319,64 @@
                 </div> <!-- akhir col-12 -->
                 </div> <!-- Card  BODY ETL PROCESS -->
             </div> <!-- Card ETL PROCESS -->
-            
         </div> <!-- akhir row -->
+        </div> <!-- akhir Tabpanel ETL PROCESS -->
+        <!-- tabpanel INFO -->
+        <div class="tab-pane fade" id="infotabpanel" role="tabpanel" aria-labelledby="info-tab">
+            <div class="row px-3">
+            <div class="card"> <!-- Card INFO -->
+                <div class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;"> <!-- Card HEADER INFO -->
+                    Info
+                </div> <!-- Card HEADER ETL PROCESS -->
+                <div class="card-body"> <!-- Card  BODY INFO -->
+                <p class="card-text">Ini adalah deskripsi singkat aplikasi. Seharusnya berisi latar belakang serta
+                    informasi-informasi singkat terkait dengan keberadaan aplikasi ini. Semoga dengan dua atau tiga kalimat,
+                    maka deskripsi ini dapat menjelaskan maksud/tujuan dari adanya aplikasi ini.
+                </p>
+                </div> <!-- Card  BODY INFO -->
+            </div> <!-- Card INFO -->
+            </div>
+        </div> <!-- akhir tabpanel INFO -->
+        </div> <!-- akhir Tabcontent -->
         </div> <!-- akhir container -->
+
+        <!-- Footer -->
+        <div class="container">
+        <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
+            <div class="col-lg-3 col-md-auto col-sm-12 mb-3">
+            <h5 class="text-dark"><i class="bi bi-globe"></i> ETL - PROFILKES </h5>
+            </div>
+
+            <div class="col-lg-1 col-md-auto col-sm-12 mb-2">
+            </div>
+
+            <div class="col-lg-1 col-md-auto col-sm-12 mb-2">
+            </div>
+
+            <div class="col-lg-3 col-md-auto col-sm-12 mb-3">
+            <h5>Link Website</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">OpenData</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">SatuData</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">GeoPortal</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pintu</a></li>
+            </ul>
+            </div>
+
+            <div class="col-lg-4 col-md-auto col-sm-12 mb-3">
+            <h5>Kontak Kami</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item"><p>UPTD Statistik Diskominsa Aceh</p></li>
+                <!-- <li class="nav-item"><p></p></li> -->
+                <li class="nav-item"><p> Gedung Sentra Telematika Aceh Jl. Teungku Cot Plieng No.48, Kota Baru, Kec. Kuta Alam, Kota Banda Aceh</p></li>
+            </ul>
+            </div>
+        </footer>
+        </div>
+        <div class="fixed-bottom text-light bg-dark py-2">
+        Dikelola oleh UPTD Statistik Diskominsa Aceh
+        </div>
+
         <script>
         function getDataset(tahun) {
             var datasetDropdown = document.getElementById("datasetDropdown");
