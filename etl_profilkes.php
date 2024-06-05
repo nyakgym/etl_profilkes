@@ -40,17 +40,22 @@
                     <div class="col-lg-3 col-md-auto col-sm-12">
                             <h5 class="text" style="color: black;">URL Profilkes</h5>
                             <input class="form-control" type="text" placeholder="Ketik URL" aria-label="urlprofilkes">
+                            <?php
+                                
+                            ?>
                             <!-- Ajax loader -->
                             <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
                                     <span class="visually-hidden">Loading...</span>
                             </div>
                     </div>
                     <div class="col-lg-3 col-md-auto col-sm-12">
-                        <h5 class="text" style="color: black;">Wilyah Profilkes</h5>
-                        <select id='' class='form-select'>
+                        <h5 class="text" style="color: black;">Wilayah Profilkes</h5>
+                        <!-- <select id='' class='form-select'> -->
+                        <select id='wilayahDropdown' class='form-select' onchange='getWilayah(this.value)'>
                             <option selected>Pilih wilayah</option>
                             <option>Aceh</option>
                         </select>
+                        
                         <!-- Ajax loader -->
                         <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
                                 <span class="visually-hidden">Loading...</span>
@@ -66,7 +71,15 @@
                             curl_close($ch);
                             return json_decode($response);
                         }
-
+                        function get_wilayah($url) {
+                            $url ="https://profilkes.acehprov.go.id/api/kode_wilayah";
+                            return get_profilkescurl($url);
+                        }
+                        
+                        // function get_dataset($tahun) {
+                        //     $url = "https://profilkes.acehprov.go.id/api/dataset?tahun=" . urlencode($tahun);
+                        //     return get_profilkescurl($url);
+                        // }
                         function get_tahun(){
                             $url = "https://profilkes.acehprov.go.id/api/tahun";
                             $response = get_profilkescurl($url);
@@ -329,9 +342,9 @@
                     Info
                 </div> <!-- Card HEADER ETL PROCESS -->
                 <div class="card-body"> <!-- Card  BODY INFO -->
-                <p class="card-text">Ini adalah deskripsi singkat aplikasi. Seharusnya berisi latar belakang serta
-                    informasi-informasi singkat terkait dengan keberadaan aplikasi ini. Semoga dengan dua atau tiga kalimat,
-                    maka deskripsi ini dapat menjelaskan maksud/tujuan dari adanya aplikasi ini.
+                <p class="card-text">
+                    Aplikasi ETL-Profilkes bertujuan untuk memindahkan dataset dari web api Profilkes ke web SatuData
+                    dengan mencocokkan struktur data antara Profilkes dengan SatuData sehingga dataset dari Profilkes dapat dikirimm ke SatuData.
                 </p>
                 </div> <!-- Card  BODY INFO -->
             </div> <!-- Card INFO -->
