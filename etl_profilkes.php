@@ -53,7 +53,7 @@
                 </div>
                     <div class="col-lg-3 col-md-auto col-sm-12">
                     <h5 class="text" style="color: black;">Wilayah Profilkes</h5>
-                        <select id='wilayahDropdown' class='form-select' onchange='getWilayah(this.value)'>
+                        <select id='wilayahDropdown' class='form-select'>
                             <option selected>Pilih wilayah</option>
                         </select>
                         
@@ -76,11 +76,7 @@
                             $url ="https://profilkes.acehprov.go.id/api/kode_wilayah";
                             return get_profilkescurl($url);
                         }
-                        
-                        // function get_dataset($tahun) {
-                        //     $url = "https://profilkes.acehprov.go.id/api/dataset?tahun=" . urlencode($tahun);
-                        //     return get_profilkescurl($url);
-                        // }
+
                         function get_tahun(){
                             $url = "https://profilkes.acehprov.go.id/api/tahun";
                             $response = get_profilkescurl($url);
@@ -103,9 +99,9 @@
                             echo "<div class='col'>";
                             echo "<select id='tahunDropdown' class='form-select' onchange='getDataset(this.value)'>";
                             echo "<option selected>Pilih tahun</option>";
-                            foreach ($test as $waktu) {
-                                echo "<option value='{$waktu->tahun}'>{$waktu->tahun}</option>";
-                            }
+                            // foreach ($test as $waktu) {
+                            //     echo "<option value='{$waktu->tahun}'>{$waktu->tahun}</option>";
+                            // }
                             echo "</select>";
                             echo "<div id='loader' class='spinner-border text-light' role='status' style='display: none;'>";
                             echo "<span class='visually-hidden'>Loading...</span>";
@@ -396,45 +392,119 @@
         document.getElementById("urlProfilkes").addEventListener("input", function() {
             var urlInput = this.value;
             
-                // Jika URL valid, tampilkan pesan sukses
-                urlInput = urlInput + "api/kode_wilayah";
-                fetch(urlInput).then((response)=>response.json()).then((response)=>{
-                    console.log(response);
-                });
-            }
-            );
-
-        function getDataset(tahun) {
-            var datasetDropdown = document.getElementById("datasetDropdown");
-            datasetDropdown.innerHTML = "<option selected>Loading...</option>";
-
-            // Menampilkan spinner loader
-            var loader = document.getElementById("loader");
-            loader.style.display = "inline-block";
-
-            // Buat request untuk mengambil data dataset berdasarkan tahun yang dipilih
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        var response = JSON.parse(xhr.responseText);
-                        datasetDropdown.innerHTML = "<option selected>Pilih dataset</option>";
-                        response.forEach(function(dataset) {
-                            var option = document.createElement("option");
-                            option.value = dataset.slug;
-                            option.text = dataset.nama;
-                            datasetDropdown.appendChild(option);
-                        });
-                    } else {
-                        datasetDropdown.innerHTML = "<option selected>Error</option>";
-                    }
-                    // Menyembunyikan spinner loader setelah request selesai
-                    loader.style.display = "none";
+            // Jika URL valid, tampilkan pesan sukses
+            apiUrl = urlInput + "api/kode_wilayah";
+            fetch(apiUrl).then((response)=>{
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
-            };
-            xhr.open("GET", "https://profilkes.acehprov.go.id/api/dataset?tahun=" + tahun, true);
-            xhr.send();
+                return response.json();
+            }).then((data)=>{
+                // console.log(response);
+                updateDropdown(data);
+            })
+            });
+            function updateDropdown(data) {
+                // Temukan dropdown dan bersihkan opsi sebelum menambahkan yang baru
+                var dropdown = document.getElementById('wilayahDropdown');
+                dropdown.innerHTML += "<option>Aceh</option>"
+
+                // Buat opsi baru untuk setiap entri dalam data
+                data.forEach((response) => {
+                    var option = document.createElement('option');
+                    option.value = response.kode_wilayah; // Sesuaikan dengan properti kode wilayah dalam objek JSON
+                    option.text = response.nama; // Sesuaikan dengan properti nama wilayah dalam objek JSON
+                    dropdown.add(option);
+                });
+        };
+
+        // Fungsi untuk memperbarui dropdown Tahun berdasarkan pilihan wilayah yang dipilih
+        function updateTahunDropdown(wilayah) {
+            // Lakukan fetch API untuk mendapatkan data tahun berdasarkan wilayah
+            var url = "https://profilkes.acehprov.go.id/api/tahun?wilayah=" + wilayah;
+            fetch(url)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                // Perbarui isi dropdown Tahun dengan data yang diterima dari API
+                var tahunDropdown = document.getElementById('tahunDropdown');
+                tahunDropdown.innerHTML = '';
+                tahunDropdown.innerHTML += "<option selected>Pilih tahun</option>";
+                data.forEach((tahun) => {
+                    tahunDropdown.innerHTML += "<option value='" + tahun + "'>" + tahun + "</option>";
+                });
+                
+            })
+            .catch((error) => {
+                console.error('There was a problem with the fetch operation:', error);
+                // Jika ada masalah dengan fetch, kosongkan dropdown Tahun
+                var tahunDropdown = document.getElementById('tahunDropdown');
+                tahunDropdown.innerHTML = "<option selected>Pilih tahun</option>";
+            });
         }
+
+        // Event listener untuk memperbarui dropdown Tahun ketika pilihan dropdown Wilayah Profilkes berubah
+        document.getElementById("wilayahDropdown").addEventListener("change", function() {
+            var wilayah = this.value;
+            updateTahunDropdown(wilayah);
+        });
+
+        // Fungsi untuk mendapatkan dataset berdasarkan tahun yang dipilih
+        function getDataset(tahun) {
+            // Lakukan fetch API untuk mendapatkan dataset berdasarkan tahun
+            var url = "https://profilkes.acehprov.go.id/api/dataset?tahun=" + tahun;
+            fetch(url)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                // Lakukan sesuatu dengan dataset yang diperoleh
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        }
+
+
+        // function getDataset(tahun) {
+        //     var datasetDropdown = document.getElementById("datasetDropdown");
+        //     datasetDropdown.innerHTML = "<option selected>Loading...</option>";
+
+        //     // Menampilkan spinner loader
+        //     var loader = document.getElementById("loader");
+        //     loader.style.display = "inline-block";
+
+        //     // Buat request untuk mengambil data dataset berdasarkan tahun yang dipilih
+        //     var xhr = new XMLHttpRequest();
+        //     xhr.onreadystatechange = function() {
+        //         if (xhr.readyState == 4) {
+        //             if (xhr.status == 200) {
+        //                 var response = JSON.parse(xhr.responseText);
+        //                 datasetDropdown.innerHTML = "<option selected>Pilih dataset</option>";
+        //                 response.forEach(function(dataset) {
+        //                     var option = document.createElement("option");
+        //                     option.value = dataset.slug;
+        //                     option.text = dataset.nama;
+        //                     datasetDropdown.appendChild(option);
+        //                 });
+        //             } else {
+        //                 datasetDropdown.innerHTML = "<option selected>Error</option>";
+        //             }
+        //             // Menyembunyikan spinner loader setelah request selesai
+        //             loader.style.display = "none";
+        //         }
+        //     };
+        //     xhr.open("GET", "https://profilkes.acehprov.go.id/api/dataset?tahun=" + tahun, true);
+        //     xhr.send();
+        // }
 
         function getKodewilayah(slug) {
             var tahun = document.getElementById("tahunDropdown").value;
