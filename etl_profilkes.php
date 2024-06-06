@@ -6,6 +6,12 @@
         <title>ETL - PROFILKES</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.1/font/bootstrap-icons.min.css" rel="stylesheet">
+        <style>
+        .error-message {
+            color: red;
+            display: none;
+        }
+        </style>
     </head>
     <body>
         <!-- <h1>ETL - PROFILKES</h1> -->
@@ -37,23 +43,18 @@
 
                 <form action="#" method="POST">
                 <div class="row">
-                    <div class="col-lg-3 col-md-auto col-sm-12">
-                            <h5 class="text" style="color: black;">URL Profilkes</h5>
-                            <input class="form-control" type="text" placeholder="Ketik URL" aria-label="urlprofilkes">
-                            <?php
-                                
-                            ?>
-                            <!-- Ajax loader -->
-                            <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
-                                    <span class="visually-hidden">Loading...</span>
-                            </div>
+                <div class="col-lg-3 col-md-auto col-sm-12">
+                    <h5 class="text" style="color: black;">URL Profilkes</h5>
+                    <input id="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlprofilkes">
+                    <!-- Ajax loader -->
+                    <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
+                </div>
                     <div class="col-lg-3 col-md-auto col-sm-12">
-                        <h5 class="text" style="color: black;">Wilayah Profilkes</h5>
-                        <!-- <select id='' class='form-select'> -->
+                    <h5 class="text" style="color: black;">Wilayah Profilkes</h5>
                         <select id='wilayahDropdown' class='form-select' onchange='getWilayah(this.value)'>
                             <option selected>Pilih wilayah</option>
-                            <option>Aceh</option>
                         </select>
                         
                         <!-- Ajax loader -->
@@ -354,7 +355,7 @@
         </div> <!-- akhir container -->
 
         <!-- Footer -->
-        <div class="container">
+        <div class="container-flex bg-secondary px-3">
         <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
             <div class="col-lg-3 col-md-auto col-sm-12 mb-3">
             <h5 class="text-dark"><i class="bi bi-globe"></i> ETL - PROFILKES </h5>
@@ -376,7 +377,7 @@
             </ul>
             </div>
 
-            <div class="col-lg-4 col-md-auto col-sm-12 mb-3">
+            <div class="col-lg-3 col-md-auto col-sm-12 mb-3">
             <h5>Kontak Kami</h5>
             <ul class="nav flex-column">
                 <li class="nav-item"><p>UPTD Statistik Diskominsa Aceh</p></li>
@@ -391,6 +392,18 @@
         </div>
 
         <script>
+        // Event listener untuk memeriksa validitas URL saat pengguna mengetik
+        document.getElementById("urlProfilkes").addEventListener("input", function() {
+            var urlInput = this.value;
+            
+                // Jika URL valid, tampilkan pesan sukses
+                urlInput = urlInput + "api/kode_wilayah";
+                fetch(urlInput).then((response)=>response.json()).then((response)=>{
+                    console.log(response);
+                });
+            }
+            );
+
         function getDataset(tahun) {
             var datasetDropdown = document.getElementById("datasetDropdown");
             datasetDropdown.innerHTML = "<option selected>Loading...</option>";
