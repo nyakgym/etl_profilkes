@@ -6,12 +6,6 @@
         <title>ETL - PROFILKES</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.1/font/bootstrap-icons.min.css" rel="stylesheet">
-        <style>
-        .error-message {
-            color: red;
-            display: none;
-        }
-        </style>
     </head>
     <body>
         <!-- <h1>ETL - PROFILKES</h1> -->
@@ -28,7 +22,6 @@
                     </li>
                 </ul>
             </div>
-            
         </nav>
         <div class="tab-content"> <!-- tabcontent -->
         <!-- tabpanel ETL PROCESS -->
@@ -217,8 +210,6 @@
                                                 
                                                 ?>
                                             </select> -->
-
-                                                <label for="filterInput" class="form-label multiple">Filter:</label>
                                                 <?php
                                                     // Tentukan header tabel secara manual (gantilah dengan header yang sesuai)
                                                     $headers = array("1", "2", "3", "4");
@@ -303,7 +294,7 @@
                                                     }
                                                     echo "</select>"; // Selesai dropdown
                                                 ?>
-                                            
+                                                
                                             </div>
                                         </form>
                                     </div>
@@ -507,49 +498,101 @@
         //     xhr.open("GET", "https://profilkes.acehprov.go.id/api/dataset?tahun=" + tahun, true);
         //     xhr.send();
         // }
+        function updateDatasetDropdown(tahun) {
+        var url = urlInput + "api/dataset?tahun=" + tahun;
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            var datasetDropdown = document.getElementById('datasetDropdown');
+            datasetDropdown.innerHTML = "<option selected>Pilih dataset</option>";
+            data.forEach(item => {
+                datasetDropdown.innerHTML += "<option value='" + item.slug + "'>" + item.nama + "</option>";
+            });
+        })
+        .catch(error => console.error('Error:', error));
+        }
 
         function getKodewilayah(slug) {
-            var tahun = document.getElementById("tahunDropdown").value;
-            var xhr = new XMLHttpRequest();
-            
-            // Menampilkan spinner loader
-            var loader = document.getElementById("loader");
-            loader.style.display = "inline-block";
-            //Menampilkan tabel
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        var response = JSON.parse(xhr.responseText);
-                        if (response && response.length > 0) {
-                            var tableHtml = "<table class='table table-bordered border-dark table-striped'>";
-                            tableHtml += "<thead><tr>";
-                            for (var key in response[0]) {
-                                tableHtml += "<th>" + key + "</th>";
-                            }
-                            tableHtml += "</tr></thead>";
-                            tableHtml += "<tbody class='table-group-divider'>";
-                            response.forEach(function(data) {
-                                tableHtml += "<tr>";
-                                for (var key in data) {
-                                    tableHtml += "<td>" + data[key] + "</td>";
-                                }
-                                tableHtml += "</tr>";
-                            });
-                            tableHtml += "</tbody></table>";
-                            document.getElementById("tabledata").innerHTML = tableHtml;
-                        } else {
-                            document.getElementById("tabledata").innerHTML = "<p>Tidak ada datanya</p>";
+        var tahun = document.getElementById("tahunDropdown").value;
+        var url = urlInput + "api/data/?slug=" + slug + "&tahun=" + tahun;
+        var xhr = new XMLHttpRequest();
+        var loader = document.getElementById("loader");
+        loader.style.display = "inline-block";
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response && response.length > 0) {
+                        var tableHtml = "<table class='table table-bordered border-dark table-striped'>";
+                        tableHtml += "<thead><tr>";
+                        for (var key in response[0]) {
+                            tableHtml += "<th>" + key + "</th>";
                         }
+                        tableHtml += "</tr></thead><tbody class='table-group-divider'>";
+                        response.forEach(function(data) {
+                            tableHtml += "<tr>";
+                            for (var key in data) {
+                                tableHtml += "<td>" + data[key] + "</td>";
+                            }
+                            tableHtml += "</tr>";
+                        });
+                        tableHtml += "</tbody></table>";
+                        document.getElementById("tabledata").innerHTML = tableHtml;
                     } else {
-                        document.getElementById("tabledata").innerHTML = "<p>Error fetching data.</p>";
+                        document.getElementById("tabledata").innerHTML = "<p>Tidak ada data</p>";
                     }
-                    // Menyembunyikan spinner loader setelah request selesai
-                    loader.style.display = "none";
+                } else {
+                    document.getElementById("tabledata").innerHTML = "<p>Error fetching data.</p>";
                 }
-            };
-            xhr.open("GET", "https://profilkes.acehprov.go.id/api/data/?slug=" + slug + "&tahun=" + document.getElementById("tahunDropdown").value, true);
-            xhr.send();
+                loader.style.display = "none";
+            }
+        };
+        xhr.open("GET", url, true);
+        xhr.send();
         }
+        // function getKodewilayah(slug) {
+        //     var tahun = document.getElementById("tahunDropdown").value;
+        //     var xhr = new XMLHttpRequest();
+            
+        //     // Menampilkan spinner loader
+        //     var loader = document.getElementById("loader");
+        //     loader.style.display = "inline-block";
+        //     //Menampilkan tabel
+        //     xhr.onreadystatechange = function() {
+        //         if (xhr.readyState == 4) {
+        //             if (xhr.status == 200) {
+        //                 var response = JSON.parse(xhr.responseText);
+        //                 if (response && response.length > 0) {
+        //                     var tableHtml = "<table class='table table-bordered border-dark table-striped'>";
+        //                     tableHtml += "<thead><tr>";
+        //                     for (var key in response[0]) {
+        //                         tableHtml += "<th>" + key + "</th>";
+        //                     }
+        //                     tableHtml += "</tr></thead>";
+        //                     tableHtml += "<tbody class='table-group-divider'>";
+        //                     response.forEach(function(data) {
+        //                         tableHtml += "<tr>";
+        //                         for (var key in data) {
+        //                             tableHtml += "<td>" + data[key] + "</td>";
+        //                         }
+        //                         tableHtml += "</tr>";
+        //                     });
+        //                     tableHtml += "</tbody></table>";
+        //                     document.getElementById("tabledata").innerHTML = tableHtml;
+        //                 } else {
+        //                     document.getElementById("tabledata").innerHTML = "<p>Tidak ada datanya</p>";
+        //                 }
+        //             } else {
+        //                 document.getElementById("tabledata").innerHTML = "<p>Error fetching data.</p>";
+        //             }
+        //             // Menyembunyikan spinner loader setelah request selesai
+        //             loader.style.display = "none";
+        //         }
+        //     };
+        //     xhr.open("GET", "https://profilkes.acehprov.go.id/api/data/?slug=" + slug + "&tahun=" + document.getElementById("tahunDropdown").value, true);
+        //     xhr.send();
+        // }
         $('select').selectpicker();
         $('#moveRight').click(function() {
         $('#selectFrom option:selected').appendTo('#selectTo');
