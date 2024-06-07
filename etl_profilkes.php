@@ -388,19 +388,20 @@
         </div>
 
         <script>
+        let urlInput = '';
         // Event listener untuk memeriksa validitas URL saat pengguna mengetik
         document.getElementById("urlProfilkes").addEventListener("input", function() {
-            var urlInput = this.value;
+            urlInput = this.value;
             
             // Jika URL valid, tampilkan pesan sukses
-            apiUrl = urlInput + "api/kode_wilayah";
+            const apiUrl = `${urlInput}/api/kode_wilayah`;
             fetch(apiUrl).then((response)=>{
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
             }).then((data)=>{
-                // console.log(response);
+                console.log(data);
                 updateDropdown(data);
             })
             });
@@ -421,7 +422,7 @@
         // Fungsi untuk memperbarui dropdown Tahun berdasarkan pilihan wilayah yang dipilih
         function updateTahunDropdown(wilayah) {
             // Lakukan fetch API untuk mendapatkan data tahun berdasarkan wilayah
-            var url = "https://profilkes.acehprov.go.id/api/tahun?wilayah=" + wilayah;
+            const url = `${urlInput}/api/tahun?wilayah=${wilayah}`;
             fetch(url)
             .then((response) => {
                 if (!response.ok) {
@@ -434,8 +435,9 @@
                 var tahunDropdown = document.getElementById('tahunDropdown');
                 tahunDropdown.innerHTML = '';
                 tahunDropdown.innerHTML += "<option selected>Pilih tahun</option>";
-                data.forEach((tahun) => {
-                    tahunDropdown.innerHTML += "<option value='" + tahun + "'>" + tahun + "</option>";
+                data.forEach((item) => {                
+                    tahunDropdown.innerHTML += "<option value='" + item.tahun + "'>" + item.tahun + "</option>";
+
                 });
                 
             })
@@ -456,7 +458,7 @@
         // Fungsi untuk mendapatkan dataset berdasarkan tahun yang dipilih
         function getDataset(tahun) {
             // Lakukan fetch API untuk mendapatkan dataset berdasarkan tahun
-            var url = "https://profilkes.acehprov.go.id/api/dataset?tahun=" + tahun;
+            const url = `${urlInput}/api/dataset?tahun=${tahun}`;
             fetch(url)
             .then((response) => {
                 if (!response.ok) {
