@@ -385,6 +385,7 @@
         let urlInput = '';
         // Event listener untuk memeriksa validitas URL saat pengguna mengetik
         document.getElementById("urlProfilkes").addEventListener("input", function() {
+            
             urlInput = this.value;
             
             // Jika URL valid, tampilkan pesan sukses
@@ -452,6 +453,9 @@
 
         // Fungsi untuk mendapatkan dataset berdasarkan tahun yang dipilih
         function getTahun(tahun) {
+            // Menampilkan spinner loader
+            var loader = document.getElementById("loader");
+            loader.style.display = "inline-block";
             // Lakukan fetch API untuk mendapatkan dataset berdasarkan tahun
             const url = `${urlInput}/api/dataset?tahun=${tahun}`;
             fetch(url)
@@ -468,6 +472,8 @@
             .catch((error) => {
                 console.error('There was a problem with the fetch operation:', error);
             });
+            // Menyembunyikan spinner loader setelah request selesai
+            loader.style.display = "none";
         }
 
 
@@ -518,7 +524,7 @@
 
 
     // Fungsi untuk mendapatkan kode wilayah berdasarkan slug dataset yang dipilih
-    function getKodewilayah(slug) {
+    function getDataset(slug) {
             const tahun = document.getElementById("tahunDropdown").value;
             const url = `${urlInput}/api/data/?slug=${slug}&tahun=${tahun}`;
             const xhr = new XMLHttpRequest();
@@ -529,7 +535,7 @@
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
                         const response = JSON.parse(xhr.responseText);
-                        console.log('Kodewilayah data:', response);  // Debug log
+                        console.log('Dataset:', response);  // Debug log
                         if (response && response.length > 0) {
                             let tableHtml = "<table class='table table-bordered border-dark table-striped'>";
                             tableHtml += "<thead><tr>";
