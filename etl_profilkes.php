@@ -408,7 +408,7 @@
         // Fungsi untuk memperbarui dropdown Tahun berdasarkan pilihan wilayah yang dipilih
         function updateTahunDropdown(wilayah) {
             // Lakukan fetch API untuk mendapatkan data tahun berdasarkan wilayah
-            const url = `${urlInput}/api/tahun?wilayah=${wilayah}`;
+            const url = `${urlInput}/api/tahun?kode_wilayah=${wilayah}`;
             fetch(url)
             .then((response) => {
                 if (!response.ok) {
@@ -598,101 +598,102 @@
         //     xhr.open("GET", "https://profilkes.acehprov.go.id/api/data/?slug=" + slug + "&tahun=" + document.getElementById("tahunDropdown").value, true);
         //     xhr.send();
         // }
-        $('select').selectpicker();
-        $('#moveRight').click(function() {
-        $('#selectFrom option:selected').appendTo('#selectTo');
-        });
 
-        $('#moveLeft').click(function() {
-            $('#selectTo option:selected').appendTo('#selectFrom');
-        });
-        $('#selectFrom').submit(function(event) {
-            event.preventDefault(); // Menghentikan perilaku default saat mengirim formulir
-            var filterValue = $('#filterInput').val(); // Ambil nilai filter dari input
-            // Lakukan permintaan AJAX untuk memperbarui tabel dengan filter yang diterapkan
-            showLoadingModal(); // Tampilkan modal loading
-            var slug = $("#datasetDropdown").val(); // Mengambil slug dataset yang dipilih
-            $.ajax({
-                url: "https://profilkes.acehprov.go.id/api/data",
-                type: "GET",
-                data: {
-                    slug: slug,
-                    tahun: $("#tahunDropdown").val(),
-                    filter: filterValue
-                },
-                success: function(response) {
-                    if (response && response.length > 0) {
-                        var tableHtml = "<table class='table table-striped'>";
-                        tableHtml += "<thead><tr>";
-                        for (var key in response[0]) {
-                            tableHtml += "<th>" + key + "</th>";
-                        }
-                        tableHtml += "</tr></thead>";
-                        tableHtml += "<tbody>";
-                        response.forEach(function(data) {
-                            tableHtml += "<tr>";
-                            for (var key in data) {
-                                tableHtml += "<td>" + data[key] + "</td>";
-                            }
-                            tableHtml += "</tr>";
-                        });
-                        tableHtml += "</tbody></table>";
+        // $('select').selectpicker();
+        // $('#moveRight').click(function() {
+        // $('#selectFrom option:selected').appendTo('#selectTo');
+        // });
+
+        // $('#moveLeft').click(function() {
+        //     $('#selectTo option:selected').appendTo('#selectFrom');
+        // });
+        // $('#selectFrom').submit(function(event) {
+        //     event.preventDefault(); // Menghentikan perilaku default saat mengirim formulir
+        //     var filterValue = $('#filterInput').val(); // Ambil nilai filter dari input
+        //     // Lakukan permintaan AJAX untuk memperbarui tabel dengan filter yang diterapkan
+        //     showLoadingModal(); // Tampilkan modal loading
+        //     var slug = $("#datasetDropdown").val(); // Mengambil slug dataset yang dipilih
+        //     $.ajax({
+        //         url: "https://profilkes.acehprov.go.id/api/data",
+        //         type: "GET",
+        //         data: {
+        //             slug: slug,
+        //             tahun: $("#tahunDropdown").val(),
+        //             filter: filterValue
+        //         },
+        //         success: function(response) {
+        //             if (response && response.length > 0) {
+        //                 var tableHtml = "<table class='table table-striped'>";
+        //                 tableHtml += "<thead><tr>";
+        //                 for (var key in response[0]) {
+        //                     tableHtml += "<th>" + key + "</th>";
+        //                 }
+        //                 tableHtml += "</tr></thead>";
+        //                 tableHtml += "<tbody>";
+        //                 response.forEach(function(data) {
+        //                     tableHtml += "<tr>";
+        //                     for (var key in data) {
+        //                         tableHtml += "<td>" + data[key] + "</td>";
+        //                     }
+        //                     tableHtml += "</tr>";
+        //                 });
+        //                 tableHtml += "</tbody></table>";
                         
-                        $("#tabledata").html(tableHtml);
-                    } else {
-                        $("#tabledata").html("<p>Tidak ada datanya</p>");
-                    }$('#filterForm').submit(function(event) {
-                        event.preventDefault(); // Menghentikan perilaku default saat mengirim formulir
-                        var filterValue = $('#filterInput').val(); // Ambil nilai filter dari input
-                        // Lakukan permintaan AJAX untuk memperbarui tabel dengan filter yang diterapkan
-                        showLoadingModal(); // Tampilkan modal loading
-                        var slug = $("#datasetDropdown").val(); // Mengambil slug dataset yang dipilih
-                        $.ajax({
-                            url: "https://profilkes.acehprov.go.id/api/data",
-                            type: "GET",
-                            data: {
-                                slug: slug,
-                                tahun: $("#tahunDropdown").val(), // Tambahkan tahun yang dipilih ke dalam data
-                                filter: filterValue
-                            },
-                            success: function(response) {
-                                if (response && response.length > 0) {
-                                    var tableHtml = "<table class='table table-striped'>";
-                                    tableHtml += "<thead><tr>";
-                                    for (var key in response[0]) {
-                                        tableHtml += "<th>" + key + "</th>";
-                                    }
-                                    tableHtml += "</tr></thead>";
-                                    tableHtml += "<tbody>";
-                                    response.forEach(function(data) {
-                                        tableHtml += "<tr>";
-                                        for (var key in data) {
-                                            tableHtml += "<td>" + data[key] + "</td>";
-                                        }
-                                        tableHtml += "</tr>";
-                                    });
-                                    tableHtml += "</tbody></table>";
+        //                 $("#tabledata").html(tableHtml);
+        //             } else {
+        //                 $("#tabledata").html("<p>Tidak ada datanya</p>");
+        //             }$('#filterForm').submit(function(event) {
+        //                 event.preventDefault(); // Menghentikan perilaku default saat mengirim formulir
+        //                 var filterValue = $('#filterInput').val(); // Ambil nilai filter dari input
+        //                 // Lakukan permintaan AJAX untuk memperbarui tabel dengan filter yang diterapkan
+        //                 showLoadingModal(); // Tampilkan modal loading
+        //                 var slug = $("#datasetDropdown").val(); // Mengambil slug dataset yang dipilih
+        //                 $.ajax({
+        //                     url: "https://profilkes.acehprov.go.id/api/data",
+        //                     type: "GET",
+        //                     data: {
+        //                         slug: slug,
+        //                         tahun: $("#tahunDropdown").val(), // Tambahkan tahun yang dipilih ke dalam data
+        //                         filter: filterValue
+        //                     },
+        //                     success: function(response) {
+        //                         if (response && response.length > 0) {
+        //                             var tableHtml = "<table class='table table-striped'>";
+        //                             tableHtml += "<thead><tr>";
+        //                             for (var key in response[0]) {
+        //                                 tableHtml += "<th>" + key + "</th>";
+        //                             }
+        //                             tableHtml += "</tr></thead>";
+        //                             tableHtml += "<tbody>";
+        //                             response.forEach(function(data) {
+        //                                 tableHtml += "<tr>";
+        //                                 for (var key in data) {
+        //                                     tableHtml += "<td>" + data[key] + "</td>";
+        //                                 }
+        //                                 tableHtml += "</tr>";
+        //                             });
+        //                             tableHtml += "</tbody></table>";
 
-                                    $("#tabledata").html(tableHtml);
-                                } else {
-                                    $("#tabledata").html("<p>Tidak ada datanya</p>");
-                                }
-                                hideLoadingModal(); // Sembunyikan modal loading setelah selesai
-                            },
-                            error: function(xhr, status, error) {
-                                console.error("Gagal memperbarui tabel dengan filter:", error);
-                                hideLoadingModal(); // Sembunyikan modal loading jika terjadi kesalahan
-                            }
-                        });
-                    });
-                    hideLoadingModal(); // Sembunyikan modal loading setelah selesai
-                },
-                error: function(xhr, status, error) {
-                    console.error("Gagal memperbarui tabel dengan filter:", error);
-                    hideLoadingModal(); // Sembunyikan modal loading jika terjadi kesalahan
-                }
-            });
-        });
+        //                             $("#tabledata").html(tableHtml);
+        //                         } else {
+        //                             $("#tabledata").html("<p>Tidak ada datanya</p>");
+        //                         }
+        //                         hideLoadingModal(); // Sembunyikan modal loading setelah selesai
+        //                     },
+        //                     error: function(xhr, status, error) {
+        //                         console.error("Gagal memperbarui tabel dengan filter:", error);
+        //                         hideLoadingModal(); // Sembunyikan modal loading jika terjadi kesalahan
+        //                     }
+        //                 });
+        //             });
+        //             hideLoadingModal(); // Sembunyikan modal loading setelah selesai
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error("Gagal memperbarui tabel dengan filter:", error);
+        //             hideLoadingModal(); // Sembunyikan modal loading jika terjadi kesalahan
+        //         }
+        //     });
+        // });
     </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-K+1/re0NMrn6n1pmzmgOy8cEwA1Zm6a5xkT1IC8OXXg=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

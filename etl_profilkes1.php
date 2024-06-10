@@ -6,6 +6,8 @@
         <title>ETL - PROFILKES</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.1/font/bootstrap-icons.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </head>
     <body>
         <!-- <h1>ETL - PROFILKES</h1> -->
@@ -37,19 +39,18 @@
                 <form action="#" method="POST">
                 <div class="row">
                 <div class="col-lg-3 col-md-auto col-sm-12">
-                    <h5 class="text" style="color: black;">URL Profilkes</h5>
+                    <h5 class="text" for="urlProfilkes" style="color: black;">URL Profilkes</h5>
                     <input id="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlprofilkes">
-                    <button class="btn" type="submit" style="background-color: #66CDAA; border-color: 66CDAA;">Button</button>
+                    <button class="btn" id="loadButton" type="submit" style="background-color: #66CDAA; border-color: 66CDAA;">Cari data</button>
                     <!-- Ajax loader -->
-                    <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
+                    <!-- <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
                         <span class="visually-hidden">Loading...</span>
-                    </div>
+                    </div> -->
                 </div>
                     <div class="col-lg-3 col-md-auto col-sm-12">
                     <h5 class="text" style="color: black;">Wilayah Profilkes</h5>
                         <select id='wilayahDropdown' class='form-select'>
                             <option selected>Pilih wilayah</option>
-                            <!-- <option value="<?= $wilayahprofilkes->kode_wilayah ?>"><?= $wilayahprofilkes->nama ?></option> -->
                         </select>
                         
                         <!-- Ajax loader -->
@@ -178,7 +179,7 @@
                                             </select> -->
                                                 <?php
                                                     // Tentukan header tabel secara manual (gantilah dengan header yang sesuai)
-                                                    $headers = array("1", "2", "3", "4");
+                                                    // $headers = array("1", "2", "3", "4");
                                                     
                                                     // Mulai membuat dropdown
                                                     echo "<select id='filterDropdown1' class='form-select' multiple>"; // Ubah id dropdown agar unik
@@ -211,7 +212,7 @@
                                     <div class="card-body">
                                         <form id="#selectTo"> <!-- Ubah id formulir agar unik -->
                                             <div class="mb-3">
-                                                <label for="filterInput" class="form-label multiple">Hasil:</label>
+                                                
                                             
                                                 <?php
                                                     // Tentukan header tabel secara manual (gantilah dengan header yang sesuai)
@@ -244,7 +245,7 @@
                                     <div class="card-body">
                                         <form id="#selectTo"> <!-- Ubah id formulir agar unik -->
                                             <div class="mb-3">
-                                                <label for="filterInput" class="form-label multiple">Hasil:</label>
+                                                <!-- <label for="filterInput" class="form-label multiple">Hasil:</label> -->
                                             
                                                 <?php
                                                     // Tentukan header tabel secara manual (gantilah dengan header yang sesuai)
@@ -309,6 +310,13 @@
         </div> <!-- akhir tabpanel INFO -->
         </div> <!-- akhir Tabcontent -->
         </div> <!-- akhir container -->
+        
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="d-none position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
 
         <!-- Footer -->
         <div class="container-flex bg-secondary px-3">
@@ -352,71 +360,41 @@
     $(document).ready(function() {
         var urlProfilkes = $('#urlProfilkes');
 
-        urlProfilkes.change(function(){
-            setTimeout(() => {
-                urlProfilkes()
-            }, 1000);
-        })
-        
-        function inputURLProfilkes(){
-            var urlProfilkes = $('#urlProfilkes').val();
-            
-            showLoadingModal();
-            
+        $('#loadButton').click(function() {
+        inputApiURL();
+        });
+
+        function inputApiURL() {
+            var urlProfilkes = urlProfilkes.val();
+
             $.ajax({
                 url: "getWilayahProfilkes.php",
                 type: "GET",
                 data: { urlProfilkes: urlProfilkes },
                 dataType: "json",
                 success: function(response) {
-                // Kosongkan dropdown sebelum menambahkan opsi baru
-                var wilayah = $('#wilayahDropdown');
-                dropdown.empty();
+                    // Kosongkan dropdown sebelum menambahkan opsi baru
+                    $('#wilayahDropdown').empty();
 
-                // Tambahkan opsi default
-                dropdown.append('<option value="">Pilih Wilayah</option>');
+                    // Tambahkan opsi default
+                    $('#wilayahDropdown').append('<option value="">Pilih Wilayah</option>');
+                    $('#wilayahDropdown').append('<option value="11">Provinsi Aceh</option>');
 
-                // Tambahkan opsi untuk setiap entri dalam data
-                $.each(response, function(index, wilayah) {
-                    dropdown.append('<option value="' + wilayah.kode_wilayah + '">' + wilayah.nama + '</option>');
-                });
-
-                // Sembunyikan modal loading
-                hideLoadingModal();
+                    // Tambahkan opsi untuk setiap entri dalam data
+                    $.each(response, function(wilayah) {
+                        $('#wilayahDropdown').append(
+                            '<option value="' + wilayah.kode_wilayah + '">' + wilayah.nama + '</option>');
+                    });
                 },
                 error: function(xhr, status, error) {
                     console.error("Gagal mengambil data wilayah:", error);
                     
-                    var dropdown = $('#wilayahDropdown');
-                    dropdown.empty();
-                    dropdown.append('<option value="" disabled>Tidak ada data wilayah</option>');
-                    
-                    // Sembunyikan modal loading
-                    hideLoadingModal();
                 }
             });
         }
-        
-        $('#moveRight').click(function() {
-                $('#selectFrom option:selected').appendTo('#selectTo');
-            });
 
-            $('#moveLeft').click(function() {
-                $('#selectTo option:selected').appendTo('#selectFrom');
-            });
-
-            // Fungsi untuk menampilkan modal
-            function showLoadingModal() {
-                $('#loadingModal').modal('show');
-            }
-
-            // Fungsi untuk menyembunyikan modal
-            function hideLoadingModal() {
-                $('#loadingModal').modal('hide');
-            }
-
-            // Ketika dropdown subkategori dipilih
-            $('#wilayahDropdown').change(function() {
+        // Ketika dropdown subkategori dipilih
+        $('#wilayahDropdown').change(function() {
                 var selectedWilayah = $(this).val();
                 var urlProfilkes = $('#urlProfilkes').val();
                 
@@ -449,12 +427,41 @@
                         hideLoadingModal();
                     },
                     error: function(xhr, status, error) {
-                        console.error("Gagal mengambil data subjek:", error);
+                        console.error("Gagal mengambil data tahun:", error);
                         hideLoadingModal();
                     }
                 });
             });
-        })
+            // Global AJAX event handlers
+            $(document).ajaxStart(function() {
+                $('#loadingSpinner').removeClass('d-none');
+            });
+
+            $(document).ajaxComplete(function() {
+                $('#loadingSpinner').addClass('d-none');
+            });
+    });
+        
+        // $('#moveRight').click(function() {
+        //         $('#selectFrom option:selected').appendTo('#selectTo');
+        //     });
+
+        //     $('#moveLeft').click(function() {
+        //         $('#selectTo option:selected').appendTo('#selectFrom');
+        //     });
+
+        //     // Fungsi untuk menampilkan modal
+        //     function showLoadingModal() {
+        //         $('#loadingModal').modal('show');
+        //     }
+
+        //     // Fungsi untuk menyembunyikan modal
+        //     function hideLoadingModal() {
+        //         $('#loadingModal').modal('hide');
+        //     }
+
+            
+ 
         // function get_profilkescurl($url) {
         //     $ch = curl_init($url);
         //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -482,98 +489,98 @@
         //     return $response;
         // };
         
-        let urlInput = '';
-        // Event listener untuk memeriksa validitas URL saat pengguna mengetik
-        document.getElementById("urlProfilkes").addEventListener("input", function() {
-            urlInput = this.value;
+        // let urlInput = '';
+        // // Event listener untuk memeriksa validitas URL saat pengguna mengetik
+        // document.getElementById("urlProfilkes").addEventListener("input", function() {
+        //     urlInput = this.value;
             
-            // Jika URL valid, tampilkan pesan sukses
-            const apiUrl = `${urlInput}/api/kode_wilayah`;
-            fetch(apiUrl).then((response)=>{
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            }).then((data)=>{
-                console.log(data);
-                updateDropdown(data);
-            })
-            });
-            function updateDropdown(data) {
-                // Temukan dropdown dan bersihkan opsi sebelum menambahkan yang baru
-                var dropdown = document.getElementById('wilayahDropdown');
-                dropdown.innerHTML += "<option>Provinsi Aceh</option>"
+        //     // Jika URL valid, tampilkan pesan sukses
+        //     const apiUrl = `${urlInput}/api/kode_wilayah`;
+        //     fetch(apiUrl).then((response)=>{
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok');
+        //         }
+        //         return response.json();
+        //     }).then((data)=>{
+        //         console.log(data);
+        //         updateDropdown(data);
+        //     })
+        //     });
+        //     function updateDropdown(data) {
+        //         // Temukan dropdown dan bersihkan opsi sebelum menambahkan yang baru
+        //         var dropdown = document.getElementById('wilayahDropdown');
+        //         dropdown.innerHTML += "<option>Provinsi Aceh</option>"
 
-                // Buat opsi baru untuk setiap entri dalam data
-                data.forEach((response) => {
-                    var option = document.createElement('option');
-                    option.value = response.kode_wilayah; // Sesuaikan dengan properti kode wilayah dalam objek JSON
-                    option.text = response.nama; // Sesuaikan dengan properti nama wilayah dalam objek JSON
-                    dropdown.add(option);
-                });
-        };
+        //         // Buat opsi baru untuk setiap entri dalam data
+        //         data.forEach((response) => {
+        //             var option = document.createElement('option');
+        //             option.value = response.kode_wilayah; // Sesuaikan dengan properti kode wilayah dalam objek JSON
+        //             option.text = response.nama; // Sesuaikan dengan properti nama wilayah dalam objek JSON
+        //             dropdown.add(option);
+        //         });
+        // };
 
-        // Fungsi untuk memperbarui dropdown Tahun berdasarkan pilihan wilayah yang dipilih
-        function updateTahunDropdown(wilayah) {
-            // Lakukan fetch API untuk mendapatkan data tahun berdasarkan wilayah
-            const url = `${urlInput}/api/tahun?wilayah=${wilayah}`;
-            fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                // Perbarui isi dropdown Tahun dengan data yang diterima dari API
-                const tahunDropdown = document.getElementById('tahunDropdown');
-                    tahunDropdown.innerHTML = '<option selected>Pilih tahun</option>';
-                    data.forEach(item => {
-                        const option = document.createElement('option');
-                        option.value = item.tahun;
-                        option.text = item.tahun;
-                        tahunDropdown.add(option);
-                    });
+        // // Fungsi untuk memperbarui dropdown Tahun berdasarkan pilihan wilayah yang dipilih
+        // function updateTahunDropdown(wilayah) {
+        //     // Lakukan fetch API untuk mendapatkan data tahun berdasarkan wilayah
+        //     const url = `${urlInput}/api/tahun?wilayah=${wilayah}`;
+        //     fetch(url)
+        //     .then((response) => {
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok');
+        //         }
+        //         return response.json();
+        //     })
+        //     .then((data) => {
+        //         // Perbarui isi dropdown Tahun dengan data yang diterima dari API
+        //         const tahunDropdown = document.getElementById('tahunDropdown');
+        //             tahunDropdown.innerHTML = '<option selected>Pilih tahun</option>';
+        //             data.forEach(item => {
+        //                 const option = document.createElement('option');
+        //                 option.value = item.tahun;
+        //                 option.text = item.tahun;
+        //                 tahunDropdown.add(option);
+        //             });
                 
-            })
-            .catch((error) => {
-                console.error('There was a problem with the fetch operation:', error);
-                // Jika ada masalah dengan fetch, kosongkan dropdown Tahun
-                var tahunDropdown = document.getElementById('tahunDropdown');
-                tahunDropdown.innerHTML = "<option selected>Pilih tahun</option>";
-            });
-        }
+        //     })
+        //     .catch((error) => {
+        //         console.error('There was a problem with the fetch operation:', error);
+        //         // Jika ada masalah dengan fetch, kosongkan dropdown Tahun
+        //         var tahunDropdown = document.getElementById('tahunDropdown');
+        //         tahunDropdown.innerHTML = "<option selected>Pilih tahun</option>";
+        //     });
+        // }
 
-        // Event listener untuk memperbarui dropdown Tahun ketika pilihan dropdown Wilayah Profilkes berubah
-        document.getElementById("wilayahDropdown").addEventListener("change", function() {
-            var wilayah = this.value;
-            updateTahunDropdown(wilayah);
-        });
+        // // Event listener untuk memperbarui dropdown Tahun ketika pilihan dropdown Wilayah Profilkes berubah
+        // document.getElementById("wilayahDropdown").addEventListener("change", function() {
+        //     var wilayah = this.value;
+        //     updateTahunDropdown(wilayah);
+        // });
 
-        // Fungsi untuk mendapatkan dataset berdasarkan tahun yang dipilih
-        function getTahun(tahun) {
-            // Menampilkan spinner loader
-            var loader = document.getElementById("loader");
-            loader.style.display = "inline-block";
-            // Lakukan fetch API untuk mendapatkan dataset berdasarkan tahun
-            const url = `${urlInput}/api/dataset?tahun=${tahun}`;
-            fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                // Lakukan sesuatu dengan dataset yang diperoleh
-                console.log(data);
-            })
-            .catch((error) => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
-            // Menyembunyikan spinner loader setelah request selesai
-            loader.style.display = "none";
-        }
+        // // Fungsi untuk mendapatkan dataset berdasarkan tahun yang dipilih
+        // function getTahun(tahun) {
+        //     // Menampilkan spinner loader
+        //     var loader = document.getElementById("loader");
+        //     loader.style.display = "inline-block";
+        //     // Lakukan fetch API untuk mendapatkan dataset berdasarkan tahun
+        //     const url = `${urlInput}/api/dataset?tahun=${tahun}`;
+        //     fetch(url)
+        //     .then((response) => {
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok');
+        //         }
+        //         return response.json();
+        //     })
+        //     .then((data) => {
+        //         // Lakukan sesuatu dengan dataset yang diperoleh
+        //         console.log(data);
+        //     })
+        //     .catch((error) => {
+        //         console.error('There was a problem with the fetch operation:', error);
+        //     });
+        //     // Menyembunyikan spinner loader setelah request selesai
+        //     loader.style.display = "none";
+        // }
 
 
         // function getTahun(tahun) {
@@ -607,19 +614,19 @@
         //     xhr.open("GET", "https://profilkes.acehprov.go.id/api/dataset?tahun=" + tahun, true);
         //     xhr.send();
         // }
-        function updateDatasetDropdown(tahun) {
-        var url = urlInput + "api/dataset?tahun=" + tahun;
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            var datasetDropdown = document.getElementById('datasetDropdown');
-            datasetDropdown.innerHTML = "<option selected>Pilih dataset</option>";
-            data.forEach(item => {
-                datasetDropdown.innerHTML += "<option value='" + item.slug + "'>" + item.nama + "</option>";
-            });
-        })
-        .catch(error => console.error('Error:', error));
-        }
+        // function updateDatasetDropdown(tahun) {
+        // var url = urlInput + "api/dataset?tahun=" + tahun;
+        // fetch(url)
+        // .then(response => response.json())
+        // .then(data => {
+        //     var datasetDropdown = document.getElementById('datasetDropdown');
+        //     datasetDropdown.innerHTML = "<option selected>Pilih dataset</option>";
+        //     data.forEach(item => {
+        //         datasetDropdown.innerHTML += "<option value='" + item.slug + "'>" + item.nama + "</option>";
+        //     });
+        // })
+        // .catch(error => console.error('Error:', error));
+        // }
 
 
     // Fungsi untuk mendapatkan kode wilayah berdasarkan slug dataset yang dipilih
@@ -706,101 +713,102 @@
         //     xhr.open("GET", "https://profilkes.acehprov.go.id/api/data/?slug=" + slug + "&tahun=" + document.getElementById("tahunDropdown").value, true);
         //     xhr.send();
         // }
-        $('select').selectpicker();
-        $('#moveRight').click(function() {
-        $('#selectFrom option:selected').appendTo('#selectTo');
-        });
+        
+        // $('select').selectpicker();
+        // $('#moveRight').click(function() {
+        // $('#selectFrom option:selected').appendTo('#selectTo');
+        // });
 
-        $('#moveLeft').click(function() {
-            $('#selectTo option:selected').appendTo('#selectFrom');
-        });
-        $('#selectFrom').submit(function(event) {
-            event.preventDefault(); // Menghentikan perilaku default saat mengirim formulir
-            var filterValue = $('#filterInput').val(); // Ambil nilai filter dari input
-            // Lakukan permintaan AJAX untuk memperbarui tabel dengan filter yang diterapkan
-            showLoadingModal(); // Tampilkan modal loading
-            var slug = $("#datasetDropdown").val(); // Mengambil slug dataset yang dipilih
-            $.ajax({
-                url: "https://profilkes.acehprov.go.id/api/data",
-                type: "GET",
-                data: {
-                    slug: slug,
-                    tahun: $("#tahunDropdown").val(),
-                    filter: filterValue
-                },
-                success: function(response) {
-                    if (response && response.length > 0) {
-                        var tableHtml = "<table class='table table-striped'>";
-                        tableHtml += "<thead><tr>";
-                        for (var key in response[0]) {
-                            tableHtml += "<th>" + key + "</th>";
-                        }
-                        tableHtml += "</tr></thead>";
-                        tableHtml += "<tbody>";
-                        response.forEach(function(data) {
-                            tableHtml += "<tr>";
-                            for (var key in data) {
-                                tableHtml += "<td>" + data[key] + "</td>";
-                            }
-                            tableHtml += "</tr>";
-                        });
-                        tableHtml += "</tbody></table>";
+        // $('#moveLeft').click(function() {
+        //     $('#selectTo option:selected').appendTo('#selectFrom');
+        // });
+        // $('#selectFrom').submit(function(event) {
+        //     event.preventDefault(); // Menghentikan perilaku default saat mengirim formulir
+        //     var filterValue = $('#filterInput').val(); // Ambil nilai filter dari input
+        //     // Lakukan permintaan AJAX untuk memperbarui tabel dengan filter yang diterapkan
+        //     showLoadingModal(); // Tampilkan modal loading
+        //     var slug = $("#datasetDropdown").val(); // Mengambil slug dataset yang dipilih
+        //     $.ajax({
+        //         url: "https://profilkes.acehprov.go.id/api/data",
+        //         type: "GET",
+        //         data: {
+        //             slug: slug,
+        //             tahun: $("#tahunDropdown").val(),
+        //             filter: filterValue
+        //         },
+        //         success: function(response) {
+        //             if (response && response.length > 0) {
+        //                 var tableHtml = "<table class='table table-striped'>";
+        //                 tableHtml += "<thead><tr>";
+        //                 for (var key in response[0]) {
+        //                     tableHtml += "<th>" + key + "</th>";
+        //                 }
+        //                 tableHtml += "</tr></thead>";
+        //                 tableHtml += "<tbody>";
+        //                 response.forEach(function(data) {
+        //                     tableHtml += "<tr>";
+        //                     for (var key in data) {
+        //                         tableHtml += "<td>" + data[key] + "</td>";
+        //                     }
+        //                     tableHtml += "</tr>";
+        //                 });
+        //                 tableHtml += "</tbody></table>";
                         
-                        $("#tabledata").html(tableHtml);
-                    } else {
-                        $("#tabledata").html("<p>Tidak ada datanya</p>");
-                    }$('#filterForm').submit(function(event) {
-                        event.preventDefault(); // Menghentikan perilaku default saat mengirim formulir
-                        var filterValue = $('#filterInput').val(); // Ambil nilai filter dari input
-                        // Lakukan permintaan AJAX untuk memperbarui tabel dengan filter yang diterapkan
-                        showLoadingModal(); // Tampilkan modal loading
-                        var slug = $("#datasetDropdown").val(); // Mengambil slug dataset yang dipilih
-                        $.ajax({
-                            url: "https://profilkes.acehprov.go.id/api/data",
-                            type: "GET",
-                            data: {
-                                slug: slug,
-                                tahun: $("#tahunDropdown").val(), // Tambahkan tahun yang dipilih ke dalam data
-                                filter: filterValue
-                            },
-                            success: function(response) {
-                                if (response && response.length > 0) {
-                                    var tableHtml = "<table class='table table-striped'>";
-                                    tableHtml += "<thead><tr>";
-                                    for (var key in response[0]) {
-                                        tableHtml += "<th>" + key + "</th>";
-                                    }
-                                    tableHtml += "</tr></thead>";
-                                    tableHtml += "<tbody>";
-                                    response.forEach(function(data) {
-                                        tableHtml += "<tr>";
-                                        for (var key in data) {
-                                            tableHtml += "<td>" + data[key] + "</td>";
-                                        }
-                                        tableHtml += "</tr>";
-                                    });
-                                    tableHtml += "</tbody></table>";
+        //                 $("#tabledata").html(tableHtml);
+        //             } else {
+        //                 $("#tabledata").html("<p>Tidak ada datanya</p>");
+        //             }$('#filterForm').submit(function(event) {
+        //                 event.preventDefault(); // Menghentikan perilaku default saat mengirim formulir
+        //                 var filterValue = $('#filterInput').val(); // Ambil nilai filter dari input
+        //                 // Lakukan permintaan AJAX untuk memperbarui tabel dengan filter yang diterapkan
+        //                 showLoadingModal(); // Tampilkan modal loading
+        //                 var slug = $("#datasetDropdown").val(); // Mengambil slug dataset yang dipilih
+        //                 $.ajax({
+        //                     url: "https://profilkes.acehprov.go.id/api/data",
+        //                     type: "GET",
+        //                     data: {
+        //                         slug: slug,
+        //                         tahun: $("#tahunDropdown").val(), // Tambahkan tahun yang dipilih ke dalam data
+        //                         filter: filterValue
+        //                     },
+        //                     success: function(response) {
+        //                         if (response && response.length > 0) {
+        //                             var tableHtml = "<table class='table table-striped'>";
+        //                             tableHtml += "<thead><tr>";
+        //                             for (var key in response[0]) {
+        //                                 tableHtml += "<th>" + key + "</th>";
+        //                             }
+        //                             tableHtml += "</tr></thead>";
+        //                             tableHtml += "<tbody>";
+        //                             response.forEach(function(data) {
+        //                                 tableHtml += "<tr>";
+        //                                 for (var key in data) {
+        //                                     tableHtml += "<td>" + data[key] + "</td>";
+        //                                 }
+        //                                 tableHtml += "</tr>";
+        //                             });
+        //                             tableHtml += "</tbody></table>";
 
-                                    $("#tabledata").html(tableHtml);
-                                } else {
-                                    $("#tabledata").html("<p>Tidak ada datanya</p>");
-                                }
-                                hideLoadingModal(); // Sembunyikan modal loading setelah selesai
-                            },
-                            error: function(xhr, status, error) {
-                                console.error("Gagal memperbarui tabel dengan filter:", error);
-                                hideLoadingModal(); // Sembunyikan modal loading jika terjadi kesalahan
-                            }
-                        });
-                    });
-                    hideLoadingModal(); // Sembunyikan modal loading setelah selesai
-                },
-                error: function(xhr, status, error) {
-                    console.error("Gagal memperbarui tabel dengan filter:", error);
-                    hideLoadingModal(); // Sembunyikan modal loading jika terjadi kesalahan
-                }
-            });
-        });
+        //                             $("#tabledata").html(tableHtml);
+        //                         } else {
+        //                             $("#tabledata").html("<p>Tidak ada datanya</p>");
+        //                         }
+        //                         hideLoadingModal(); // Sembunyikan modal loading setelah selesai
+        //                     },
+        //                     error: function(xhr, status, error) {
+        //                         console.error("Gagal memperbarui tabel dengan filter:", error);
+        //                         hideLoadingModal(); // Sembunyikan modal loading jika terjadi kesalahan
+        //                     }
+        //                 });
+        //             });
+        //             hideLoadingModal(); // Sembunyikan modal loading setelah selesai
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error("Gagal memperbarui tabel dengan filter:", error);
+        //             hideLoadingModal(); // Sembunyikan modal loading jika terjadi kesalahan
+        //         }
+        //     });
+        // });
     </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-K+1/re0NMrn6n1pmzmgOy8cEwA1Zm6a5xkT1IC8OXXg=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
