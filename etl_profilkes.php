@@ -90,7 +90,7 @@
                             echo "<div class='container-fluid'>";
                             echo "<div class='row'>";
                             echo "<div class='col'>";
-                            echo "<select id='tahunDropdown' class='form-select' onchange='getDataset(this.value)'>";
+                            echo "<select id='tahunDropdown' class='form-select' onchange='getTahun(this.value)'>";
                             echo "<option selected>Pilih tahun</option>";
                             // foreach ($test as $waktu) {
                             //     echo "<option value='{$waktu->tahun}'>{$waktu->tahun}</option>";
@@ -113,7 +113,7 @@
                         <div class="row mt-2 mb-2">
                         <div class="col-lg-6 col-md-auto col-sm-12">
                         <h5 class="text" style="color: black;">Dataset</h5>
-                        <select id='datasetDropdown' class='form-select' onchange='getKodewilayah(this.value)'>
+                        <select id='datasetDropdown' class='form-select' onchange='getDataset(this.value)'>
                             <option selected>Pilih dataset</option>
                         </select>
                         <!-- Ajax loader -->
@@ -331,8 +331,11 @@
                 </div> <!-- Card HEADER ETL PROCESS -->
                 <div class="card-body"> <!-- Card  BODY INFO -->
                 <p class="card-text">
-                    Aplikasi ETL-Profilkes bertujuan untuk memindahkan dataset dari web api Profilkes ke web SatuData
-                    dengan mencocokkan struktur data antara Profilkes dengan SatuData sehingga dataset dari Profilkes dapat dikirimm ke SatuData.
+                Dalam upaya meningkatkan pengelolaan data kesehatan di Aceh, Dinas Kesehatan Aceh (Dinkes) telah mengembangkan aplikasi Profil Kesehatan (Profilkes), yang berisi lebih dari 80 dataset standar yang ditentukan oleh Kementerian Kesehatan (Kemenkes). Aplikasi ini mencakup berbagai bentuk capaian dan data dasar kesehatan di tingkat Provinsi, Kota, dan Kabupaten. Setiap tahun, Dinkes Aceh mengkoordinasikan pengisian data Profilkes oleh Dinkes Kabupaten/Kota untuk data dari tahun 2019 hingga 2023. Selain itu, Pemerintah Aceh melalui UPTD Statistik mengelola Portal Satu Data (SatuData) sebagai pusat pengumpulan data sektoral dari berbagai Satuan Kerja Pemerintah Aceh (SKPA), termasuk Dinas Kesehatan Aceh.
+                <p>Untuk memastikan data dalam aplikasi Profilkes dan Portal Satu Data tetap sinkron dan terhindar dari pengulangan pengisian data, diperlukan aplikasi yang dapat melakukan proses ekstraksi (extract), transformasi (transform), dan pemuatan (load) data secara otomatis dari Profilkes ke SatuData. Aplikasi ini dikenal dengan istilah ETL (Extract, Transform, Load) dan akan berbasis web untuk efisiensi, akurasi, dan otomatisasi dalam integrasi data antara Profilkes dan SatuData, mendukung pengambilan keputusan yang lebih baik berdasarkan data kesehatan yang terkini dan terpercaya.
+                </p>
+                Tujuan dari pengembangan aplikasi ETL berbasis web ini adalah untuk menghasilkan sistem yang dapat melakukan ekstraksi, transformasi, dan pemuatan dataset dari Web Profilkes ke Web SatuData secara otomatis. Dengan demikian, aplikasi ini akan mengurangi waktu dan sumber daya yang diperlukan untuk pengisian data secara manual, mengurangi risiko kesalahan data akibat pengisian manual, dan meningkatkan transparansi serta keterbukaan informasi.
+                Manfaat signifikan dari pengembangan aplikasi ini termasuk peningkatan akurasi dan keandalan data kesehatan, efisiensi operasional Dinas Kesehatan Aceh, serta pengurangan pekerjaan administratif terkait pengelolaan data. Selain itu, aplikasi ini akan meningkatkan aksesibilitas data kesehatan bagi publik dan pemangku kepentingan, mendukung inisiatif SatuData Aceh dalam menyediakan data yang terintegrasi dan mudah diakses.
                 </p>
                 </div> <!-- Card  BODY INFO -->
             </div> <!-- Card INFO -->
@@ -378,7 +381,7 @@
         Dikelola oleh UPTD Statistik Diskominsa Aceh
         </div>
 
-        <script>
+    <script>
         let urlInput = '';
         // Event listener untuk memeriksa validitas URL saat pengguna mengetik
         document.getElementById("urlProfilkes").addEventListener("input", function() {
@@ -423,13 +426,14 @@
             })
             .then((data) => {
                 // Perbarui isi dropdown Tahun dengan data yang diterima dari API
-                var tahunDropdown = document.getElementById('tahunDropdown');
-                tahunDropdown.innerHTML = '';
-                tahunDropdown.innerHTML += "<option selected>Pilih tahun</option>";
-                data.forEach((item) => {                
-                    tahunDropdown.innerHTML += "<option value='" + item.tahun + "'>" + item.tahun + "</option>";
-
-                });
+                const tahunDropdown = document.getElementById('tahunDropdown');
+                    tahunDropdown.innerHTML = '<option selected>Pilih tahun</option>';
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.tahun;
+                        option.text = item.tahun;
+                        tahunDropdown.add(option);
+                    });
                 
             })
             .catch((error) => {
@@ -447,7 +451,7 @@
         });
 
         // Fungsi untuk mendapatkan dataset berdasarkan tahun yang dipilih
-        function getDataset(tahun) {
+        function getTahun(tahun) {
             // Lakukan fetch API untuk mendapatkan dataset berdasarkan tahun
             const url = `${urlInput}/api/dataset?tahun=${tahun}`;
             fetch(url)
@@ -467,7 +471,7 @@
         }
 
 
-        // function getDataset(tahun) {
+        // function getTahun(tahun) {
         //     var datasetDropdown = document.getElementById("datasetDropdown");
         //     datasetDropdown.innerHTML = "<option selected>Loading...</option>";
 
@@ -512,46 +516,50 @@
         .catch(error => console.error('Error:', error));
         }
 
-        function getKodewilayah(slug) {
-        var tahun = document.getElementById("tahunDropdown").value;
-        var url = urlInput + "api/data/?slug=" + slug + "&tahun=" + tahun;
-        var xhr = new XMLHttpRequest();
-        var loader = document.getElementById("loader");
-        loader.style.display = "inline-block";
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
-                if (xhr.status == 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    if (response && response.length > 0) {
-                        var tableHtml = "<table class='table table-bordered border-dark table-striped'>";
-                        tableHtml += "<thead><tr>";
-                        for (var key in response[0]) {
-                            tableHtml += "<th>" + key + "</th>";
-                        }
-                        tableHtml += "</tr></thead><tbody class='table-group-divider'>";
-                        response.forEach(function(data) {
-                            tableHtml += "<tr>";
-                            for (var key in data) {
-                                tableHtml += "<td>" + data[key] + "</td>";
+    // Fungsi untuk mendapatkan kode wilayah berdasarkan slug dataset yang dipilih
+    function getKodewilayah(slug) {
+            const tahun = document.getElementById("tahunDropdown").value;
+            const url = `${urlInput}/api/data/?slug=${slug}&tahun=${tahun}`;
+            const xhr = new XMLHttpRequest();
+            const loader = document.getElementById("loader");
+            loader.style.display = "inline-block";
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        console.log('Kodewilayah data:', response);  // Debug log
+                        if (response && response.length > 0) {
+                            let tableHtml = "<table class='table table-bordered border-dark table-striped'>";
+                            tableHtml += "<thead><tr>";
+                            for (const key in response[0]) {
+                                tableHtml += `<th>${key}</th>`;
                             }
-                            tableHtml += "</tr>";
-                        });
-                        tableHtml += "</tbody></table>";
-                        document.getElementById("tabledata").innerHTML = tableHtml;
+                            tableHtml += "</tr></thead><tbody class='table-group-divider'>";
+                            response.forEach(data => {
+                                tableHtml += "<tr>";
+                                for (const key in data) {
+                                    tableHtml += `<td>${data[key]}</td>`;
+                                }
+                                tableHtml += "</tr>";
+                            });
+                            tableHtml += "</tbody></table>";
+                            document.getElementById("tabledata").innerHTML = tableHtml;
+                        } else {
+                            document.getElementById("tabledata").innerHTML = "<p>Tidak ada data</p>";
+                        }
                     } else {
-                        document.getElementById("tabledata").innerHTML = "<p>Tidak ada data</p>";
+                        document.getElementById("tabledata").innerHTML = "<p>Error fetching data.</p>";
                     }
-                } else {
-                    document.getElementById("tabledata").innerHTML = "<p>Error fetching data.</p>";
+                    loader.style.display = "none";
                 }
-                loader.style.display = "none";
-            }
-        };
-        xhr.open("GET", url, true);
-        xhr.send();
+            };
+            xhr.open("GET", url, true);
+            xhr.send();
         }
-        // function getKodewilayah(slug) {
+
+        // function getDataset(slug) {
         //     var tahun = document.getElementById("tahunDropdown").value;
         //     var xhr = new XMLHttpRequest();
             
@@ -688,7 +696,7 @@
                 }
             });
         });
-        </script>
+    </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-K+1/re0NMrn6n1pmzmgOy8cEwA1Zm6a5xkT1IC8OXXg=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>
