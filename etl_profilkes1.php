@@ -383,19 +383,78 @@
 
                 // Sembunyikan modal loading
                 hideLoadingModal();
-            },
-            error: function(xhr, status, error) {
-                console.error("Gagal mengambil data wilayah:", error);
-                
-                var dropdown = $('#wilayahDropdown');
-                dropdown.empty();
-                dropdown.append('<option value="" disabled>Tidak ada data wilayah</option>');
-                
-                // Sembunyikan modal loading
-                hideLoadingModal();
+                },
+                error: function(xhr, status, error) {
+                    console.error("Gagal mengambil data wilayah:", error);
+                    
+                    var dropdown = $('#wilayahDropdown');
+                    dropdown.empty();
+                    dropdown.append('<option value="" disabled>Tidak ada data wilayah</option>');
+                    
+                    // Sembunyikan modal loading
+                    hideLoadingModal();
+                }
+            });
+        }
+        
+        $('#moveRight').click(function() {
+                $('#selectFrom option:selected').appendTo('#selectTo');
+            });
+
+            $('#moveLeft').click(function() {
+                $('#selectTo option:selected').appendTo('#selectFrom');
+            });
+
+            // Fungsi untuk menampilkan modal
+            function showLoadingModal() {
+                $('#loadingModal').modal('show');
             }
-        });
-    }});
+
+            // Fungsi untuk menyembunyikan modal
+            function hideLoadingModal() {
+                $('#loadingModal').modal('hide');
+            }
+
+            // Ketika dropdown subkategori dipilih
+            $('#wilayahDropdown').change(function() {
+                var selectedWilayah = $(this).val();
+                var urlProfilkes = $('#urlProfilkes').val();
+                
+                showLoadingModal();
+                $.ajax({
+                    url: "getTahun.php",
+                    type: "GET",
+                    data: { kode_wilayah: selectedWilayah, urlProfilkes: urlProfilkes },
+                    dataType: "json",
+                    success: function(response) {
+                        // $('#subjectDropdown').html(response);
+                        // Pastikan dropdown kosong sebelum menambahkan opsi baru
+                        $('#tahunDropdown').empty();
+                        
+                        if (response.success) {
+                            // Tambahkan opsi default
+                            $('#tahunDropdown').append('<option value="">Pilih Tahun</option>');
+                            
+                            // Loop melalui data dan tambahkan setiap subjek sebagai opsi
+                            $.each(response.data, function(index, tahun) {
+                                $('#tahunDropdown').append(
+                                    '<option value="' + tahun.tahun + '">' + tahun.tahun + '</option>'
+                                );
+                            });
+                        } else {
+                            // Tampilkan pesan jika tidak ada data
+                            $('#tahunDropdown').append('<option value="" disabled>Tidak ada data tahun ditemukan</option>');
+                        }
+
+                        hideLoadingModal();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Gagal mengambil data subjek:", error);
+                        hideLoadingModal();
+                    }
+                });
+            });
+        })
         // function get_profilkescurl($url) {
         //     $ch = curl_init($url);
         //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -426,7 +485,6 @@
         let urlInput = '';
         // Event listener untuk memeriksa validitas URL saat pengguna mengetik
         document.getElementById("urlProfilkes").addEventListener("input", function() {
-            
             urlInput = this.value;
             
             // Jika URL valid, tampilkan pesan sukses

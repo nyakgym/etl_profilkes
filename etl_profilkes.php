@@ -394,7 +394,7 @@
             function updateDropdown(data) {
                 // Temukan dropdown dan bersihkan opsi sebelum menambahkan yang baru
                 var dropdown = document.getElementById('wilayahDropdown');
-                dropdown.innerHTML += "<option>Provinsi Aceh</option>"
+                dropdown.innerHTML += "<option value= '11'>Provinsi Aceh</option>"
 
                 // Buat opsi baru untuk setiap entri dalam data
                 data.forEach((response) => {
