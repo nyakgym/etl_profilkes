@@ -49,6 +49,7 @@
                     <h5 class="text" style="color: black;">Wilayah Profilkes</h5>
                         <select id='wilayahDropdown' class='form-select'>
                             <option selected>Pilih wilayah</option>
+                            <!-- <option value="<?= $wilayahprofilkes->kode_wilayah ?>"><?= $wilayahprofilkes->nama ?></option> -->
                         </select>
                         
                         <!-- Ajax loader -->
@@ -347,6 +348,54 @@
         </div>
 
     <script>
+    // Script Ajax dengan menggunakan jQuery
+    $(document).ready(function() {
+        var urlProfilkes = $('#urlProfilkes');
+
+        urlProfilkes.change(function(){
+            setTimeout(() => {
+                urlProfilkes()
+            }, 1000);
+        })
+        
+        function inputURLProfilkes(){
+            var urlProfilkes = $('#urlProfilkes').val();
+            
+            showLoadingModal();
+            
+            $.ajax({
+                url: "getWilayahProfilkes.php",
+                type: "GET",
+                data: { urlProfilkes: urlProfilkes },
+                dataType: "json",
+                success: function(response) {
+                // Kosongkan dropdown sebelum menambahkan opsi baru
+                var wilayah = $('#wilayahDropdown');
+                dropdown.empty();
+
+                // Tambahkan opsi default
+                dropdown.append('<option value="">Pilih Wilayah</option>');
+
+                // Tambahkan opsi untuk setiap entri dalam data
+                $.each(response, function(index, wilayah) {
+                    dropdown.append('<option value="' + wilayah.kode_wilayah + '">' + wilayah.nama + '</option>');
+                });
+
+                // Sembunyikan modal loading
+                hideLoadingModal();
+            },
+            error: function(xhr, status, error) {
+                console.error("Gagal mengambil data wilayah:", error);
+                
+                var dropdown = $('#wilayahDropdown');
+                dropdown.empty();
+                dropdown.append('<option value="" disabled>Tidak ada data wilayah</option>');
+                
+                // Sembunyikan modal loading
+                hideLoadingModal();
+            }
+        });
+    }});
         // function get_profilkescurl($url) {
         //     $ch = curl_init($url);
         //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -373,6 +422,7 @@
         //     $response = get_profilkescurl($url);
         //     return $response;
         // };
+        
         let urlInput = '';
         // Event listener untuk memeriksa validitas URL saat pengguna mengetik
         document.getElementById("urlProfilkes").addEventListener("input", function() {
