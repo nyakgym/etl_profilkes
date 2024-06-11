@@ -1,6 +1,6 @@
 <?php
 
-header('Content-Type: application/json');
+// header('Content-Type: application/json');
 
 // Fungsi untuk melakukan request ke API dan mendapatkan data JSON
 function getData($url) {
@@ -11,13 +11,13 @@ function getData($url) {
     return $response;
 }
 
-// if (isset($_GET['urlProfilkes'])) {
-//     $urlProfilkes = $_GET['urlProfilkes'];
-//     $data = getWilayahProfilkes($urlProfilkes);
-//     echo json_encode($data);
-// } else {
-//     echo json_encode(['success' => false, 'message' => 'URL Profilkes tidak ditemukan']);
-// }
+if (isset($_GET['urlProfilkes'])) {
+    $urlProfilkes = $_GET['urlProfilkes'];
+    $data = getWilayahProfilkes($urlProfilkes);
+    echo json_encode($data);
+} else {
+    echo json_encode(['success' => false, 'message' => 'URL Profilkes tidak ditemukan']);
+}
 
 // Fungsi untuk mendapatkan data subkategori dari API
 function getWilayahProfilkes($urlProfilkes) {
@@ -26,7 +26,6 @@ function getWilayahProfilkes($urlProfilkes) {
     return $response;
 }
 
-
-$urlProfilkes = isset($_GET['urlProfilkes']) ? $_GET['urlProfilkes'] : '';
-getWilayahProfilkes($urlProfilkes);
+// $urlProfilkes = isset($_GET['urlProfilkes']) ? $_GET['urlProfilkes'] : '';
+// getWilayahProfilkes($urlProfilkes);
 ?>

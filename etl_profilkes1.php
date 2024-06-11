@@ -54,9 +54,9 @@
                         </select>
                         
                         <!-- Ajax loader -->
-                        <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
+                        <!-- <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
                                 <span class="visually-hidden">Loading...</span>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-lg-3 col-md-auto col-sm-12">
                         <h5 class="text" style="color: black;">Tahun</h5>
@@ -66,9 +66,9 @@
                                     <select id='tahunDropdown' class='form-select' onchange='getTahun(this.value)'>
                                         <option selected>Pilih tahun</option>";
                                     </select>
-                                    <div id='loader' class='spinner-border text-light' role='status' style='display: none;'>
+                                    <!-- <div id='loader' class='spinner-border text-light' role='status' style='display: none;'>
                                         <span class='visually-hidden'>Loading...</span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -84,13 +84,12 @@
                                 <option selected>Pilih dataset</option>
                             </select>
                         <!-- Ajax loader -->
-                        <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
+                        <!-- <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
                             <span class="visually-hidden">Loading...</span>
-                        </div>
+                        </div> -->
                         </div>
                     </div>
                 </form>
-
             </div>
             <div class="col-lg-12 col-md-auto col-sm-12 mt-3">
                 <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
@@ -143,9 +142,9 @@
                             <input class="form-control" type="text" placeholder="2023" aria-label="default input example" disabled>
         
                             <!-- Ajax loader -->
-                            <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
+                            <!-- <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
                                     <span class="visually-hidden">Loading...</span>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="col-lg-6 col-md-auto col-sm-12 mt-2">
                             <h5 class="text" style="color: black;">Cari Dataset SatuData</h5>
@@ -157,9 +156,9 @@
                             </form>
         
                             <!-- Ajax loader -->
-                            <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
+                            <!-- <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
                                     <span class="visually-hidden">Loading...</span>
-                            </div>
+                            </div> -->
                         </div>
                     
                         </div>
@@ -361,30 +360,35 @@
         var urlProfilkes = $('#urlProfilkes');
 
         $('#loadButton').click(function() {
-        inputApiURL();
+            event.preventDefault();
+            inputApiURL();
         });
 
         function inputApiURL() {
-            var urlProfilkes = urlProfilkes.val();
+            var urlProfilkesValue = urlProfilkes.val();
 
             $.ajax({
                 url: "getWilayahProfilkes.php",
                 type: "GET",
-                data: { urlProfilkes: urlProfilkes },
+                data: { urlProfilkes: urlProfilkesValue },
                 dataType: "json",
                 success: function(response) {
+                    console.log(response);
                     // Kosongkan dropdown sebelum menambahkan opsi baru
                     $('#wilayahDropdown').empty();
 
+                    
                     // Tambahkan opsi default
                     $('#wilayahDropdown').append('<option value="">Pilih Wilayah</option>');
                     $('#wilayahDropdown').append('<option value="11">Provinsi Aceh</option>');
 
                     // Tambahkan opsi untuk setiap entri dalam data
-                    $.each(response, function(wilayah) {
+                    $.each(response, function(index, response) {
+                        console.log(response);
                         $('#wilayahDropdown').append(
-                            '<option value="' + wilayah.kode_wilayah + '">' + wilayah.nama + '</option>');
+                            '<option value="' + response.kode_wilayah + '">' + response.nama + '</option>');
                     });
+                
                 },
                 error: function(xhr, status, error) {
                     console.error("Gagal mengambil data wilayah:", error);
@@ -396,41 +400,37 @@
         // Ketika dropdown subkategori dipilih
         $('#wilayahDropdown').change(function() {
                 var selectedWilayah = $(this).val();
-                var urlProfilkes = $('#urlProfilkes').val();
+                var urlProfilkesValue = $('#urlProfilkes').val();
                 
-                showLoadingModal();
+                // showLoadingModal();
                 $.ajax({
                     url: "getTahun.php",
                     type: "GET",
-                    data: { kode_wilayah: selectedWilayah, urlProfilkes: urlProfilkes },
+                    data: { kode_wilayah: selectedWilayah, urlProfilkes: urlProfilkesValue },
                     dataType: "json",
                     success: function(response) {
                         // $('#subjectDropdown').html(response);
                         // Pastikan dropdown kosong sebelum menambahkan opsi baru
                         $('#tahunDropdown').empty();
                         
-                        if (response.success) {
+
                             // Tambahkan opsi default
                             $('#tahunDropdown').append('<option value="">Pilih Tahun</option>');
                             
                             // Loop melalui data dan tambahkan setiap subjek sebagai opsi
-                            $.each(response.data, function(index, tahun) {
+                            $.each(response, function(index, tahun) {
+                                console.log(response);
                                 $('#tahunDropdown').append(
                                     '<option value="' + tahun.tahun + '">' + tahun.tahun + '</option>'
                                 );
                             });
-                        } else {
-                            // Tampilkan pesan jika tidak ada data
-                            $('#tahunDropdown').append('<option value="" disabled>Tidak ada data tahun ditemukan</option>');
-                        }
 
-                        hideLoadingModal();
                     },
                     error: function(xhr, status, error) {
                         console.error("Gagal mengambil data tahun:", error);
-                        hideLoadingModal();
                     }
                 });
+                
             });
             // Global AJAX event handlers
             $(document).ajaxStart(function() {
@@ -713,7 +713,7 @@
         //     xhr.open("GET", "https://profilkes.acehprov.go.id/api/data/?slug=" + slug + "&tahun=" + document.getElementById("tahunDropdown").value, true);
         //     xhr.send();
         // }
-        
+
         // $('select').selectpicker();
         // $('#moveRight').click(function() {
         // $('#selectFrom option:selected').appendTo('#selectTo');
