@@ -63,7 +63,7 @@
                         <div class='container-fluid'>
                             <div class='row'>
                                 <div class='col'>
-                                    <select id='tahunDropdown' class='form-select' onchange='getTahun(this.value)'>
+                                    <select id='tahunDropdown' class='form-select'>
                                         <option selected>Pilih tahun</option>";
                                     </select>
                                     <!-- <div id='loader' class='spinner-border text-light' role='status' style='display: none;'>
@@ -368,7 +368,7 @@
             var urlProfilkesValue = urlProfilkes.val();
 
             $.ajax({
-                url: "getWilayahProfilkes.php",
+                url: "getWilayah.php",
                 type: "GET",
                 data: { urlProfilkes: urlProfilkesValue },
                 dataType: "json",
@@ -397,41 +397,91 @@
             });
         }
 
-        // Ketika dropdown subkategori dipilih
+        // Ketika dropdown Wilayah Profilkes dipilih
         $('#wilayahDropdown').change(function() {
-                var selectedWilayah = $(this).val();
-                var urlProfilkesValue = $('#urlProfilkes').val();
-                
-                // showLoadingModal();
-                $.ajax({
-                    url: "getTahun.php",
-                    type: "GET",
-                    data: { kode_wilayah: selectedWilayah, urlProfilkes: urlProfilkesValue },
-                    dataType: "json",
-                    success: function(response) {
-                        // $('#subjectDropdown').html(response);
-                        // Pastikan dropdown kosong sebelum menambahkan opsi baru
+            var selectedWilayah = $(this).val();
+            var urlProfilkesValue = $('#urlProfilkes').val();
+            
+            $.ajax({
+                url: "getTahun.php",
+                type: "GET",
+                data: { kode_wilayah: selectedWilayah, urlProfilkes: urlProfilkesValue },
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                    
                         $('#tahunDropdown').empty();
-                        
-
-                            // Tambahkan opsi default
-                            $('#tahunDropdown').append('<option value="">Pilih Tahun</option>');
+                        $('#tahunDropdown').append('<option value="">Pilih Tahun</option>');
+                        $.each(response, function(index, item) {
+                            $('#tahunDropdown').append(
+                                `<option value="${item.tahun}">${item.tahun}</option>`
+                            );
                             
-                            // Loop melalui data dan tambahkan setiap subjek sebagai opsi
-                            $.each(response, function(index, tahun) {
-                                console.log(response);
-                                $('#tahunDropdown').append(
-                                    '<option value="' + tahun.tahun + '">' + tahun.tahun + '</option>'
-                                );
-                            });
-
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Gagal mengambil data tahun:", error);
-                    }
-                });
-                
+                        });
+                    
+                },
+                error: function(xhr, status, error) {
+                    console.error("Gagal mengambil data tahun:", error);
+                }
             });
+        });
+        // $('#wilayahDropdown').on('change', function() {
+        //     var wilayah = $(this).val();
+        //     updateTahunDropdown(wilayah);
+        // });
+        // $('#tahunDropdown').change(function() {
+        //     var selectedTahun = $(this).val();
+        //     var urlProfilkesValue = $('#urlProfilkes').val();
+        //     $.ajax({
+        //         url: "getTahun.php",
+        //         type: "GET",
+        //         data: { tahun : selectedTahun, urlProfilkes: urlProfilkesValue },
+        //         dataType: "json",
+        //         success: function(response) {
+        //             console.log(response);
+                    
+        //                 // $('#tahunDropdown').empty();
+        //                 // $('#tahunDropdown').append('<option value="">Pilih Tahun</option>');
+        //                 // $.each(response, function(index, item) {
+        //                 //     $('#tahunDropdown').append(`<option value="${item.tahun}">${item.tahun}</option>`);
+        //                 // });
+                    
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error("Gagal mengambil data tahun:", error);
+        //         }
+        //     });
+        // });
+
+        // Ketika dropdown Tahun dipilih
+        $('#tahunDropdown').change(function() {
+            var selectedWilayah = $(this).val();
+            var selectedTahun = $(this).val();
+            var urlProfilkesValue = $('#urlProfilkes').val();
+            
+            $.ajax({
+                url: "getDataset.php",
+                type: "GET",
+                data: { kode_wilayah: selectedWilayah, tahun : selectedTahun , urlProfilkes: urlProfilkesValue },
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                    
+                        $('#datasetDropdown').empty();
+                        $('#datasetDropdown').append('<option value="">Pilih Tahun</option>');
+                        $.each(response, function(index, item) {
+                            $('#tahunDropdown').append(
+                                `<option value="${item.tahun}">${item.tahun}</option>`
+                            );
+                            
+                        });
+                    
+                },
+                error: function(xhr, status, error) {
+                    console.error("Gagal mengambil data tahun:", error);
+                }
+            });
+        });
             // Global AJAX event handlers
             $(document).ajaxStart(function() {
                 $('#loadingSpinner').removeClass('d-none');
@@ -442,145 +492,6 @@
             });
     });
         
-        // $('#moveRight').click(function() {
-        //         $('#selectFrom option:selected').appendTo('#selectTo');
-        //     });
-
-        //     $('#moveLeft').click(function() {
-        //         $('#selectTo option:selected').appendTo('#selectFrom');
-        //     });
-
-        //     // Fungsi untuk menampilkan modal
-        //     function showLoadingModal() {
-        //         $('#loadingModal').modal('show');
-        //     }
-
-        //     // Fungsi untuk menyembunyikan modal
-        //     function hideLoadingModal() {
-        //         $('#loadingModal').modal('hide');
-        //     }
-
-            
- 
-        // function get_profilkescurl($url) {
-        //     $ch = curl_init($url);
-        //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //     $response = curl_exec($ch);
-        //     curl_close($ch);
-        //     return json_decode($response);
-        // }
-        // function get_wilayah($url) {
-        //     $url ="https://profilkes.acehprov.go.id/api/kode_wilayah";
-        //     return get_profilkescurl($url);
-        // }
-
-        // function get_tahun(){
-        //     $url = "https://profilkes.acehprov.go.id/api/tahun";
-        //     $response = get_profilkescurl($url);
-        //     return $response;
-        // };
-
-        // // Panggil fungsi untuk mendapatkan data tahun dan simpan dalam variabel $test
-        // $test = get_tahun();
-
-        // function get_dataset($tahun = null){
-        //     $url = "https://profilkes.acehprov.go.id/api/dataset?tahun={$tahun}";
-        //     $response = get_profilkescurl($url);
-        //     return $response;
-        // };
-        
-        // let urlInput = '';
-        // // Event listener untuk memeriksa validitas URL saat pengguna mengetik
-        // document.getElementById("urlProfilkes").addEventListener("input", function() {
-        //     urlInput = this.value;
-            
-        //     // Jika URL valid, tampilkan pesan sukses
-        //     const apiUrl = `${urlInput}/api/kode_wilayah`;
-        //     fetch(apiUrl).then((response)=>{
-        //         if (!response.ok) {
-        //             throw new Error('Network response was not ok');
-        //         }
-        //         return response.json();
-        //     }).then((data)=>{
-        //         console.log(data);
-        //         updateDropdown(data);
-        //     })
-        //     });
-        //     function updateDropdown(data) {
-        //         // Temukan dropdown dan bersihkan opsi sebelum menambahkan yang baru
-        //         var dropdown = document.getElementById('wilayahDropdown');
-        //         dropdown.innerHTML += "<option>Provinsi Aceh</option>"
-
-        //         // Buat opsi baru untuk setiap entri dalam data
-        //         data.forEach((response) => {
-        //             var option = document.createElement('option');
-        //             option.value = response.kode_wilayah; // Sesuaikan dengan properti kode wilayah dalam objek JSON
-        //             option.text = response.nama; // Sesuaikan dengan properti nama wilayah dalam objek JSON
-        //             dropdown.add(option);
-        //         });
-        // };
-
-        // // Fungsi untuk memperbarui dropdown Tahun berdasarkan pilihan wilayah yang dipilih
-        // function updateTahunDropdown(wilayah) {
-        //     // Lakukan fetch API untuk mendapatkan data tahun berdasarkan wilayah
-        //     const url = `${urlInput}/api/tahun?wilayah=${wilayah}`;
-        //     fetch(url)
-        //     .then((response) => {
-        //         if (!response.ok) {
-        //             throw new Error('Network response was not ok');
-        //         }
-        //         return response.json();
-        //     })
-        //     .then((data) => {
-        //         // Perbarui isi dropdown Tahun dengan data yang diterima dari API
-        //         const tahunDropdown = document.getElementById('tahunDropdown');
-        //             tahunDropdown.innerHTML = '<option selected>Pilih tahun</option>';
-        //             data.forEach(item => {
-        //                 const option = document.createElement('option');
-        //                 option.value = item.tahun;
-        //                 option.text = item.tahun;
-        //                 tahunDropdown.add(option);
-        //             });
-                
-        //     })
-        //     .catch((error) => {
-        //         console.error('There was a problem with the fetch operation:', error);
-        //         // Jika ada masalah dengan fetch, kosongkan dropdown Tahun
-        //         var tahunDropdown = document.getElementById('tahunDropdown');
-        //         tahunDropdown.innerHTML = "<option selected>Pilih tahun</option>";
-        //     });
-        // }
-
-        // // Event listener untuk memperbarui dropdown Tahun ketika pilihan dropdown Wilayah Profilkes berubah
-        // document.getElementById("wilayahDropdown").addEventListener("change", function() {
-        //     var wilayah = this.value;
-        //     updateTahunDropdown(wilayah);
-        // });
-
-        // // Fungsi untuk mendapatkan dataset berdasarkan tahun yang dipilih
-        // function getTahun(tahun) {
-        //     // Menampilkan spinner loader
-        //     var loader = document.getElementById("loader");
-        //     loader.style.display = "inline-block";
-        //     // Lakukan fetch API untuk mendapatkan dataset berdasarkan tahun
-        //     const url = `${urlInput}/api/dataset?tahun=${tahun}`;
-        //     fetch(url)
-        //     .then((response) => {
-        //         if (!response.ok) {
-        //             throw new Error('Network response was not ok');
-        //         }
-        //         return response.json();
-        //     })
-        //     .then((data) => {
-        //         // Lakukan sesuatu dengan dataset yang diperoleh
-        //         console.log(data);
-        //     })
-        //     .catch((error) => {
-        //         console.error('There was a problem with the fetch operation:', error);
-        //     });
-        //     // Menyembunyikan spinner loader setelah request selesai
-        //     loader.style.display = "none";
-        // }
 
 
         // function getTahun(tahun) {
