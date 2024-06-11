@@ -10,23 +10,34 @@ function getData($url) {
 }
 
 // Fungsi untuk mendapatkan data subjek dari API
-function getTahun($kode_wilayah, $urlProfilkes) {
+function getTahun($tahun, $urlProfilkes) {
     // URL API yang sesuai
-    $url = "$urlProfilkes/api/tahun?kode_wilayah={$kode_wilayah}/";
-
+    $url = "{$urlProfilkes}/api/tahun={$tahun}/";
+    $response = getData($url);
+    return $response;
     // Ambil data dari API
-    $data = getData($url);
-
+    
     // if (isset($data['status']) && $data['status'] == 'OK') {
     //     echo json_encode(array('success' => true, 'data' => $data['data'][1]));
     // } else {
     //     echo json_encode(array('success' => false, 'message' => 'Tidak ada data subjek ditemukan.'));
     // }
 }
-
-// Panggil fungsi untuk mendapatkan data subjek
-$kode_wilayah = isset($_GET['kode_wilayah']) ? $_GET['kode_wilayah'] : '';
-$urlProfilkes = isset($_GET['urlProfilkes']) ? $_GET['urlProfilkes'] : '';
-$apiKeyInput = isset($_GET['apiKeyInput']) ? $_GET['urlProfilkes'] : '';
-getTahun($kode_wilayah, $urlProfilkes);
+if (isset($_GET['kode_wilayah']) && isset($_GET['urlProfilkes'])) {
+    $kode_wilayah = $_GET['kode_wilayah'];
+    $urlProfilkes = $_GET['urlProfilkes'];
+    $tahun = $_GET['tahun'];
+    $data = getTahun($tahun, $urlProfilkes);
+    if (isset($data['status']) && $data['status'] == 'OK') {
+        echo json_encode(array('success' => true, 'data' => $data['data'][1]));
+    } else {
+        echo json_encode(array('success' => false, 'message' => 'Tidak ada data tahun ditemukan.'));
+    }
+} else {
+    echo json_encode(['success' => false, 'message' => 'Tahun tidak ditemukan']);
+}
+// // Panggil fungsi untuk mendapatkan data subjek
+// $kode_wilayah = isset($_GET['kode_wilayah']) ? $_GET['kode_wilayah'] : '';
+// $urlProfilkes = isset($_GET['urlProfilkes']) ? $_GET['urlProfilkes'] : '';
+// getTahun($kode_wilayah, $urlProfilkes);
 ?>
