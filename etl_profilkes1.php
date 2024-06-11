@@ -80,7 +80,7 @@
                     <div class="row mt-2 mb-2">
                         <div class="col-lg-6 col-md-auto col-sm-12">
                             <h5 class="text" style="color: black;">Dataset</h5>
-                            <select id='datasetDropdown' class='form-select' onchange='getDataset(this.value)'>
+                            <select id='datasetDropdown' class='form-select'>
                                 <option selected>Pilih dataset</option>
                             </select>
                         <!-- Ajax loader -->
@@ -384,7 +384,7 @@
 
                     // Tambahkan opsi untuk setiap entri dalam data
                     $.each(response, function(index, response) {
-                        console.log(response);
+                        // console.log(response);
                         $('#wilayahDropdown').append(
                             '<option value="' + response.kode_wilayah + '">' + response.nama + '</option>');
                     });
@@ -413,6 +413,7 @@
                         $('#tahunDropdown').empty();
                         $('#tahunDropdown').append('<option value="">Pilih Tahun</option>');
                         $.each(response, function(index, item) {
+                            // console.log(response);
                             $('#tahunDropdown').append(
                                 `<option value="${item.tahun}">${item.tahun}</option>`
                             );
@@ -425,37 +426,10 @@
                 }
             });
         });
-        // $('#wilayahDropdown').on('change', function() {
-        //     var wilayah = $(this).val();
-        //     updateTahunDropdown(wilayah);
-        // });
-        // $('#tahunDropdown').change(function() {
-        //     var selectedTahun = $(this).val();
-        //     var urlProfilkesValue = $('#urlProfilkes').val();
-        //     $.ajax({
-        //         url: "getTahun.php",
-        //         type: "GET",
-        //         data: { tahun : selectedTahun, urlProfilkes: urlProfilkesValue },
-        //         dataType: "json",
-        //         success: function(response) {
-        //             console.log(response);
-                    
-        //                 // $('#tahunDropdown').empty();
-        //                 // $('#tahunDropdown').append('<option value="">Pilih Tahun</option>');
-        //                 // $.each(response, function(index, item) {
-        //                 //     $('#tahunDropdown').append(`<option value="${item.tahun}">${item.tahun}</option>`);
-        //                 // });
-                    
-        //         },
-        //         error: function(xhr, status, error) {
-        //             console.error("Gagal mengambil data tahun:", error);
-        //         }
-        //     });
-        // });
 
         // Ketika dropdown Tahun dipilih
         $('#tahunDropdown').change(function() {
-            var selectedWilayah = $(this).val();
+            var selectedWilayah = $('#wilayahDropdown').val();
             var selectedTahun = $(this).val();
             var urlProfilkesValue = $('#urlProfilkes').val();
             
@@ -466,19 +440,16 @@
                 dataType: "json",
                 success: function(response) {
                     console.log(response);
-                    
-                        $('#datasetDropdown').empty();
-                        $('#datasetDropdown').append('<option value="">Pilih Tahun</option>');
-                        $.each(response, function(index, item) {
-                            $('#tahunDropdown').append(
-                                `<option value="${item.tahun}">${item.tahun}</option>`
-                            );
-                            
-                        });
-                    
+                    $('#datasetDropdown').empty();
+                    $('#datasetDropdown').append('<option value="">Pilih Dataset</option>');
+                    $.each(response, function(index, response) {
+                        $('#datasetDropdown').append(
+                            '<option value="' + response.slug + '">' + response.nama + '</option>'
+                        );
+                    });
                 },
                 error: function(xhr, status, error) {
-                    console.error("Gagal mengambil data tahun:", error);
+                    console.error("Gagal mengambil data dataset:", error);
                 }
             });
         });
