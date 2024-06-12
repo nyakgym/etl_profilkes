@@ -36,21 +36,23 @@
                 <div class="card-body"> <!-- Card  BODY ETL PROCESS -->
                 <div class="col-lg-12 col-md-auto col-sm-12">
 
-                <form action="#" method="POST">
                 <div class="row">
                 <div class="col-lg-3 col-md-auto col-sm-12">
                     <h5 class="text" for="urlProfilkes" style="color: black;">URL Profilkes</h5>
-                    <input id="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlprofilkes">
-                    <button class="btn" id="loadButton" type="submit" style="background-color: #66CDAA; border-color: 66CDAA;">Cari data</button>
+                    
+                    <!-- <form class="d-flex"> -->
+                        <input id="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlprofilkes">
+                        <button class="btn" id="loadButton" type="submit" style="background-color: #66CDAA; border-color: 66CDAA;">Cari data</button>
                     <!-- Ajax loader -->
                     <!-- <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
                         <span class="visually-hidden">Loading...</span>
                     </div> -->
+                    <!-- </form> -->
                 </div>
                     <div class="col-lg-3 col-md-auto col-sm-12">
                     <h5 class="text" style="color: black;">Wilayah Profilkes</h5>
                         <select id='wilayahDropdown' class='form-select'>
-                            <option selected>Pilih wilayah</option>
+                            <option selected>Pilih Wilayah</option>
                         </select>
                         
                         <!-- Ajax loader -->
@@ -64,7 +66,7 @@
                             <div class='row'>
                                 <div class='col'>
                                     <select id='tahunDropdown' class='form-select'>
-                                        <option selected>Pilih tahun</option>";
+                                        <option selected>Pilih Tahun</option>";
                                     </select>
                                     <!-- <div id='loader' class='spinner-border text-light' role='status' style='display: none;'>
                                         <span class='visually-hidden'>Loading...</span>
@@ -89,7 +91,6 @@
                         </div> -->
                         </div>
                     </div>
-                </form>
             </div>
             <div class="col-lg-12 col-md-auto col-sm-12 mt-3">
                 <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
@@ -358,6 +359,7 @@
     // Script Ajax dengan menggunakan jQuery
     $(document).ready(function() {
         var urlProfilkes = $('#urlProfilkes');
+        // var slug = ""; // Variabel global untuk menyimpan slu
 
         $('#loadButton').click(function() {
             event.preventDefault();
@@ -377,7 +379,6 @@
                     // Kosongkan dropdown sebelum menambahkan opsi baru
                     $('#wilayahDropdown').empty();
 
-                    
                     // Tambahkan opsi default
                     $('#wilayahDropdown').append('<option value="">Pilih Wilayah</option>');
                     $('#wilayahDropdown').append('<option value="11">Provinsi Aceh</option>');
@@ -388,7 +389,6 @@
                         $('#wilayahDropdown').append(
                             '<option value="' + response.kode_wilayah + '">' + response.nama + '</option>');
                     });
-                
                 },
                 error: function(xhr, status, error) {
                     console.error("Gagal mengambil data wilayah:", error);
@@ -432,26 +432,34 @@
             var selectedWilayah = $('#wilayahDropdown').val();
             var selectedTahun = $(this).val();
             var urlProfilkesValue = $('#urlProfilkes').val();
+            var selectedSlug = $('#tahunDropdown').val();; // Reset slug ketika tahun berubah
             
             $.ajax({
                 url: "getDataset.php",
                 type: "GET",
-                data: { kode_wilayah: selectedWilayah, tahun : selectedTahun , urlProfilkes: urlProfilkesValue },
+                data: { kode_wilayah: selectedWilayah, tahun : selectedTahun , urlProfilkes: urlProfilkesValue, slug : selectedSlug },
                 dataType: "json",
                 success: function(response) {
-                    console.log(response);
+                    
                     $('#datasetDropdown').empty();
                     $('#datasetDropdown').append('<option value="">Pilih Dataset</option>');
                     $.each(response, function(index, response) {
+                        console.log(response);
                         $('#datasetDropdown').append(
                             '<option value="' + response.slug + '">' + response.nama + '</option>'
                         );
+                        
                     });
                 },
                 error: function(xhr, status, error) {
                     console.error("Gagal mengambil data dataset:", error);
                 }
             });
+            // if (response.length > 0) {
+            //         slug = response[0].slug;
+            //     } else {
+            //         slug = ""; // Reset slug jika tidak ada dataset yang tersedia
+            //     }
         });
             // Global AJAX event handlers
             $(document).ajaxStart(function() {
@@ -463,95 +471,6 @@
             });
     });
         
-
-
-        // function getTahun(tahun) {
-        //     var datasetDropdown = document.getElementById("datasetDropdown");
-        //     datasetDropdown.innerHTML = "<option selected>Loading...</option>";
-
-        //     // Menampilkan spinner loader
-        //     var loader = document.getElementById("loader");
-        //     loader.style.display = "inline-block";
-
-        //     // Buat request untuk mengambil data dataset berdasarkan tahun yang dipilih
-        //     var xhr = new XMLHttpRequest();
-        //     xhr.onreadystatechange = function() {
-        //         if (xhr.readyState == 4) {
-        //             if (xhr.status == 200) {
-        //                 var response = JSON.parse(xhr.responseText);
-        //                 datasetDropdown.innerHTML = "<option selected>Pilih dataset</option>";
-        //                 response.forEach(function(dataset) {
-        //                     var option = document.createElement("option");
-        //                     option.value = dataset.slug;
-        //                     option.text = dataset.nama;
-        //                     datasetDropdown.appendChild(option);
-        //                 });
-        //             } else {
-        //                 datasetDropdown.innerHTML = "<option selected>Error</option>";
-        //             }
-        //             // Menyembunyikan spinner loader setelah request selesai
-        //             loader.style.display = "none";
-        //         }
-        //     };
-        //     xhr.open("GET", "https://profilkes.acehprov.go.id/api/dataset?tahun=" + tahun, true);
-        //     xhr.send();
-        // }
-        // function updateDatasetDropdown(tahun) {
-        // var url = urlInput + "api/dataset?tahun=" + tahun;
-        // fetch(url)
-        // .then(response => response.json())
-        // .then(data => {
-        //     var datasetDropdown = document.getElementById('datasetDropdown');
-        //     datasetDropdown.innerHTML = "<option selected>Pilih dataset</option>";
-        //     data.forEach(item => {
-        //         datasetDropdown.innerHTML += "<option value='" + item.slug + "'>" + item.nama + "</option>";
-        //     });
-        // })
-        // .catch(error => console.error('Error:', error));
-        // }
-
-
-    // Fungsi untuk mendapatkan kode wilayah berdasarkan slug dataset yang dipilih
-    function getDataset(slug) {
-            const tahun = document.getElementById("tahunDropdown").value;
-            const url = `${urlInput}/api/data/?slug=${slug}&tahun=${tahun}`;
-            const xhr = new XMLHttpRequest();
-            const loader = document.getElementById("loader");
-            loader.style.display = "inline-block";
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        const response = JSON.parse(xhr.responseText);
-                        console.log('Dataset:', response);  // Debug log
-                        if (response && response.length > 0) {
-                            let tableHtml = "<table class='table table-bordered border-dark table-striped'>";
-                            tableHtml += "<thead><tr>";
-                            for (const key in response[0]) {
-                                tableHtml += `<th>${key}</th>`;
-                            }
-                            tableHtml += "</tr></thead><tbody class='table-group-divider'>";
-                            response.forEach(data => {
-                                tableHtml += "<tr>";
-                                for (const key in data) {
-                                    tableHtml += `<td>${data[key]}</td>`;
-                                }
-                                tableHtml += "</tr>";
-                            });
-                            tableHtml += "</tbody></table>";
-                            document.getElementById("tabledata").innerHTML = tableHtml;
-                        } else {
-                            document.getElementById("tabledata").innerHTML = "<p>Tidak ada data</p>";
-                        }
-                    } else {
-                        document.getElementById("tabledata").innerHTML = "<p>Error fetching data.</p>";
-                    }
-                    loader.style.display = "none";
-                }
-            };
-            xhr.open("GET", url, true);
-            xhr.send();
-        }
 
         // function getDataset(slug) {
         //     var tahun = document.getElementById("tahunDropdown").value;
