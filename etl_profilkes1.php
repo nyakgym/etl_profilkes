@@ -42,11 +42,7 @@
                     
                     <!-- <form class="d-flex"> -->
                         <input id="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlprofilkes">
-                        <button class="btn" id="loadButton" type="submit" style="background-color: #66CDAA; border-color: 66CDAA;">Cari data</button>
-                    <!-- Ajax loader -->
-                    <!-- <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
-                        <span class="visually-hidden">Loading...</span>
-                    </div> -->
+                        <button class="btn btn-success" id="loadButton" type="submit" style="background-color: #66CDAA; border-color: 66CDAA;">Cari data</button>
                     <!-- </form> -->
                 </div>
                     <div class="col-lg-3 col-md-auto col-sm-12">
@@ -55,13 +51,9 @@
                             <option selected>Pilih Wilayah</option>
                         </select>
                         
-                        <!-- Ajax loader -->
-                        <!-- <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
-                                <span class="visually-hidden">Loading...</span>
-                        </div> -->
                     </div>
                     <div class="col-lg-3 col-md-auto col-sm-12">
-                        <h5 class="text" style="color: black;">Tahun</h5>
+                        <h5 class="text" style="color: black;">Tahun Profilkes</h5>
                         <div class='container-fluid'>
                             <div class='row'>
                                 <div class='col'>
@@ -81,7 +73,7 @@
                 </div>
                     <div class="row mt-2 mb-2">
                         <div class="col-lg-6 col-md-auto col-sm-12">
-                            <h5 class="text" style="color: black;">Dataset</h5>
+                            <h5 class="text" style="color: black;">Dataset Profilkes</h5>
                             <select id='datasetDropdown' class='form-select'>
                                 <option selected>Pilih dataset</option>
                             </select>
@@ -105,66 +97,48 @@
                     </li>
                 </ul>           
                 <div class="tab-content">
-                    <!-- tabpanel 1 -->
+                    <!-- tabpanel Extract -->
                     <div class="tab-pane fade show active" id="extracttabpanel" role="tabpanel" aria-labelledby="extract-tab">
                         <div class="card  mb-3" style="border-color: #66CDAA;">
                             <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Tabel Dataset</h5>
-                            <div class="card-body">
+                            <div class="card-body"> 
                                 <div class='col'>
                                     <div id='tabledata' class='table-responsive'></div>
                                 </div>
                             </div>
                         </div>
-                    </div> <!-- akhir tabpanel 1 -->
+                    </div> <!-- akhir tabpanel Extract -->
 
-                    <!-- tabpanel 2 -->
+                    <!-- tabpanel Transform -->
                     <div class="tab-pane fade" id="trasformtabpanel" role="tabpanel" aria-labelledby="trasform-tab">
                     <div class="row mb-3">
                         <div class="col-lg-3 col-md-auto col-sm-12">
                             <h5 class="text" style="color: black;">URL SatuData</h5>
-                            <input class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata">
+                            <input id="apiUrlSatudata" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata">
         
-                            <!-- Ajax loader -->
-                            <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
-                                    <span class="visually-hidden">Loading...</span>
-                            </div>
                         </div>
                         <div class="col-lg-3 col-md-auto col-sm-12">
                             <h5 class="text" style="color: black;">Key App SatuData</h5>
-                            <input class="form-control" type="text" placeholder="Ketik Key App" aria-label="keyappsatudata">
-        
-                            <!-- Ajax loader -->
-                            <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
-                                    <span class="visually-hidden">Loading...</span>
-                            </div>
+                            <input  id="apiKeySatudata" class="form-control" type="text" placeholder="Ketik Key App" aria-label="keyappsatudata">          
                         </div>
                         <div class="col-lg-3 col-md-auto col-sm-12">
                             <h5 class="text" style="color: black;">Tahun SatuData</h5>
-                            <input class="form-control" type="text" placeholder="2023" aria-label="default input example" disabled>
-        
-                            <!-- Ajax loader -->
-                            <!-- <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
-                                    <span class="visually-hidden">Loading...</span>
-                            </div> -->
+                            <input class="form-control" type="text" placeholder="2023" aria-label="default input example" disabled>    
                         </div>
                         <div class="col-lg-6 col-md-auto col-sm-12 mt-2">
                             <h5 class="text" style="color: black;">Cari Dataset SatuData</h5>
-                            <form class="d-flex" role="search">
-                                <input type="search" class="form-control" placeholder="Search"  aria-label="Search" aria-describedby="basic-addon2">
+                            <form id="searchForm" class="d-flex" role="search">
+                                <input id="searchInput" type="search" class="form-control" placeholder="Search"  aria-label="Search" aria-describedby="basic-addon2">
                                 <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
                                     <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> -->
-                                    <button class="btn btn-success" class="bi bi-search" type="submit">Find</button>
-                            </form>
-        
-                            <!-- Ajax loader -->
-                            <!-- <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
-                                    <span class="visually-hidden">Loading...</span>
-                            </div> -->
+                                    <button id="searchButton" class="btn btn-success" class="bi bi-search" type="submit">Find</button>
+                            </form>                   
                         </div>
                     
                         </div>
                         <div class="row">
                             <div class="col-lg-3 col-md-auto col-sm-12">
+                                <!-- Form Configure Kolom Dataset Profilkes -->
                                 <div class="card mb-3" style="border-color: #66CDAA;">
                                     <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Kolom Dataset Profilkes</h5>
                                     <div class="card-body">
@@ -198,6 +172,8 @@
                                     </div>
                                 </div>
                             </div> <!-- col-5-->
+
+                            <!-- Button Move Column -->
                             <div class="col-lg-1 col-md-auto col-sm-12 align-self-center text-center">
                                 <div class="mb-2">
                                     <button type="button" id="moveRight" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">&gt;&gt;</button>
@@ -206,6 +182,8 @@
                                     <button type="button" id="moveLeft" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">&lt;&lt;</button>
                                 </div>
                             </div>
+
+                            <!-- Form Transform Field -->
                             <div class="col-lg-3 col-md-auto col-sm-12">
                                 <div class="card mb-3" style="border-color: #66CDAA;">
                                     <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Transform Fields</h5>
@@ -234,11 +212,15 @@
                                     </div>
                                 </div>
                             </div> <!-- col-3 -->
+
+                            <!-- Button Matching -->
                             <div class="col-lg-2 col-md-auto col-sm-12 align-self-center text-center">
                                 <div class="mb-2">
                                     <button type="button" id="" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">Match</button>
                                 </div>
                             </div>
+
+                            <!-- Form Kolom Dataset SatuData -->
                             <div class="col-lg-3 col-md-auto col-sm-12">
                                 <div class="card mb-3" style="border-color: #66CDAA;">
                                     <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Kolom Dataset SatuData</h5>
@@ -268,9 +250,9 @@
                                 </div>
                             </div> <!-- col-3 -->
                         </div> <!-- row -->
-                    </div> <!-- akhir tabpanel 2-->
+                    </div> <!-- akhir tabpanel Transform-->
                     
-                    <!-- tabpanel 3 -->
+                    <!-- tabpanel Load -->
                     <div class="tab-pane fade" id="loadtabpanel" role="tabpanel" aria-labelledby="load-tab">
                         <div class="row">
                             <div class="col-lg-12 col-md-auto col-sm-12">
@@ -282,13 +264,16 @@
                                 </div>
                             </div> <!-- col-6 -->
                         </div> <!-- row -->
-                    </div> <!-- akhir tabpanel 3-->
+                    </div> <!-- akhir tabpanel Load -->
+
                 </div> <!-- akhir tab-content -->
                 </div> <!-- akhir col-12 -->
                 </div> <!-- Card  BODY ETL PROCESS -->
+
             </div> <!-- Card ETL PROCESS -->
         </div> <!-- akhir row -->
         </div> <!-- akhir Tabpanel ETL PROCESS -->
+
         <!-- tabpanel INFO -->
         <div class="tab-pane fade" id="infotabpanel" role="tabpanel" aria-labelledby="info-tab">
             <div class="row px-3">
@@ -432,35 +417,186 @@
             var selectedWilayah = $('#wilayahDropdown').val();
             var selectedTahun = $(this).val();
             var urlProfilkesValue = $('#urlProfilkes').val();
-            var selectedSlug = $('#tahunDropdown').val();; // Reset slug ketika tahun berubah
-            
+
+            // Pertama, ambil slug berdasarkan tahun dan wilayah
             $.ajax({
-                url: "getDataset.php",
+                url: "getSlug.php",
                 type: "GET",
-                data: { kode_wilayah: selectedWilayah, tahun : selectedTahun , urlProfilkes: urlProfilkesValue, slug : selectedSlug },
+                data: { kode_wilayah: selectedWilayah, tahun: selectedTahun, urlProfilkes: urlProfilkesValue },
                 dataType: "json",
                 success: function(response) {
-                    
-                    $('#datasetDropdown').empty();
-                    $('#datasetDropdown').append('<option value="">Pilih Dataset</option>');
-                    $.each(response, function(index, response) {
-                        console.log(response);
-                        $('#datasetDropdown').append(
-                            '<option value="' + response.slug + '">' + response.nama + '</option>'
-                        );
-                        
-                    });
+                    var slug = response.slug;
+
+                    if (slug) {
+                        // Jika slug ditemukan, gunakan slug untuk mengambil dataset
+                        $.ajax({
+                            url: "getDataset.php",
+                            type: "GET",
+                            data: { kode_wilayah: selectedWilayah, tahun: selectedTahun, urlProfilkes: urlProfilkesValue, slug: slug },
+                            dataType: "json",
+                            success: function(datasetResponse) {
+                                $('#datasetDropdown').empty();
+                                $('#datasetDropdown').append('<option value="">Pilih Dataset</option>');
+                                $.each(datasetResponse, function(index, dataset) {
+                                    $('#datasetDropdown').append(
+                                        '<option value="' + dataset.slug + '">' + dataset.nama + '</option>'
+                                    );
+                                });
+                            },
+                            error: function(xhr, status, error) {
+                                console.error("Gagal mengambil data dataset:", error);
+                            }
+                        });
+                    } else {
+                        console.error("Slug tidak ditemukan.");
+                    }
                 },
                 error: function(xhr, status, error) {
-                    console.error("Gagal mengambil data dataset:", error);
+                    console.error("Gagal mengambil slug:", error);
                 }
             });
-            // if (response.length > 0) {
-            //         slug = response[0].slug;
-            //     } else {
-            //         slug = ""; // Reset slug jika tidak ada dataset yang tersedia
-            //     }
         });
+
+        // $('#tahunDropdown').change(function() {
+        //     var selectedWilayah = $('#wilayahDropdown').val();
+        //     var selectedTahun = $(this).val();
+        //     var urlProfilkesValue = $('#urlProfilkes').val();
+        //     var selectedSlug = $(this).val(); // Reset slug ketika tahun berubah
+            
+        //     $.ajax({
+        //         url: "getDataset.php",
+        //         type: "GET",
+        //         data: { kode_wilayah: selectedWilayah, tahun : selectedTahun , urlProfilkes: urlProfilkesValue, slug : selectedSlug },
+        //         dataType: "json",
+        //         success: function(response) {
+                    
+        //             $('#datasetDropdown').empty();
+        //             $('#datasetDropdown').append('<option value="">Pilih Dataset</option>');
+        //             $.each(response, function(index, response) {
+        //                 console.log(response);
+        //                 $('#datasetDropdown').append(
+        //                     '<option value="' + response.slug + '">' + response.nama + '</option>'
+        //                 );
+                        
+        //             });
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error("Gagal mengambil data dataset:", error);
+        //         }
+        //     });
+            
+        // });
+
+
+        // $('#datasetDropdown').change(function() {
+        //     var selectedDataset = $(this).val();
+        //     var urlProfilkesValue = $('#urlProfilkes').val();
+            
+        //     $.ajax({
+        //         url: "getTableData.php",
+        //         type: "GET",
+        //         data: { slug: selectedDataset, urlProfilkes: urlProfilkesValue },
+        //         dataType: "json",
+        //         success: function(response) {
+        //             console.log(response);
+        //             $('#tabledata').empty();
+
+        //             if (response.success) {
+        //                 // Create the table element
+        //                 let tableHtml = "<table id='dataTable' class='table table-striped'></table>";
+        //                 $('#tabledata').html(tableHtml);
+
+        //                 // Format the data for DataTables
+        //                 let dataSet = [];
+        //                 $.each(response.data, function(key, value) {
+        //                     if (value !== null && value !== '') {
+        //                         let wilayah_label = "";
+        //                         let tahun_label = "";
+        //                         let unit = "";
+
+        //                         $.each(response.vervar, function(index, wilayah) {
+        //                             if (key.includes(wilayah.val)) {
+        //                                 wilayah_label = wilayah.label;
+        //                                 return false; // break loop
+        //                             }
+        //                         });
+
+        //                         $.each(response.tahun, function(index, tahun) {
+        //                             if (key.includes(tahun.val)) {
+        //                                 tahun_label = tahun.label;
+        //                                 return false; // break loop
+        //                             }
+        //                         });
+
+        //                         $.each(response.var, function(index, variabel) {
+        //                             if (key.includes(variabel.val)) {
+        //                                 unit = variabel.unit;
+        //                                 return false; // break loop
+        //                             }
+        //                         });
+
+        //                         dataSet.push([wilayah_label, tahun_label, value, unit]);
+        //                     }
+        //                 });
+
+        //                 // Initialize DataTables
+        //                 $('#dataTable').DataTable({
+        //                     data: dataSet,
+        //                     columns: [
+                                
+        //                     ],
+        //                     paging: false,
+        //                     scrollCollapse: true,
+        //                     scrollY: '50vh',
+        //                     searching: false,
+        //                 });
+        //             } else {
+        //                 alert("Tidak ada data yang tersedia untuk ditampilkan.");
+        //             }
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error("Gagal mengambil data tabel:", error);
+        //         }
+        //     });
+        // });
+        // $('#searchData').click(function() {
+        //     inputApiURLForTahun();
+        //     });
+
+            // function inputApiURLForTahun() {
+            //     var apiKey = $('#apiKeySatudata').val();
+            //     var apiUrl = $('#apiUrlSatudata').val();
+
+            //     console.log("API Key:", apiKey);
+            //     console.log("API URL:", apiUrl);
+
+            //     $.ajax({
+            //         url: "getTahun.php",
+            //         type: "GET",
+            //         data: { apiKey, apiUrl },
+            //         dataType: "json",
+            //         success: function(response) {
+            //             console.log(response);
+                    //     $('#tahunDropdown').empty();
+
+                    //     if (response.success) {
+                    //         $('#tahunDropdown').append('<option value="">Pilih Tahun</option>');
+                    //         $.each(response.data, function(index, tahun) {
+                    //             $('#tahunDropdown').append(
+                    //                 '<option value="' + tahun + '">' + tahun + '</option>'
+                    //             );
+                    //         });
+                    //     } else {
+                    //         $('#tahunDropdown').append('<option value="" disabled>Tidak ada data tahun</option>');
+                    //     }
+                    // },
+                    // error: function(xhr, status, error) {
+                    //     console.error("Gagal mengambil data tahun:", error);
+                    // }
+                //     }
+                // });
+            // }
+
             // Global AJAX event handlers
             $(document).ajaxStart(function() {
                 $('#loadingSpinner').removeClass('d-none');
