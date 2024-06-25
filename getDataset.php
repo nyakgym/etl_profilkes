@@ -24,7 +24,7 @@ function getDataset($kode_wilayah, $urlProfilkes, $tahun, $slug) {
     if ($kode_wilayah == '11') { // Assuming '11' is the code for Provinsi Aceh
         $url = "{$urlProfilkes}/api/dataset?tahun={$tahun}";
     } else {
-        $url = "{$urlProfilkes}/api/data/?slug={$slug}&tahun={$tahun}&kode_wilayah={$kode_wilayah}";
+        $url = "{$urlProfilkes}/api/dataset?tahun={$tahun}&kode_wilayah={$kode_wilayah}";
     }
     return getData($url);
 }
