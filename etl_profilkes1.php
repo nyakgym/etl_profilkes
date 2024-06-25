@@ -33,25 +33,27 @@
                 <div class="card-header" style=" color: white; background-color: #66CDAA; border-color: #66CDAA;"> <!-- Card HEADER ETL PROCESS -->
                     ETL Process
                 </div> <!-- Card HEADER ETL PROCESS -->
+
                 <div class="card-body"> <!-- Card  BODY ETL PROCESS -->
                 <div class="col-lg-12 col-md-auto col-sm-12">
-
                 <div class="row">
+                <!-- Form URL Profilkes -->
                 <div class="col-lg-3 col-md-auto col-sm-12">
                     <h5 class="text" for="urlProfilkes" style="color: black;">URL Profilkes</h5>
-                    
                     <!-- <form class="d-flex"> -->
                         <input id="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlprofilkes">
                         <button class="btn btn-success" id="loadButton" type="submit" style="background-color: #66CDAA; border-color: 66CDAA;">Cari data</button>
                     <!-- </form> -->
                 </div>
+
+                <!-- Dropdown Wilayah Profilkes -->
                     <div class="col-lg-3 col-md-auto col-sm-12">
                     <h5 class="text" style="color: black;">Wilayah Profilkes</h5>
                         <select id='wilayahDropdown' class='form-select'>
                             <option selected>Pilih Wilayah</option>
                         </select>
-                        
                     </div>
+                <!-- Dropdown Tahun Profilkes -->
                     <div class="col-lg-3 col-md-auto col-sm-12">
                         <h5 class="text" style="color: black;">Tahun Profilkes</h5>
                         <div class='container-fluid'>
@@ -60,25 +62,22 @@
                                     <select id='tahunDropdown' class='form-select'>
                                         <option selected>Pilih Tahun</option>";
                                     </select>
-                                    
                                 </div>
                             </div>
                         </div>
-                            <?php 
-                            
-                            ?>
                     </div>
                 </div>
+                <!-- Dropdown Dataset Profilkes -->
                     <div class="row mt-2 mb-2">
                         <div class="col-lg-6 col-md-auto col-sm-12">
                             <h5 class="text" style="color: black;">Dataset Profilkes</h5>
                             <select id='datasetDropdown' class='form-select'>
                                 <option selected>Pilih dataset</option>
                             </select>
-                        
                         </div>
                     </div>
             </div>
+            <!-- Tab Extract, Transform, Load -->
             <div class="col-lg-12 col-md-auto col-sm-12 mt-3">
                 <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -90,9 +89,11 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="load-tab" data-bs-toggle="tab" data-bs-target="#loadtabpanel" type="button" role="tab" aria-controls="loadtabpanel" aria-selected="false">3. Load</button>
                     </li>
-                </ul>           
+                </ul>   
+
+                <!-- Tabpanel -->
                 <div class="tab-content">
-                    <!-- tabpanel Extract -->
+                    <!-- Tabpanel Extract -->
                     <div class="tab-pane fade show active" id="extracttabpanel" role="tabpanel" aria-labelledby="extract-tab">
                         <div class="card  mb-3" style="border-color: #66CDAA;">
                             <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Tabel Dataset</h5>
@@ -104,32 +105,30 @@
                         </div>
                     </div> <!-- akhir tabpanel Extract -->
 
-                    <!-- tabpanel Transform -->
+                    <!-- Tabpanel Transform -->
                     <div class="tab-pane fade" id="trasformtabpanel" role="tabpanel" aria-labelledby="trasform-tab">
-                    <div class="row mb-3">
-                        <div class="col-lg-3 col-md-auto col-sm-12">
-                            <h5 class="text" style="color: black;">URL SatuData</h5>
-                            <input id="apiUrlSatudata" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata">
-        
-                        </div>
-                        <div class="col-lg-3 col-md-auto col-sm-12">
-                            <h5 class="text" style="color: black;">Key App SatuData</h5>
-                            <input  id="apiKeySatudata" class="form-control" type="text" placeholder="Ketik Key App" aria-label="keyappsatudata">          
-                        </div>
-                        <div class="col-lg-3 col-md-auto col-sm-12">
-                            <h5 class="text" style="color: black;">Tahun SatuData</h5>
-                            <input class="form-control" type="text" placeholder="2023" aria-label="default input example" disabled>    
-                        </div>
-                        <div class="col-lg-6 col-md-auto col-sm-12 mt-2">
-                            <h5 class="text" style="color: black;">Cari Dataset SatuData</h5>
-                            <form id="searchForm" class="d-flex" role="search">
-                                <input id="searchInput" type="search" class="form-control" placeholder="Search"  aria-label="Search" aria-describedby="basic-addon2">
-                                <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
-                                    <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> -->
-                                    <button id="searchButton" class="btn btn-success" class="bi bi-search" type="submit">Find</button>
-                            </form>                   
-                        </div>
-                    
+                        <div class="row mb-3">
+                            <div class="col-lg-3 col-md-auto col-sm-12">
+                                <h5 class="text" style="color: black;">URL SatuData</h5>
+                                <input id="apiUrlSatudata" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata">
+                            </div>
+                            <div class="col-lg-3 col-md-auto col-sm-12">
+                                <h5 class="text" style="color: black;">Key App SatuData</h5>
+                                <input  id="apiKeySatudata" class="form-control" type="text" placeholder="Ketik Key App" aria-label="keyappsatudata">          
+                            </div>
+                            <div class="col-lg-3 col-md-auto col-sm-12">
+                                <h5 class="text" style="color: black;">Tahun SatuData</h5>
+                                <input class="form-control" type="text" placeholder="2023" aria-label="default input example" disabled>    
+                            </div>
+                            <div class="col-lg-6 col-md-auto col-sm-12 mt-2">
+                                <h5 class="text" style="color: black;">Cari Dataset SatuData</h5>
+                                <form id="searchForm" class="d-flex" role="search">
+                                    <input id="searchInput" type="search" class="form-control" placeholder="Search"  aria-label="Search" aria-describedby="basic-addon2">
+                                    <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
+                                        <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> -->
+                                        <button id="searchButton" class="btn btn-success" class="bi bi-search" type="submit">Find</button>
+                                </form>                   
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-3 col-md-auto col-sm-12">
@@ -247,7 +246,7 @@
                         </div> <!-- row -->
                     </div> <!-- akhir tabpanel Transform-->
                     
-                    <!-- tabpanel Load -->
+                    <!-- Tabpanel Load -->
                     <div class="tab-pane fade" id="loadtabpanel" role="tabpanel" aria-labelledby="load-tab">
                         <div class="row">
                             <div class="col-lg-12 col-md-auto col-sm-12">
@@ -269,7 +268,7 @@
         </div> <!-- akhir row -->
         </div> <!-- akhir Tabpanel ETL PROCESS -->
 
-        <!-- tabpanel INFO -->
+        <!-- Tabpanel INFO -->
         <div class="tab-pane fade" id="infotabpanel" role="tabpanel" aria-labelledby="info-tab">
             <div class="row px-3">
             <div class="card"> <!-- Card INFO -->
@@ -325,7 +324,6 @@
             <h5>Kontak Kami</h5>
             <ul class="nav flex-column">
                 <li class="nav-item"><p>UPTD Statistik Diskominsa Aceh</p></li>
-                <!-- <li class="nav-item"><p></p></li> -->
                 <li class="nav-item"><p> Gedung Sentra Telematika Aceh Jl. Teungku Cot Plieng No.48, Kota Baru, Kec. Kuta Alam, Kota Banda Aceh</p></li>
             </ul>
             </div>
@@ -338,17 +336,16 @@
     <script>
     // Script Ajax dengan menggunakan jQuery
     $(document).ready(function() {
+        // Form URL Profilkes id=urlProfilkes
         var urlProfilkes = $('#urlProfilkes');
-        // var slug = ""; // Variabel global untuk menyimpan slu
-
         $('#loadButton').click(function() {
             event.preventDefault();
             inputApiURL();
         });
 
+        // Dropdown Wilayah profilkes id=wilayahDropdown
         function inputApiURL() {
             var urlProfilkesValue = urlProfilkes.val();
-
             $.ajax({
                 url: "getWilayah.php",
                 type: "GET",
@@ -378,10 +375,10 @@
         }
 
         // Ketika dropdown Wilayah Profilkes dipilih
+        // Dropdown Tahun profilkes id=tahunDropdown
         $('#wilayahDropdown').change(function() {
             var selectedWilayah = $(this).val();
             var urlProfilkesValue = $('#urlProfilkes').val();
-            
             $.ajax({
                 url: "getTahun.php",
                 type: "GET",
@@ -389,7 +386,6 @@
                 dataType: "json",
                 success: function(response) {
                     console.log(response);
-                    
                         $('#tahunDropdown').empty();
                         $('#tahunDropdown').append('<option value="">Pilih Tahun</option>');
                         $.each(response, function(index, item) {
@@ -397,9 +393,7 @@
                             $('#tahunDropdown').append(
                                 `<option value="${item.tahun}">${item.tahun}</option>`
                             );
-                            
                         });
-                    
                 },
                 error: function(xhr, status, error) {
                     console.error("Gagal mengambil data tahun:", error);
@@ -407,12 +401,11 @@
             });
         });
 
-
+        // Dropdown Dataset profilkes id=datasetDropdown
         $('#tahunDropdown').change(function() {
             var selectedWilayah = $('#wilayahDropdown').val();
             var selectedTahun = $(this).val();
             var urlProfilkesValue = $('#urlProfilkes').val();
-
             $.ajax({
                 url: "getDataset.php",
                 type: "GET",
@@ -433,6 +426,7 @@
             });
         });
 
+        // TableData id=tabledata
         $('#datasetDropdown').change(function() {
             var selectedSlug = $(this).val();
             if (selectedSlug) {
@@ -441,12 +435,10 @@
                 $('#tabledata').empty();
             }
         });
-        
         function getTabledata(slug) {
             var tahun = $('#tahunDropdown').val();
             var urlProfilkesValue = $('#urlProfilkes').val();
             var kodeWilayah = $('#wilayahDropdown').val();
-
             $.ajax({
                 url: "getTableData.php",
                 type: "GET",
@@ -480,119 +472,40 @@
             });
         }
 
+        $('#searchInput').click(function() {
+            inputApiURLForTahun();
+            });
+            function inputApiURLForTahun() {
+                var apiKey = $('#apiKeySatudata').val();
+                var apiUrl = $('#apiUrlSatudata').val();
+                console.log("API Key:", apiKey);
+                console.log("API URL:", apiUrl);
+                $.ajax({
+                    url: "getSearchData.php",
+                    type: "GET",
+                    data: { apiKey, apiUrl },
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                        $('#searchInput').empty();
+                        if (response.success) {
+                            $('#tahunDropdown').append();
+                            $.each(response.data, function(index, tahun) {
+                                $('#tahunDropdown').append(
+                                    
+                                );
+                            });
+                        } else {
+                            $('#tahunDropdown').append('<option value="" disabled>Tidak ada data tahun</option>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Gagal mengambil data tahun:", error);
+                    }
+                    });
+                }
 
-
-
-        // $('#datasetDropdown').change(function() {
-        //     var selectedDataset = $(this).val();
-        //     var urlProfilkesValue = $('#urlProfilkes').val();
-            
-        //     $.ajax({
-        //         url: "getTableData.php",
-        //         type: "GET",
-        //         data: { slug: selectedDataset, urlProfilkes: urlProfilkesValue },
-        //         dataType: "json",
-        //         success: function(response) {
-        //             console.log(response);
-        //             $('#tabledata').empty();
-
-        //             if (response.success) {
-        //                 // Create the table element
-        //                 let tableHtml = "<table id='dataTable' class='table table-striped'></table>";
-        //                 $('#tabledata').html(tableHtml);
-
-        //                 // Format the data for DataTables
-        //                 let dataSet = [];
-        //                 $.each(response.data, function(key, value) {
-        //                     if (value !== null && value !== '') {
-        //                         let wilayah_label = "";
-        //                         let tahun_label = "";
-        //                         let unit = "";
-
-        //                         $.each(response.vervar, function(index, wilayah) {
-        //                             if (key.includes(wilayah.val)) {
-        //                                 wilayah_label = wilayah.label;
-        //                                 return false; // break loop
-        //                             }
-        //                         });
-
-        //                         $.each(response.tahun, function(index, tahun) {
-        //                             if (key.includes(tahun.val)) {
-        //                                 tahun_label = tahun.label;
-        //                                 return false; // break loop
-        //                             }
-        //                         });
-
-        //                         $.each(response.var, function(index, variabel) {
-        //                             if (key.includes(variabel.val)) {
-        //                                 unit = variabel.unit;
-        //                                 return false; // break loop
-        //                             }
-        //                         });
-
-        //                         dataSet.push([wilayah_label, tahun_label, value, unit]);
-        //                     }
-        //                 });
-
-        //                 // Initialize DataTables
-        //                 $('#dataTable').DataTable({
-        //                     data: dataSet,
-        //                     columns: [
-                                
-        //                     ],
-        //                     paging: false,
-        //                     scrollCollapse: true,
-        //                     scrollY: '50vh',
-        //                     searching: false,
-        //                 });
-        //             } else {
-        //                 alert("Tidak ada data yang tersedia untuk ditampilkan.");
-        //             }
-        //         },
-        //         error: function(xhr, status, error) {
-        //             console.error("Gagal mengambil data tabel:", error);
-        //         }
-        //     });
-        // });
-        // $('#searchData').click(function() {
-        //     inputApiURLForTahun();
-        //     });
-
-            // function inputApiURLForTahun() {
-            //     var apiKey = $('#apiKeySatudata').val();
-            //     var apiUrl = $('#apiUrlSatudata').val();
-
-            //     console.log("API Key:", apiKey);
-            //     console.log("API URL:", apiUrl);
-
-            //     $.ajax({
-            //         url: "getTahun.php",
-            //         type: "GET",
-            //         data: { apiKey, apiUrl },
-            //         dataType: "json",
-            //         success: function(response) {
-            //             console.log(response);
-                    //     $('#tahunDropdown').empty();
-
-                    //     if (response.success) {
-                    //         $('#tahunDropdown').append('<option value="">Pilih Tahun</option>');
-                    //         $.each(response.data, function(index, tahun) {
-                    //             $('#tahunDropdown').append(
-                    //                 '<option value="' + tahun + '">' + tahun + '</option>'
-                    //             );
-                    //         });
-                    //     } else {
-                    //         $('#tahunDropdown').append('<option value="" disabled>Tidak ada data tahun</option>');
-                    //     }
-                    // },
-                    // error: function(xhr, status, error) {
-                    //     console.error("Gagal mengambil data tahun:", error);
-                    // }
-                //     }
-                // });
-            // }
-
-            // Global AJAX event handlers
+            // Loading Spinner
             $(document).ajaxStart(function() {
                 $('#loadingSpinner').removeClass('d-none');
             });
@@ -601,50 +514,6 @@
                 $('#loadingSpinner').addClass('d-none');
             });
     });
-        
-
-        // function getDataset(slug) {
-        //     var tahun = document.getElementById("tahunDropdown").value;
-        //     var xhr = new XMLHttpRequest();
-            
-        //     // Menampilkan spinner loader
-        //     var loader = document.getElementById("loader");
-        //     loader.style.display = "inline-block";
-        //     //Menampilkan tabel
-        //     xhr.onreadystatechange = function() {
-        //         if (xhr.readyState == 4) {
-        //             if (xhr.status == 200) {
-        //                 var response = JSON.parse(xhr.responseText);
-        //                 if (response && response.length > 0) {
-        //                     var tableHtml = "<table class='table table-bordered border-dark table-striped'>";
-        //                     tableHtml += "<thead><tr>";
-        //                     for (var key in response[0]) {
-        //                         tableHtml += "<th>" + key + "</th>";
-        //                     }
-        //                     tableHtml += "</tr></thead>";
-        //                     tableHtml += "<tbody class='table-group-divider'>";
-        //                     response.forEach(function(data) {
-        //                         tableHtml += "<tr>";
-        //                         for (var key in data) {
-        //                             tableHtml += "<td>" + data[key] + "</td>";
-        //                         }
-        //                         tableHtml += "</tr>";
-        //                     });
-        //                     tableHtml += "</tbody></table>";
-        //                     document.getElementById("tabledata").innerHTML = tableHtml;
-        //                 } else {
-        //                     document.getElementById("tabledata").innerHTML = "<p>Tidak ada datanya</p>";
-        //                 }
-        //             } else {
-        //                 document.getElementById("tabledata").innerHTML = "<p>Error fetching data.</p>";
-        //             }
-        //             // Menyembunyikan spinner loader setelah request selesai
-        //             loader.style.display = "none";
-        //         }
-        //     };
-        //     xhr.open("GET", "https://profilkes.acehprov.go.id/api/data/?slug=" + slug + "&tahun=" + document.getElementById("tahunDropdown").value, true);
-        //     xhr.send();
-        // }
 
         // $('select').selectpicker();
         // $('#moveRight').click(function() {

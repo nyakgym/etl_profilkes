@@ -10,7 +10,7 @@ function getData($url) {
     curl_close($ch); // Tutup curl
     return $response;
 }
-
+// Memeriksa  parameter 'urlProfilkes' ada dalam permintaan GET
 if (isset($_GET['urlProfilkes'])) {
     $urlProfilkes = $_GET['urlProfilkes'];
     $data = getWilayahProfilkes($urlProfilkes);
@@ -26,6 +26,4 @@ function getWilayahProfilkes($urlProfilkes) {
     return $response;
 }
 
-// $urlProfilkes = isset($_GET['urlProfilkes']) ? $_GET['urlProfilkes'] : '';
-// getWilayahProfilkes($urlProfilkes);
 ?>

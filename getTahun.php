@@ -19,6 +19,7 @@ function getTahun($kode_wilayah, $urlProfilkes) {
     return $response;
 }
 
+// Mengecek apakah parameter 'kode_wilayah' dan 'urlProfilkes' ada dalam permintaan GET
 if (isset($_GET['kode_wilayah']) && isset($_GET['urlProfilkes'])) {
     $kode_wilayah = $_GET['kode_wilayah'];
     $urlProfilkes = $_GET['urlProfilkes'];

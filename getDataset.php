@@ -12,16 +12,18 @@ function getData($url) {
     return $response;
 }
 
+// Fungsi untuk mendapatkan data slug dari API
 function getSlug($kode_wilayah, $urlProfilkes, $tahun) {
     $url = "{$urlProfilkes}/api/slugs/?tahun={$tahun}";
-    if ($kode_wilayah != '11') { // Assuming '11' is the code for Provinsi Aceh
+    if ($kode_wilayah != '11') { // kode wilayah prov aceh = 11
         $url .= "&kode_wilayah={$kode_wilayah}";
     }
     return getData($url);
 }
 
+// Fungsi untuk mendapatkan data dataset dari API
 function getDataset($kode_wilayah, $urlProfilkes, $tahun, $slug) {
-    if ($kode_wilayah == '11') { // Assuming '11' is the code for Provinsi Aceh
+    if ($kode_wilayah == '11') { // kode wilayah prov aceh = 11
         $url = "{$urlProfilkes}/api/dataset?tahun={$tahun}";
     } else {
         $url = "{$urlProfilkes}/api/dataset?tahun={$tahun}&kode_wilayah={$kode_wilayah}";
@@ -29,6 +31,7 @@ function getDataset($kode_wilayah, $urlProfilkes, $tahun, $slug) {
     return getData($url);
 }
 
+// Mengecek apakah parameter 'kode_wilayah', 'urlProfilkes', dan 'tahun' ada dalam permintaan GET
 if (isset($_GET['kode_wilayah']) && isset($_GET['urlProfilkes']) && isset($_GET['tahun'])) {
     $kode_wilayah = $_GET['kode_wilayah'];
     $tahun = $_GET['tahun'];

@@ -11,15 +11,16 @@ function getData($url) {
     return $response;
 }
 
+// Fungsi untuk mendapatkan data tabel dari API
 function getTableData($kode_wilayah, $urlProfilkes, $tahun, $slug) {
     $url = "{$urlProfilkes}/api/data/?slug={$slug}&tahun={$tahun}";
-    if ($kode_wilayah != '11') { // Assuming '11' is the code for Provinsi Aceh
+    if ($kode_wilayah != '11') { // kode wilayah prov aceh = 11
         $url .= "&kode_wilayah={$kode_wilayah}";
     }
-
     return getData($url);
 }
 
+// Mengecek apakah parameter 'kode_wilayah', 'urlProfilkes', 'tahun', dan 'slug' ada dalam permintaan GET
 if (isset($_GET['kode_wilayah']) && isset($_GET['urlProfilkes']) && isset($_GET['tahun']) && isset($_GET['slug'])) {
     $kode_wilayah = $_GET['kode_wilayah'];
     $tahun = $_GET['tahun'];
