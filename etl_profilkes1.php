@@ -407,77 +407,79 @@
             });
         });
 
-        // Ketika dropdown Tahun dipilih
-        // $('#tahunDropdown').change(function() {
-        //     var selectedWilayah = $('#wilayahDropdown').val();
-        //     var selectedTahun = $(this).val();
-        //     var urlProfilkesValue = $('#urlProfilkes').val();
-
-        //     // Pertama, ambil slug berdasarkan tahun dan wilayah
-        //     $.ajax({
-        //         url: "getSlug.php",
-        //         type: "GET",
-        //         data: { kode_wilayah: selectedWilayah, tahun: selectedTahun, urlProfilkes: urlProfilkesValue },
-        //         dataType: "json",
-        //         success: function(response) {
-        //             console.log(response);
-        //             var slug = response.slug;
-
-        //             if (slug) {
-        //                 // Jika slug ditemukan, gunakan slug untuk mengambil dataset
-        //                 $.ajax({
-        //                     url: "getDataset.php",
-        //                     type: "GET",
-        //                     data: { kode_wilayah: selectedWilayah, tahun: selectedTahun, urlProfilkes: urlProfilkesValue, slug: slug },
-        //                     dataType: "json",
-        //                     success: function(datasetResponse) {
-        //                         console.log(datasetResponse);
-        //                         $('#datasetDropdown').empty();
-        //                         $('#datasetDropdown').append('<option value="">Pilih Dataset</option>');
-        //                         $.each(datasetResponse, function(index, dataset) {
-        //                             $('#datasetDropdown').append(
-        //                                 '<option value="' + dataset.slug + '">' + dataset.nama + '</option>'
-        //                             );
-        //                         });
-        //                     },
-        //                     error: function(xhr, status, error) {
-        //                         console.error("Gagal mengambil data dataset:", error);
-        //                     }
-        //                 });
-        //             } else {
-        //                 console.error("Slug tidak ditemukan.");
-        //             }
-        //         },
-        //         error: function(xhr, status, error) {
-        //             console.error("Gagal mengambil slug:", error);
-        //         }
-        //     });
-        // });
 
         $('#tahunDropdown').change(function() {
-        var selectedWilayah = $('#wilayahDropdown').val();
-        var selectedTahun = $(this).val();
-        var urlProfilkesValue = $('#urlProfilkes').val();
+            var selectedWilayah = $('#wilayahDropdown').val();
+            var selectedTahun = $(this).val();
+            var urlProfilkesValue = $('#urlProfilkes').val();
 
-        $.ajax({
-            url: "getDataset.php",
-            type: "GET",
-            data: { kode_wilayah: selectedWilayah, tahun: selectedTahun, urlProfilkes: urlProfilkesValue },
-            dataType: "json",
-            success: function(response) {
-                $('#datasetDropdown').empty();
-                $('#datasetDropdown').append('<option value="">Pilih Dataset</option>');
-                $.each(response, function(index, dataset) {
-                    $('#datasetDropdown').append(
-                        '<option value="' + dataset.slug + '">' + dataset.nama + '</option>'
-                    );
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error("Gagal mengambil data dataset:", error);
+            $.ajax({
+                url: "getDataset.php",
+                type: "GET",
+                data: { kode_wilayah: selectedWilayah, tahun: selectedTahun, urlProfilkes: urlProfilkesValue },
+                dataType: "json",
+                success: function(response) {
+                    $('#datasetDropdown').empty();
+                    $('#datasetDropdown').append('<option value="">Pilih Dataset</option>');
+                    $.each(response, function(index, dataset) {
+                        $('#datasetDropdown').append(
+                            '<option value="' + dataset.slug + '">' + dataset.nama + '</option>'
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Gagal mengambil data dataset:", error);
+                }
+            });
+        });
+
+        $('#datasetDropdown').change(function() {
+            var selectedSlug = $(this).val();
+            if (selectedSlug) {
+                getTabledata(selectedSlug);
+            } else {
+                $('#tabledata').empty();
             }
         });
-    });
+        
+        function getTabledata(slug) {
+            var tahun = $('#tahunDropdown').val();
+            var urlProfilkesValue = $('#urlProfilkes').val();
+            var kodeWilayah = $('#wilayahDropdown').val();
+
+            $.ajax({
+                url: "getTableData.php",
+                type: "GET",
+                data: { slug: slug, tahun: tahun, urlProfilkes: urlProfilkesValue, kode_wilayah: kodeWilayah },
+                dataType: "json",
+                success: function(response) {
+                    if (response && response.length > 0) {
+                        var tableHtml = "<table class='table table-bordered border-dark table-striped'>";
+                        tableHtml += "<thead><tr>";
+                        for (var key in response[0]) {
+                            tableHtml += "<th>" + key + "</th>";
+                        }
+                        tableHtml += "</tr></thead>";
+                        tableHtml += "<tbody class='table-group-divider'>";
+                        response.forEach(function(data) {
+                            tableHtml += "<tr>";
+                            for (var key in data) {
+                                tableHtml += "<td>" + data[key] + "</td>";
+                            }
+                            tableHtml += "</tr>";
+                        });
+                        tableHtml += "</tbody></table>";
+                        $('#tabledata').html(tableHtml);
+                    } else {
+                        $('#tabledata').html("<p>Tidak ada datanya</p>");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#tabledata').html("<p>Error fetching data: " + error + "</p>");
+                },
+            });
+        }
+
 
 
 
