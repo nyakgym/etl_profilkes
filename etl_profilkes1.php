@@ -60,9 +60,7 @@
                                     <select id='tahunDropdown' class='form-select'>
                                         <option selected>Pilih Tahun</option>";
                                     </select>
-                                    <!-- <div id='loader' class='spinner-border text-light' role='status' style='display: none;'>
-                                        <span class='visually-hidden'>Loading...</span>
-                                    </div> -->
+                                    
                                 </div>
                             </div>
                         </div>
@@ -77,10 +75,7 @@
                             <select id='datasetDropdown' class='form-select'>
                                 <option selected>Pilih dataset</option>
                             </select>
-                        <!-- Ajax loader -->
-                        <!-- <div id="loader" class="spinner-border text-info" role="status" style="display: none;">
-                            <span class="visually-hidden">Loading...</span>
-                        </div> -->
+                        
                         </div>
                     </div>
             </div>
@@ -413,79 +408,77 @@
         });
 
         // Ketika dropdown Tahun dipilih
-        $('#tahunDropdown').change(function() {
-            var selectedWilayah = $('#wilayahDropdown').val();
-            var selectedTahun = $(this).val();
-            var urlProfilkesValue = $('#urlProfilkes').val();
-
-            // Pertama, ambil slug berdasarkan tahun dan wilayah
-            $.ajax({
-                url: "getSlug.php",
-                type: "GET",
-                data: { kode_wilayah: selectedWilayah, tahun: selectedTahun, urlProfilkes: urlProfilkesValue },
-                dataType: "json",
-                success: function(response) {
-                    var slug = response.slug;
-
-                    if (slug) {
-                        // Jika slug ditemukan, gunakan slug untuk mengambil dataset
-                        $.ajax({
-                            url: "getDataset.php",
-                            type: "GET",
-                            data: { kode_wilayah: selectedWilayah, tahun: selectedTahun, urlProfilkes: urlProfilkesValue, slug: slug },
-                            dataType: "json",
-                            success: function(datasetResponse) {
-                                $('#datasetDropdown').empty();
-                                $('#datasetDropdown').append('<option value="">Pilih Dataset</option>');
-                                $.each(datasetResponse, function(index, dataset) {
-                                    $('#datasetDropdown').append(
-                                        '<option value="' + dataset.slug + '">' + dataset.nama + '</option>'
-                                    );
-                                });
-                            },
-                            error: function(xhr, status, error) {
-                                console.error("Gagal mengambil data dataset:", error);
-                            }
-                        });
-                    } else {
-                        console.error("Slug tidak ditemukan.");
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Gagal mengambil slug:", error);
-                }
-            });
-        });
-
         // $('#tahunDropdown').change(function() {
         //     var selectedWilayah = $('#wilayahDropdown').val();
         //     var selectedTahun = $(this).val();
         //     var urlProfilkesValue = $('#urlProfilkes').val();
-        //     var selectedSlug = $(this).val(); // Reset slug ketika tahun berubah
-            
+
+        //     // Pertama, ambil slug berdasarkan tahun dan wilayah
         //     $.ajax({
-        //         url: "getDataset.php",
+        //         url: "getSlug.php",
         //         type: "GET",
-        //         data: { kode_wilayah: selectedWilayah, tahun : selectedTahun , urlProfilkes: urlProfilkesValue, slug : selectedSlug },
+        //         data: { kode_wilayah: selectedWilayah, tahun: selectedTahun, urlProfilkes: urlProfilkesValue },
         //         dataType: "json",
         //         success: function(response) {
-                    
-        //             $('#datasetDropdown').empty();
-        //             $('#datasetDropdown').append('<option value="">Pilih Dataset</option>');
-        //             $.each(response, function(index, response) {
-        //                 console.log(response);
-        //                 $('#datasetDropdown').append(
-        //                     '<option value="' + response.slug + '">' + response.nama + '</option>'
-        //                 );
-                        
-        //             });
+        //             console.log(response);
+        //             var slug = response.slug;
+
+        //             if (slug) {
+        //                 // Jika slug ditemukan, gunakan slug untuk mengambil dataset
+        //                 $.ajax({
+        //                     url: "getDataset.php",
+        //                     type: "GET",
+        //                     data: { kode_wilayah: selectedWilayah, tahun: selectedTahun, urlProfilkes: urlProfilkesValue, slug: slug },
+        //                     dataType: "json",
+        //                     success: function(datasetResponse) {
+        //                         console.log(datasetResponse);
+        //                         $('#datasetDropdown').empty();
+        //                         $('#datasetDropdown').append('<option value="">Pilih Dataset</option>');
+        //                         $.each(datasetResponse, function(index, dataset) {
+        //                             $('#datasetDropdown').append(
+        //                                 '<option value="' + dataset.slug + '">' + dataset.nama + '</option>'
+        //                             );
+        //                         });
+        //                     },
+        //                     error: function(xhr, status, error) {
+        //                         console.error("Gagal mengambil data dataset:", error);
+        //                     }
+        //                 });
+        //             } else {
+        //                 console.error("Slug tidak ditemukan.");
+        //             }
         //         },
         //         error: function(xhr, status, error) {
-        //             console.error("Gagal mengambil data dataset:", error);
+        //             console.error("Gagal mengambil slug:", error);
         //         }
         //     });
-            
         // });
+
+        $('#tahunDropdown').change(function() {
+        var selectedWilayah = $('#wilayahDropdown').val();
+        var selectedTahun = $(this).val();
+        var urlProfilkesValue = $('#urlProfilkes').val();
+
+        $.ajax({
+            url: "getDataset.php",
+            type: "GET",
+            data: { kode_wilayah: selectedWilayah, tahun: selectedTahun, urlProfilkes: urlProfilkesValue },
+            dataType: "json",
+            success: function(response) {
+                $('#datasetDropdown').empty();
+                $('#datasetDropdown').append('<option value="">Pilih Dataset</option>');
+                $.each(response, function(index, dataset) {
+                    $('#datasetDropdown').append(
+                        '<option value="' + dataset.slug + '">' + dataset.nama + '</option>'
+                    );
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error("Gagal mengambil data dataset:", error);
+            }
+        });
+    });
+
 
 
         // $('#datasetDropdown').change(function() {

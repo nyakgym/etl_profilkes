@@ -12,25 +12,43 @@ function getData($url) {
     return $response;
 }
 
-function getDataset($kode_wilayah, $urlProfilkes, $tahun, $slug) {
-    $url = "{$urlProfilkes}/api/data/?slug={$slug}&tahun={$tahun}";
+function getSlug($kode_wilayah, $urlProfilkes, $tahun) {
+    $url = "{$urlProfilkes}/api/slugs/?tahun={$tahun}";
     if ($kode_wilayah != '11') { // Assuming '11' is the code for Provinsi Aceh
         $url .= "&kode_wilayah={$kode_wilayah}";
     }
-    $response = getData($url);
-    return $response;
+    return getData($url);
 }
 
-if (isset($_GET['kode_wilayah']) && isset($_GET['urlProfilkes']) && isset($_GET['tahun']) && isset($_GET['slug'])) {
+function getDataset($kode_wilayah, $urlProfilkes, $tahun, $slug) {
+    if ($kode_wilayah == '11') { // Assuming '11' is the code for Provinsi Aceh
+        $url = "{$urlProfilkes}/api/dataset?tahun={$tahun}";
+    } else {
+        $url = "{$urlProfilkes}/api/data/?slug={$slug}&tahun={$tahun}&kode_wilayah={$kode_wilayah}";
+    }
+    return getData($url);
+}
+
+if (isset($_GET['kode_wilayah']) && isset($_GET['urlProfilkes']) && isset($_GET['tahun'])) {
     $kode_wilayah = $_GET['kode_wilayah'];
     $tahun = $_GET['tahun'];
     $urlProfilkes = $_GET['urlProfilkes'];
-    $slug = $_GET['slug'];
     
-    $data = getDataset($kode_wilayah, $urlProfilkes, $tahun, $slug);
-    echo json_encode($data);
+    // Ambil slug terlebih dahulu jika bukan Aceh
+    if ($kode_wilayah != '11') {
+        $slugData = getSlug($kode_wilayah, $urlProfilkes, $tahun);
+        $slug = !empty($slugData['slug']) ? $slugData['slug'] : '';
+    } else {
+        $slug = '';
+    }
+    
+    // Ambil dataset berdasarkan slug (jika bukan Aceh) atau hanya tahun (jika Aceh)
+    $datasets = getDataset($kode_wilayah, $urlProfilkes, $tahun, $slug);
+    
+    // Kembalikan dataset dalam satu respon
+    echo json_encode($datasets);
 } else {
-    echo json_encode([]); // Kembalikan array kosong daripada pesan error
+    echo json_encode([]);
 }
 
 ?>
