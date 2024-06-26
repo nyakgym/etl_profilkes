@@ -40,10 +40,10 @@
                 <!-- Form URL Profilkes -->
                 <div class="col-lg-3 col-md-auto col-sm-12">
                     <h5 class="text" for="urlProfilkes" style="color: black;">URL Profilkes</h5>
-                    <!-- <form class="d-flex"> -->
-                        <input id="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlprofilkes">
+                    <div class="input-group">
+                        <input id="urlProfilkes" name="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" value="">
                         <button class="btn btn-success" id="loadButton" type="submit" style="background-color: #66CDAA; border-color: 66CDAA;">Cari data</button>
-                    <!-- </form> -->
+                    </div>
                 </div>
 
                 <!-- Dropdown Wilayah Profilkes -->
@@ -110,23 +110,24 @@
                         <div class="row mb-3">
                             <div class="col-lg-3 col-md-auto col-sm-12">
                                 <h5 class="text" style="color: black;">URL SatuData</h5>
-                                <input id="apiUrlSatudata" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata">
+                                <input id="apiUrlSatudata" name="apiUrlSatudata" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata" value="">
                             </div>
                             <div class="col-lg-3 col-md-auto col-sm-12">
                                 <h5 class="text" style="color: black;">Key App SatuData</h5>
-                                <input  id="apiKeySatudata" class="form-control" type="text" placeholder="Ketik Key App" aria-label="keyappsatudata">          
+                                <div class="input-group">
+                                <input id="apiKeySatudata" name="apiKeySatudata" class="form-control" type="text" placeholder="Ketik Key App" aria-label="keyappsatudata" value="">
+                                <button id="searchButton" name="searchButton" class="btn btn-success" class="bi bi-search" type="submit">Search</button>
+                                </div>
                             </div>
                             <div class="col-lg-3 col-md-auto col-sm-12">
                                 <h5 class="text" style="color: black;">Tahun SatuData</h5>
-                                <input class="form-control" type="text" placeholder="2023" aria-label="default input example" disabled>    
+                                <input id="tahunDropdown" name="tahunDropdown" class="form-control" type="text" placeholder="" aria-label="default input example" disabled>    
                             </div>
                             <div class="col-lg-6 col-md-auto col-sm-12 mt-2">
                                 <h5 class="text" style="color: black;">Cari Dataset SatuData</h5>
-                                <form id="searchForm" class="d-flex" role="search">
-                                    <input id="searchInput" type="search" class="form-control" placeholder="Search"  aria-label="Search" aria-describedby="basic-addon2">
-                                    <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
-                                        <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> -->
-                                        <button id="searchButton" class="btn btn-success" class="bi bi-search" type="submit">Find</button>
+                                <form id="searchForm" class="input-group" role="search">
+                                    <input id="findInput" name="findButton" type="search" class="form-control" placeholder="Cari Dataset"  aria-label="Find" aria-describedby="basic-addon2">
+                                    <button id="findButton" name="findButton" class="btn btn-success" class="bi bi-search" type="submit">Find</button>
                                 </form>                   
                             </div>
                         </div>
@@ -475,11 +476,8 @@
         }
 
         //Pada Tabpanel Transform Search dataset SatuData id=searchInput
-        $('#searchInput').click(function() {
-            inputApiURLForTahun();
-            });
-            function inputApiURLForTahun() {
-                var apiKey = $('#apiKeySatudata').val();
+        $('#searchButton').click(function() {
+            var apiKey = $('#apiKeySatudata').val();
                 var apiUrl = $('#apiUrlSatudata').val();
                 console.log("API Key:", apiKey);
                 console.log("API URL:", apiUrl);
@@ -489,25 +487,26 @@
                     data: { apiKey: apiKey, apiUrl: apiUrl },
                     dataType: "json",
                     success: function(response) {
+                        console.log("Berhasil Console log");
                         console.log(response);
-                        $('#searchInput').empty();
-                        if (response.success) {
-                            $('#searchInput').append('<option value="">Pilih Dataset</option>');
-                            $.each(response, function() {
-                                $('#searchInput').append(
-                                    '<option value="' + response + '">' + response+ '</option>'
-                                );
-                            });
-                        } else {
-                            $('#searchInput').append('<option value="" disabled>Tidak ada dataset</option>');
-                        }
+                        // $('#searchInput').empty();
+                        // if (response.success) {
+                        //     $('#searchInput').append('<option value="">Pilih Dataset</option>');
+                        //     $.each(response, function() {
+                        //         $('#searchInput').append(
+                        //             '<option value="' + response + '">' + response+ '</option>'
+                        //         );
+                        //     });
+                        // } else {
+                        //     $('#searchInput').append('<option value="" disabled>Tidak ada dataset</option>');
+                        // }
                     },
-                    error: function(xhr, status, error) {
+                    error: function(xhr, status,response, error) {
                         console.log(response);
-                        console.error("Gagal mengambil data tahun:", error);
+                        console.error("Gagal mengambil dataset:", error);
                     }
-                    });
-                }
+                });
+            });
 
             // Loading Spinner
             $(document).ajaxStart(function() {

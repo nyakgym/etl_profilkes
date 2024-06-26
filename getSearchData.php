@@ -1,40 +1,36 @@
 <?php
-    // $curl = curl_init($apiUrl);
 
-    // curl_setopt_array($curl, [
-    //     CURLOPT_RETURNTRANSFER => true,
-    //     CURLOPT_FOLLOWLOCATION => true,
-    //     CURLOPT_HTTPHEADER => [$apiKey],
-    // ]);
-
-    // $response = curl_exec($curl);
-    // console.log($response);
-    // curl_close($curl);
-    // echo $response;
-header('Content-Type: application/json');
-
-// Fungsi untuk mendapatkan data dari API
-function Data($url) {
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-    $response = json_decode(curl_exec($ch), true);
-    curl_close($ch);
+function getData($apiKey, $apiUrl){
+    header('Content-Type: application/json');
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => $apiUrl.'api/v1.1/datasets/list/?limit=10&page=0&search=',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'APIKEY: '.$apiKey
+        ),
+    ));
+    $response = json_decode(curl_exec($curl), true);
+    curl_close($curl);
     return $response;
 }
 
-// Fungsi untuk mendapatkan data tahun dari API
-function getSearchData($apiKey, $apiUrl) {
-    $url = "{$apiUrl}/";
-    $response = getData($url);
-    return $response;
-}
+
+// Mengecek apakah parameter 'apiKey' dan 'apiUrl' ada dalam permintaan GET
 if (isset($_GET['apiKey']) && isset($_GET['apiUrl'])) {
     $apiKey = $_GET['apiKey'];
     $apiUrl = $_GET['apiUrl'];
-    $data = getSearchData($apiKey, $apiUrl);
+    $data = getData($apiKey, $apiUrl);
     echo json_encode($data);
 } else {
-    echo json_encode(['success' => false, 'message' => 'api atau URL tidak ditemukan']);
+    echo json_encode(['success' => false, 'message' => 'apiKey atau apiUrl tidak ditemukan']);
 }
+
+
 ?>
