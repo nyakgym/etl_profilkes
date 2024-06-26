@@ -412,6 +412,7 @@
                 data: { kode_wilayah: selectedWilayah, tahun: selectedTahun, urlProfilkes: urlProfilkesValue },
                 dataType: "json",
                 success: function(response) {
+                    console.log(response);
                     $('#datasetDropdown').empty();
                     $('#datasetDropdown').append('<option value="">Pilih Dataset</option>');
                     $.each(response, function(index, dataset) {
@@ -445,6 +446,7 @@
                 data: { slug: slug, tahun: tahun, urlProfilkes: urlProfilkesValue, kode_wilayah: kodeWilayah },
                 dataType: "json",
                 success: function(response) {
+                    console.log(response);
                     if (response && response.length > 0) {
                         var tableHtml = "<table class='table table-bordered border-dark table-striped'>";
                         tableHtml += "<thead><tr>";
@@ -472,6 +474,7 @@
             });
         }
 
+        //Pada Tabpanel Transform Search dataset SatuData id=searchInput
         $('#searchInput').click(function() {
             inputApiURLForTahun();
             });
@@ -483,23 +486,24 @@
                 $.ajax({
                     url: "getSearchData.php",
                     type: "GET",
-                    data: { apiKey, apiUrl },
+                    data: { apiKey: apiKey, apiUrl: apiUrl },
                     dataType: "json",
                     success: function(response) {
                         console.log(response);
                         $('#searchInput').empty();
                         if (response.success) {
-                            $('#tahunDropdown').append();
-                            $.each(response.data, function(index, tahun) {
-                                $('#tahunDropdown').append(
-                                    
+                            $('#searchInput').append('<option value="">Pilih Dataset</option>');
+                            $.each(response, function() {
+                                $('#searchInput').append(
+                                    '<option value="' + response + '">' + response+ '</option>'
                                 );
                             });
                         } else {
-                            $('#tahunDropdown').append('<option value="" disabled>Tidak ada data tahun</option>');
+                            $('#searchInput').append('<option value="" disabled>Tidak ada dataset</option>');
                         }
                     },
                     error: function(xhr, status, error) {
+                        console.log(response);
                         console.error("Gagal mengambil data tahun:", error);
                     }
                     });
