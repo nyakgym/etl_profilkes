@@ -4,7 +4,7 @@ function getData($apiKey, $apiUrl){
     header('Content-Type: application/json');
     $curl = curl_init();
     curl_setopt_array($curl, array(
-        CURLOPT_URL => $apiUrl.'api/v1.1/datasets/list/?limit=10&page=0&search=',
+        CURLOPT_URL => $apiUrl.'api/v1.1/datasets/list/',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -21,7 +21,6 @@ function getData($apiKey, $apiUrl){
     return $response;
 }
 
-
 // Mengecek apakah parameter 'apiKey' dan 'apiUrl' ada dalam permintaan GET
 if (isset($_GET['apiKey']) && isset($_GET['apiUrl'])) {
     $apiKey = $_GET['apiKey'];
@@ -31,6 +30,4 @@ if (isset($_GET['apiKey']) && isset($_GET['apiUrl'])) {
 } else {
     echo json_encode(['success' => false, 'message' => 'apiKey atau apiUrl tidak ditemukan']);
 }
-
-
 ?>
