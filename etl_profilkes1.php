@@ -41,7 +41,7 @@
                 <div class="col-lg-3 col-md-auto col-sm-12">
                     <h5 class="text" for="urlProfilkes" style="color: black;">URL Profilkes</h5>
                     <div class="input-group">
-                        <input id="urlProfilkes" name="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" value="">
+                        <input id="urlProfilkes" name="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" value="https://profilkes.acehprov.go.id/">
                         <button class="btn btn-success" id="loadButton" type="submit" style="background-color: #66CDAA; border-color: 66CDAA;">Cari data</button>
                     </div>
                 </div>
@@ -110,13 +110,13 @@
                         <div class="row mb-3">
                             <div class="col-lg-3 col-md-auto col-sm-12">
                                 <h5 class="text" style="color: black;">URL SatuData</h5>
-                                <input id="apiUrlSatudata" name="apiUrlSatudata" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata" value="">
+                                <input id="apiUrlSatudata" name="apiUrlSatudata" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata" value="https://satudata.latih.id/">
                             </div>
                             <div class="col-lg-3 col-md-auto col-sm-12">
                                 <h5 class="text" style="color: black;">Key App SatuData</h5>
                                 <div class="input-group">
-                                <input id="apiKeySatudata" name="apiKeySatudata" class="form-control" type="text" placeholder="Ketik Key App" aria-label="keyappsatudata" value="">
-                                <button id="searchButton" name="searchButton" class="btn btn-success" class="bi bi-search" type="submit">Search</button>
+                                <input id="apiKeySatudata" name="apiKeySatudata" class="form-control" type="text" placeholder="Ketik Key App" aria-label="keyappsatudata" value="$2b$10$tifEFHrbIcCvJAjabsuEOueM8PFNnnFYfUBp3U9Tmb/SSZcsF1kym">
+                                <!-- <button id="searchButton" name="searchButton" class="btn btn-success" type="submit">Search</button> -->
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-auto col-sm-12">
@@ -125,10 +125,18 @@
                             </div>
                             <div class="col-lg-6 col-md-auto col-sm-12 mt-2">
                                 <h5 class="text" style="color: black;">Cari Dataset SatuData</h5>
-                                <form id="searchForm" class="input-group" role="search">
-                                    <input id="findInput" name="findButton" type="search" class="form-control" placeholder="Cari Dataset"  aria-label="Find" aria-describedby="basic-addon2">
-                                    <button id="findButton" name="findButton" class="btn btn-success" class="bi bi-search" type="submit">Find</button>
-                                </form>                   
+                                <div class="input-group">
+                                    <input id="findNameInput" name="findNameInput" type="text" class="form-control" placeholder="Cari Dataset"  aria-label="Find" aria-describedby="basic-addon2">
+                                    <button id="findButton" name="findButton" class="btn btn-success">Find</button>
+                                    <!-- <button id="searchButton" name="searchButton" class="btn btn-success" type="submit">Search</button> -->
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-auto col-sm-12 mt-2">
+                                <h5 class="text" style="color: black;">Dataset SatuData</h5>
+                                <!-- <input id="apiUrlSatudata" name="apiUrlSatudata" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata" value="https://satudata.latih.id/"> -->
+                                <select id='DatasetSatudataDropdown' name="DatasetSatudataDropdown" class='form-select'>
+                                    <option selected>Pilih Dataset</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row">
@@ -475,31 +483,51 @@
             });
         }
 
-        //Pada Tabpanel Transform Search dataset SatuData id=searchInput
-        $('#searchButton').click(function() {
+        //Pada Tabpanel Transform Search dataset SatuData id=searchButton
+        // $('#searchButton').click(function() {
+        //     var apiKey = $('#apiKeySatudata').val();
+        //         var apiUrl = $('#apiUrlSatudata').val();
+        //         console.log("API Key:", apiKey);
+        //         console.log("API URL:", apiUrl);
+        //         $.ajax({
+        //             url: "getSearchData.php",
+        //             type: "GET",
+        //             data: { apiKey: apiKey, apiUrl: apiUrl },
+        //             dataType: "json",
+        //             success: function(response) {
+        //                 console.log("Berhasil Console log");
+        //                 console.log(response);
+        //             },
+        //             error: function(xhr, status,response, error) {
+        //                 console.log(response);
+        //                 console.error("Gagal mengambil dataset:", error);
+        //             }
+        //         });
+        //     });
+
+        //Pada Tabpanel Transform Search dataset SatuData id=findButton
+        $('#findButton').click(function() {
             var apiKey = $('#apiKeySatudata').val();
                 var apiUrl = $('#apiUrlSatudata').val();
+                var findNameInput = $('#findNameInput').val();
                 console.log("API Key:", apiKey);
                 console.log("API URL:", apiUrl);
+                console.log("Cari:", findNameInput);
                 $.ajax({
-                    url: "getSearchData.php",
+                    url: "getFindData.php",
                     type: "GET",
-                    data: { apiKey: apiKey, apiUrl: apiUrl },
+                    data: { apiKey: apiKey, apiUrl: apiUrl, findNameInput : findNameInput },
                     dataType: "json",
-                    success: function(response) {
+                    success: function(data) {
                         console.log("Berhasil Console log");
-                        console.log(response);
-                        // $('#searchInput').empty();
-                        // if (response.success) {
-                        //     $('#searchInput').append('<option value="">Pilih Dataset</option>');
-                        //     $.each(response, function() {
-                        //         $('#searchInput').append(
-                        //             '<option value="' + response + '">' + response+ '</option>'
-                        //         );
-                        //     });
-                        // } else {
-                        //     $('#searchInput').append('<option value="" disabled>Tidak ada dataset</option>');
-                        // }
+                        console.log(data);
+                        $('#DatasetSatudataDropdown').empty();
+                        $('#DatasetSatudataDropdown').append('<option value="">Pilih Dataset</option>');
+                        $.each(data, function(index, data) {
+                        // console.log(response);
+                        $('#DatasetSatudataDropdown').append(
+                            '<option value="' + data+ '">' + data + '</option>');
+                    });
                     },
                     error: function(xhr, status,response, error) {
                         console.log(response);
