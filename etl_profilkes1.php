@@ -569,7 +569,6 @@
                         dataset[i].name +
                         "</option>";
                     }
-                    // $("#field-satudata").html(options);
                 },
                 });
                 console.log(apiUrl);

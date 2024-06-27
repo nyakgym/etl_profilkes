@@ -25,20 +25,21 @@ function getData($apiUrl, $apiKey, $uuid) {
         'APIKEY: '.$apiKey
     ),
     ));
+    $response = json_decode(curl_exec($curl), true);
 
-    $response = curl_exec($curl);
-    $error = curl_error($curl);
-    $url = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
-    curl_close($curl);
-    if ($error) {
-        error_log("CURL error: $error");
-        return array('error' => 'CURL error', $url);
-    }
+    // $response = curl_exec($curl);
+    // $error = curl_error($curl);
+    // $url = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+    // curl_close($curl);
+    // if ($error) {
+    //     error_log("CURL error: $error");
+    //     return array('error' => 'CURL error', $url);
+    // }
     
     $responseData = json_decode($response, true);
     if (json_last_error()!== JSON_ERROR_NONE) {
     error_log("JSON decoding error: ". json_last_error_msg());
-    return array('error' => 'JSON decoding yang error');
+    return array('error' => 'JSON decoding Error');
     }
     return $responseData;
 }
