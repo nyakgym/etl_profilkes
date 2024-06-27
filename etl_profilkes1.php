@@ -505,7 +505,7 @@
         //         });
         //     });
 
-        //Pada Tabpanel Transform Search dataset SatuData id=findButton
+        //Pada Tabpanel Transform, Find dataset SatuData id=findButton
         $('#findButton').click(function() {
             var apiKey = $('#apiKeySatudata').val();
                 var apiUrl = $('#apiUrlSatudata').val();
@@ -518,16 +518,20 @@
                     type: "GET",
                     data: { apiKey: apiKey, apiUrl: apiUrl, findNameInput : findNameInput },
                     dataType: "json",
-                    success: function(data) {
-                        console.log("Berhasil Console log");
+                    success: function (data) {
                         console.log(data);
-                        $('#DatasetSatudataDropdown').empty();
-                        $('#DatasetSatudataDropdown').append('<option value="">Pilih Dataset</option>');
-                        $.each(data, function(index, data) {
-                        // console.log(response);
-                        $('#DatasetSatudataDropdown').append(
-                            '<option value="' + data+ '">' + data + '</option>');
-                    });
+                        var options = "<option value=''>Pilih Dataset</option>";
+                        var dataset = data.data.rows; 
+                        console.log(dataset);
+                        for (var i = 0; i < dataset.length; i++) {
+                        options +=
+                            '<option value="' +
+                            dataset[i].uuid +
+                            '">' +
+                            dataset[i].judul +
+                            "</option>";
+                        }
+                        $("#DatasetSatudataDropdown").html(options);
                     },
                     error: function(xhr, status,response, error) {
                         console.log(response);
@@ -536,6 +540,41 @@
                 });
             });
 
+            //
+            $("#DatasetSatudataDropdown").change(function () {
+                var uuid = $(this).val();
+                var apiUrl = $("#apiUrlSatudata").val();
+                var apiKey = $("#apiKeySatudata").val();
+                console.log(uuid);
+                $.ajax({
+                type: "GET",
+                url: "getDatasetSatuData.php",
+                data: {
+                    uuid: uuid,
+                    apiUrl: apiUrl,
+                    apiKey: apiKey,
+
+                },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data)
+                    var options = "<option value=''></option>";
+                    var dataset = data.data.fields;
+                    console.log(dataset);
+                    for (var i = 0; i < dataset.length; i++) {
+                    options +=
+                        '<option value="' +
+                        dataset[i] +
+                        '">' +
+                        dataset[i].name +
+                        "</option>";
+                    }
+                    // $("#field-satudata").html(options);
+                },
+                });
+                console.log(apiUrl);
+                console.log(apiKey);
+            });
             // Loading Spinner
             $(document).ajaxStart(function() {
                 $('#loadingSpinner').removeClass('d-none');
