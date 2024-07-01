@@ -9,7 +9,7 @@ if (isset($_GET['apiKey']) && isset($_GET['apiUrl']) && isset($_GET['uuid'])) {
     echo json_encode(['success' => false, 'message' => 'apiKey atau apiUrl tidak ditemukan']);
 }
 
-function getData($apiUrl, $apiKey, $uuid) {
+function getData($apiKey, $apiUrl, $uuid) {
     header('Content-Type: application/json');
     $curl = curl_init();
     curl_setopt_array($curl, array(
@@ -28,11 +28,10 @@ function getData($apiUrl, $apiKey, $uuid) {
     $response = json_decode(curl_exec($curl), true);
 
     
-    $responseData = json_decode($response, true);
     if (json_last_error()!== JSON_ERROR_NONE) {
     error_log("JSON decoding error: ". json_last_error_msg());
     return array('error' => 'JSON decoding Error');
     }
-    return $responseData;
+    return $response;
 }
 ?>

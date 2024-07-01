@@ -525,22 +525,18 @@
                 dataType: "json",
                 success: function (data) {
                     console.log(data)
-                    var options = "<option value=''></option>";
+                    var options = "";
                     var dataset = data.data.fields;
                     console.log(dataset);
 
                     // Mengisi dropdown "Pilih Kolom Dataset SatuData" dengan kolom dataset
                     var columnDropdownSatuData = $('#selectkolomDatasetSatuData');
-                    columnDropdownSatuData.empty(); // Kosongkan dropdown sebelum mengisi ulang
+                    
                     for (var i = 0; i < dataset.length; i++) {
                         options += '<option value="' + dataset[i] + '">' + dataset[i].name + "</option>";
                     }
                     
                     columnDropdownSatuData.append(options);
-                    // columnDropdown.empty().append('<option value=""></option>');
-                    // for (var key in dataset[0]) {
-                    //         columnDropdownSatuData.append('<option value="' + key + '">' + key + '</option>');
-                    //     }
                 },
                 });
                 console.log(apiUrl);
