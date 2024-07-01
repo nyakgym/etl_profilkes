@@ -127,131 +127,112 @@
                                 <h5 class="text" style="color: black;">Cari Dataset SatuData</h5>
                                 <div class="input-group">
                                     <input id="findNameInput" name="findNameInput" type="text" class="form-control" placeholder="Cari Dataset"  aria-label="Find" aria-describedby="basic-addon2">
-                                    <button id="findButton" name="findButton" class="btn btn-success">Find</button>
-                                    <!-- <button id="searchButton" name="searchButton" class="btn btn-success" type="submit">Search</button> -->
+                                    <button id="findButton" name="findButton" class="btn btn-success"><i class="bi bi-search"></i> Find</button>
+                                    
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-auto col-sm-12 mt-2">
                                 <h5 class="text" style="color: black;">Dataset SatuData</h5>
-                                <!-- <input id="apiUrlSatudata" name="apiUrlSatudata" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata" value="https://satudata.latih.id/"> -->
                                 <select id='DatasetSatudataDropdown' name="DatasetSatudataDropdown" class='form-select'>
                                     <option selected>Pilih Dataset</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-3 col-md-auto col-sm-12">
-                                <!-- Form Configure Kolom Dataset Profilkes -->
+                            <div class="col-lg-2 col-md-auto col-sm-12">
+                                <!-- Form Kolom Dataset Profilkes -->
                                 <div class="card mb-3" style="border-color: #66CDAA;">
-                                    <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Kolom Dataset Profilkes</h5>
+                                    <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Dataset Profilkes</h5>
                                     <div class="card-body">
-                                        <form id="selectFrom"> <!-- Ubah id formulir agar unik -->
-                                            <div class="mb-3">
-                                            <!-- <label for="tahunDropdown" class="form-label">Tahun:</label>
-                                            <select id="tahunDropdown" class="form-select">
-                                                <option selected>Pilih Tahun</option>
-                                                <?php
-                                                
-                                                ?>
-                                            </select> -->
-                                                <?php
-                                                    // Tentukan header tabel secara manual (gantilah dengan header yang sesuai)
-                                                    // $headers = array("1", "2", "3", "4");
-                                                    
-                                                    // Mulai membuat dropdown
-                                                    echo "<select id='filterDropdown1' class='form-select' multiple>"; // Ubah id dropdown agar unik
-                                                
-
-                                                    // Loop melalui setiap header dan tambahkan sebagai opsi dropdown
-                                                    foreach ($headers as $header) {
-                                                        echo "<option value='" . $header . "'>" . $header . "</option>";
-                                                    }
-
-                                                    echo "</select>"; // Selesai dropdown
-                                                ?>
-
+                                        <form class="mb-4"> <!-- Ubah id formulir agar unik -->
+                                            <label for="kolomDatasetProfilkes" class="form-label multiple">Pilih Kolom Dataset: </label>
+                                            <div id="kolomDatasetProfilkes">
+                                            <select id="selectkolomDatasetProfilkes" class="form-select" multiple>
+                                                <!-- <option value=""></option> -->
+                                            </select>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                            </div> <!-- col-5-->
+                            </div> 
 
                             <!-- Button Move Column -->
                             <div class="col-lg-1 col-md-auto col-sm-12 align-self-center text-center">
                                 <div class="mb-2">
-                                    <button type="button" id="moveRight" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">&gt;&gt;</button>
+                                    <button type="button" id="moveRightProfilkes" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">&gt;&gt;</button>
                                 </div>
                                 <div class="mb-2">
-                                    <button type="button" id="moveLeft" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">&lt;&lt;</button>
+                                    <button type="button" id="moveLeftProfilkes" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">&lt;&lt;</button>
                                 </div>
                             </div>
 
-                            <!-- Form Transform Field -->
-                            <div class="col-lg-3 col-md-auto col-sm-12">
+                            <!-- Form Transform Fields -->
+                            <div class="col-lg-2 col-md-auto col-sm-12">
                                 <div class="card mb-3" style="border-color: #66CDAA;">
                                     <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Transform Fields</h5>
                                     <div class="card-body">
-                                        <form id="#selectTo"> <!-- Ubah id formulir agar unik -->
-                                            <div class="mb-3">
-                                                
-                                            
-                                                <?php
-                                                    // Tentukan header tabel secara manual (gantilah dengan header yang sesuai)
-                                                    
-                                                    $headers = array();
-
-                                                    // Mulai membuat dropdown
-                                                    echo "<select id='filterDropdown2' class='form-select' multiple>"; // Ubah id dropdown agar unik
-                                                    
-                                                    // Loop melalui setiap header dan tambahkan sebagai opsi dropdown
-                                                    foreach ($headers as $header) {
-                                                        echo "<option value='" . $header . "'>" . $header . "</option>";
-                                                    }
-                                                    echo "</select>"; // Selesai dropdown
-                                                ?>
-                                            
+                                        <form class="mb-4">
+                                            <label for="transformFields" class="form-label multiple">Pilih Transform Fields: </label>
+                                            <div id="transformFields">
+                                                <select id="selectTransformFields" class="form-select" multiple>
+                                                    <!-- <option value=""></option> -->
+                                                </select>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                            </div> <!-- col-3 -->
+                            </div> 
 
                             <!-- Button Matching -->
                             <div class="col-lg-2 col-md-auto col-sm-12 align-self-center text-center">
                                 <div class="mb-2">
-                                    <button type="button" id="" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">Match</button>
+                                    <button type="button" id="matchButton" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">Match</button>
                                 </div>
                             </div>
 
-                            <!-- Form Kolom Dataset SatuData -->
-                            <div class="col-lg-3 col-md-auto col-sm-12">
+                            <!-- Form Kolom Insert SatuData -->
+                            <div class="col-lg-2 col-md-auto col-sm-12">
                                 <div class="card mb-3" style="border-color: #66CDAA;">
-                                    <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Kolom Dataset SatuData</h5>
+                                    <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Insert SatuData</h5>
                                     <div class="card-body">
-                                        <form id="#selectTo"> <!-- Ubah id formulir agar unik -->
-                                            <div class="mb-3">
-                                                <!-- <label for="filterInput" class="form-label multiple">Hasil:</label> -->
-                                            
-                                                <?php
-                                                    // Tentukan header tabel secara manual (gantilah dengan header yang sesuai)
-                                                    
-                                                    $headers = array();
-
-                                                    // Mulai membuat dropdown
-                                                    echo "<select id='filterDropdown2' class='form-select' multiple>"; // Ubah id dropdown agar unik
-                                                    
-                                                    // Loop melalui setiap header dan tambahkan sebagai opsi dropdown
-                                                    foreach ($headers as $header) {
-                                                        echo "<option value='" . $header . "'>" . $header . "</option>";
-                                                    }
-                                                    echo "</select>"; // Selesai dropdown
-                                                ?>
-                                                
+                                        <form class="mb-4">
+                                            <label for="kolomInsertSatuData" class="form-label multiple">Pilih Kolom Insert: </label>
+                                            <div id="kolomInserttSatuData">
+                                                <select id="selectkolomInsertSatuData" class="form-select" multiple>
+                                                    <!-- <option value=""></option> -->
+                                                </select>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                            </div> <!-- col-3 -->
+                            </div> 
+
+                            <!-- Button Move Column -->
+                            <div class="col-lg-1 col-md-auto col-sm-12 align-self-center text-center">
+                                <div class="mb-2">
+                                    <button type="button" id="moveRightSatuData" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">&gt;&gt;</button>
+                                </div>
+                                <div class="mb-2">
+                                    <button type="button" id="moveLeftSatuData" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">&lt;&lt;</button>
+                                </div>
+                            </div>
+
+                            <!-- Form Kolom Dataset SatuData -->
+                            <div class="col-lg-2 col-md-auto col-sm-12">
+                                <div class="card mb-3" style="border-color: #66CDAA;">
+                                    <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Dataset SatuData</h5>
+                                    <div class="card-body">
+                                        <form class="mb-4">
+                                            <label for="kolomDatasetSatuData" class="form-label multiple">Pilih Kolom Dataset: </label>
+                                            <div id="kolomDatasetSatuData">
+                                                <select id="selectkolomDatasetSatuData" class="form-select" multiple>
+                                                    <!-- <option value=""></option> -->
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div> 
                         </div> <!-- row -->
                     </div> <!-- akhir tabpanel Transform-->
                     
@@ -437,14 +418,17 @@
         });
 
         // TableData id=tabledata
+        // Fungsi untuk mendapatkan dan menampilkan data tabel
         $('#datasetDropdown').change(function() {
             var selectedSlug = $(this).val();
             if (selectedSlug) {
                 getTabledata(selectedSlug);
             } else {
                 $('#tabledata').empty();
+                $('#selectkolomDatasetProfilkes').empty().append('<option value=""></option>');
             }
         });
+
         function getTabledata(slug) {
             var tahun = $('#tahunDropdown').val();
             var urlProfilkesValue = $('#urlProfilkes').val();
@@ -457,6 +441,7 @@
                 success: function(response) {
                     console.log(response);
                     if (response && response.length > 0) {
+                        // Membuat tabel dari data yang diterima
                         var tableHtml = "<table class='table table-bordered border-dark table-striped'>";
                         tableHtml += "<thead><tr>";
                         for (var key in response[0]) {
@@ -473,38 +458,25 @@
                         });
                         tableHtml += "</tbody></table>";
                         $('#tabledata').html(tableHtml);
+
+                        // Mengisi dropdown "Pilih Kolom Dataset" dengan kolom tabel
+                        var columnDropdown = $('#selectkolomDatasetProfilkes');
+                        // columnDropdown.empty().append('<option value=""></option>');
+                        for (var key in response[0]) {
+                            columnDropdown.append('<option value="' + key + '">' + key + '</option>');
+                        }
                     } else {
                         $('#tabledata').html("<p>Tidak ada datanya</p>");
+                        $('#selectkolomDatasetProfilkes').empty().append('<option value=""></option>');
                     }
                 },
                 error: function(xhr, status, error) {
                     $('#tabledata').html("<p>Error fetching data: " + error + "</p>");
+                    $('#selectkolomDatasetProfilkes').empty().append('<option value=""></option>');
                 },
             });
         }
-
-        //Pada Tabpanel Transform Search dataset SatuData id=searchButton
-        // $('#searchButton').click(function() {
-        //     var apiKey = $('#apiKeySatudata').val();
-        //         var apiUrl = $('#apiUrlSatudata').val();
-        //         console.log("API Key:", apiKey);
-        //         console.log("API URL:", apiUrl);
-        //         $.ajax({
-        //             url: "getSearchData.php",
-        //             type: "GET",
-        //             data: { apiKey: apiKey, apiUrl: apiUrl },
-        //             dataType: "json",
-        //             success: function(response) {
-        //                 console.log("Berhasil Console log");
-        //                 console.log(response);
-        //             },
-        //             error: function(xhr, status,response, error) {
-        //                 console.log(response);
-        //                 console.error("Gagal mengambil dataset:", error);
-        //             }
-        //         });
-        //     });
-
+        
         //Pada Tabpanel Transform, Find dataset SatuData id=findButton
         $('#findButton').click(function() {
             var apiKey = $('#apiKeySatudata').val();
@@ -524,12 +496,7 @@
                         var dataset = data.data.rows; 
                         console.log(dataset);
                         for (var i = 0; i < dataset.length; i++) {
-                        options +=
-                            '<option value="' +
-                            dataset[i].uuid +
-                            '">' +
-                            dataset[i].judul +
-                            "</option>";
+                        options += '<option value="' + dataset[i].uuid + '">' + dataset[i].judul + "</option>";
                         }
                         $("#DatasetSatudataDropdown").html(options);
                     },
@@ -561,19 +528,25 @@
                     var options = "<option value=''></option>";
                     var dataset = data.data.fields;
                     console.log(dataset);
+
+                    // Mengisi dropdown "Pilih Kolom Dataset SatuData" dengan kolom dataset
+                    var columnDropdownSatuData = $('#selectkolomDatasetSatuData');
+                    columnDropdownSatuData.empty(); // Kosongkan dropdown sebelum mengisi ulang
                     for (var i = 0; i < dataset.length; i++) {
-                    options +=
-                        '<option value="' +
-                        dataset[i] +
-                        '">' +
-                        dataset[i].name +
-                        "</option>";
+                        options += '<option value="' + dataset[i] + '">' + dataset[i].name + "</option>";
                     }
+                    
+                    columnDropdownSatuData.append(options);
+                    // columnDropdown.empty().append('<option value=""></option>');
+                    // for (var key in dataset[0]) {
+                    //         columnDropdownSatuData.append('<option value="' + key + '">' + key + '</option>');
+                    //     }
                 },
                 });
                 console.log(apiUrl);
                 console.log(apiKey);
             });
+
             // Loading Spinner
             $(document).ajaxStart(function() {
                 $('#loadingSpinner').removeClass('d-none');
@@ -582,103 +555,29 @@
             $(document).ajaxComplete(function() {
                 $('#loadingSpinner').addClass('d-none');
             });
+
+            // $('select').selectpicker();
+            $('#moveRightProfilkes').click(function() {
+                $('#selectkolomDatasetProfilkes option:selected').appendTo('#selectTransformFields');
+            });
+
+            $('#moveLeftProfilkes').click(function() {
+                $('#selectTransformFields option:selected').appendTo('#selectkolomDatasetProfilkes');
+            });
+
+            $('#moveRightSatuData').click(function() {
+                $('#selectkolomInsertSatuData option:selected').appendTo('#selectkolomDatasetSatuData');
+            });
+
+            $('#moveLeftSatuData').click(function() {
+                $('#selectkolomDatasetSatuData option:selected').appendTo('#selectkolomInsertSatuData');
+            });
+
     });
 
-        // $('select').selectpicker();
-        // $('#moveRight').click(function() {
-        // $('#selectFrom option:selected').appendTo('#selectTo');
-        // });
+        
 
-        // $('#moveLeft').click(function() {
-        //     $('#selectTo option:selected').appendTo('#selectFrom');
-        // });
-        // $('#selectFrom').submit(function(event) {
-        //     event.preventDefault(); // Menghentikan perilaku default saat mengirim formulir
-        //     var filterValue = $('#filterInput').val(); // Ambil nilai filter dari input
-        //     // Lakukan permintaan AJAX untuk memperbarui tabel dengan filter yang diterapkan
-        //     showLoadingModal(); // Tampilkan modal loading
-        //     var slug = $("#datasetDropdown").val(); // Mengambil slug dataset yang dipilih
-        //     $.ajax({
-        //         url: "https://profilkes.acehprov.go.id/api/data",
-        //         type: "GET",
-        //         data: {
-        //             slug: slug,
-        //             tahun: $("#tahunDropdown").val(),
-        //             filter: filterValue
-        //         },
-        //         success: function(response) {
-        //             if (response && response.length > 0) {
-        //                 var tableHtml = "<table class='table table-striped'>";
-        //                 tableHtml += "<thead><tr>";
-        //                 for (var key in response[0]) {
-        //                     tableHtml += "<th>" + key + "</th>";
-        //                 }
-        //                 tableHtml += "</tr></thead>";
-        //                 tableHtml += "<tbody>";
-        //                 response.forEach(function(data) {
-        //                     tableHtml += "<tr>";
-        //                     for (var key in data) {
-        //                         tableHtml += "<td>" + data[key] + "</td>";
-        //                     }
-        //                     tableHtml += "</tr>";
-        //                 });
-        //                 tableHtml += "</tbody></table>";
-                        
-        //                 $("#tabledata").html(tableHtml);
-        //             } else {
-        //                 $("#tabledata").html("<p>Tidak ada datanya</p>");
-        //             }$('#filterForm').submit(function(event) {
-        //                 event.preventDefault(); // Menghentikan perilaku default saat mengirim formulir
-        //                 var filterValue = $('#filterInput').val(); // Ambil nilai filter dari input
-        //                 // Lakukan permintaan AJAX untuk memperbarui tabel dengan filter yang diterapkan
-        //                 showLoadingModal(); // Tampilkan modal loading
-        //                 var slug = $("#datasetDropdown").val(); // Mengambil slug dataset yang dipilih
-        //                 $.ajax({
-        //                     url: "https://profilkes.acehprov.go.id/api/data",
-        //                     type: "GET",
-        //                     data: {
-        //                         slug: slug,
-        //                         tahun: $("#tahunDropdown").val(), // Tambahkan tahun yang dipilih ke dalam data
-        //                         filter: filterValue
-        //                     },
-        //                     success: function(response) {
-        //                         if (response && response.length > 0) {
-        //                             var tableHtml = "<table class='table table-striped'>";
-        //                             tableHtml += "<thead><tr>";
-        //                             for (var key in response[0]) {
-        //                                 tableHtml += "<th>" + key + "</th>";
-        //                             }
-        //                             tableHtml += "</tr></thead>";
-        //                             tableHtml += "<tbody>";
-        //                             response.forEach(function(data) {
-        //                                 tableHtml += "<tr>";
-        //                                 for (var key in data) {
-        //                                     tableHtml += "<td>" + data[key] + "</td>";
-        //                                 }
-        //                                 tableHtml += "</tr>";
-        //                             });
-        //                             tableHtml += "</tbody></table>";
 
-        //                             $("#tabledata").html(tableHtml);
-        //                         } else {
-        //                             $("#tabledata").html("<p>Tidak ada datanya</p>");
-        //                         }
-        //                         hideLoadingModal(); // Sembunyikan modal loading setelah selesai
-        //                     },
-        //                     error: function(xhr, status, error) {
-        //                         console.error("Gagal memperbarui tabel dengan filter:", error);
-        //                         hideLoadingModal(); // Sembunyikan modal loading jika terjadi kesalahan
-        //                     }
-        //                 });
-        //             });
-        //             hideLoadingModal(); // Sembunyikan modal loading setelah selesai
-        //         },
-        //         error: function(xhr, status, error) {
-        //             console.error("Gagal memperbarui tabel dengan filter:", error);
-        //             hideLoadingModal(); // Sembunyikan modal loading jika terjadi kesalahan
-        //         }
-        //     });
-        // });
     </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-K+1/re0NMrn6n1pmzmgOy8cEwA1Zm6a5xkT1IC8OXXg=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

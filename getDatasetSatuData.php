@@ -27,14 +27,6 @@ function getData($apiUrl, $apiKey, $uuid) {
     ));
     $response = json_decode(curl_exec($curl), true);
 
-    // $response = curl_exec($curl);
-    // $error = curl_error($curl);
-    // $url = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
-    // curl_close($curl);
-    // if ($error) {
-    //     error_log("CURL error: $error");
-    //     return array('error' => 'CURL error', $url);
-    // }
     
     $responseData = json_decode($response, true);
     if (json_last_error()!== JSON_ERROR_NONE) {
