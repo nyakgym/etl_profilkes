@@ -238,7 +238,6 @@
                                 <div class="card mb-3" style="border-color: #66CDAA;">
                                     <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Load Tabel</h5>
                                     <div class="card-body">
-                                        
                                     </div>
                                 </div>
                             </div> <!-- col-6 -->
@@ -288,13 +287,10 @@
                 <div class="col-lg-3 col-md-auto col-sm-12 mb-3">
                     <h5 class="text-dark"><i class="bi bi-globe"></i> ETL - PROFILKES </h5>
                 </div>
-
                 <div class="col-lg-1 col-md-auto col-sm-12 mb-2">
                 </div>
-
                 <div class="col-lg-1 col-md-auto col-sm-12 mb-2">
                 </div>
-
                 <div class="col-lg-3 col-md-auto col-sm-12 mb-3">
                     <h5>Link Website</h5>
                     <ul class="nav flex-column">
@@ -304,7 +300,6 @@
                         <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pintu</a></li>
                     </ul>
                 </div>
-
                 <div class="col-lg-3 col-md-auto col-sm-12 mb-3">
                 <h5>Kontak Kami</h5>
                 <ul class="nav flex-column">
@@ -399,7 +394,6 @@
                         $('#datasetDropdown').append(
                             '<option value="' + dataset.slug + '">' + dataset.nama + '</option>'
                         );
-                    
                     });
                 },
                 error: function(xhr, status, error) {
@@ -419,7 +413,6 @@
                 $('#selectkolomDatasetProfilkes').empty().append('<option value=""></option>');
             }
         });
-
         function getTabledata(slug) {
             var tahun = $('#tahunDropdown').val();
             var urlProfilkesValue = $('#urlProfilkes').val();
@@ -472,8 +465,8 @@
             var apiKey = $('#apiKeySatudata').val();
             var apiUrl = $('#apiUrlSatudata').val();
             var findNameInput = $('#findNameInput').val();
-            console.log("API Key:", apiKey);
-            console.log("API URL:", apiUrl);
+            // console.log("API Key:", apiKey);
+            // console.log("API URL:", apiUrl);
             console.log("Cari:", findNameInput);
             $.ajax({
                 url: "getFindData.php",
@@ -558,52 +551,60 @@
         //     });
         // });
 
-        // Event listener untuk tombol "Match"
+        // Macth Button
         $('#matchButton').click(function() {
             var profilkesColumn = $('#selectkolomDatasetProfilkes').val();
             var satuDataColumn = $('#selectkolomDatasetSatuData').val();
 
             if (profilkesColumn && satuDataColumn) {
+                if (profilkesColumn.length !== satuDataColumn.length) {
+                    alert('Panjang kolom yang dipilih pada Profilkes dan SatuData harus sama.');
+                    return;
+                }
                 matchAndGenerateJSON(profilkesColumn, satuDataColumn);
             } else {
-                alert('Please select columns from both datasets to match.');
+                alert('Tolong pilih kedua kolom dataset sebelum Match.');
+            }
+
+            function matchAndGenerateJSON(profilkesColumn, satuDataColumn) {
+                var slug = $('#datasetDropdown').val();
+                var tahun = $('#tahunDropdown').val();
+                var urlProfilkesValue = $('#urlProfilkes').val();
+                var kodeWilayah = $('#wilayahDropdown').val();
+                var uuid = $('#DatasetSatudataDropdown').val();
+                var apiUrl = $("#apiUrlSatudata").val();
+                var apiKey = $("#apiKeySatudata").val();
+
+                $.ajax({
+                    url: "getMatch.php",
+                    type: "GET",
+                    data: {
+                        slug: slug,
+                        tahun: tahun,
+                        urlProfilkes: urlProfilkesValue,
+                        kode_wilayah: kodeWilayah,
+                        uuid: uuid,
+                        apiUrl: apiUrl,
+                        apiKey: apiKey,
+                        profilkesColumn: profilkesColumn,
+                        satuDataColumn: satuDataColumn
+                    },
+                    dataType: "json",
+                    success: function(response, matchedData) {
+                        console.log(response);
+                        console.log(matchedData);
+                        if (response.error) {
+                            $('#generatedJson').html("<p>Error: " + response.error + "</p>");
+                        } else {
+                            $('#generatedJson').html('<pre>' + JSON.stringify(response.matchedData, null, 2) + '</pre>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        $('#generatedJson').html("<p>Error generating data: " + error + "</p>");
+                    },
+                });
             }
         });
-
-        function matchAndGenerateJSON(profilkesColumn, satuDataColumn) {
-            var slug = $('#datasetDropdown').val();
-            var tahun = $('#tahunDropdown').val();
-            var urlProfilkesValue = $('#urlProfilkes').val();
-            var kodeWilayah = $('#wilayahDropdown').val();
-            var uuid = $('#DatasetSatudataDropdown').val();
-            var apiUrl = $("#apiUrlSatudata").val();
-            var apiKey = $("#apiKeySatudata").val();
-
-            $.ajax({
-                url: "getMatch.php",
-                type: "GET",
-                data: {
-                    slug: slug,
-                    tahun: tahun,
-                    urlProfilkes: urlProfilkesValue,
-                    kode_wilayah: kodeWilayah,
-                    uuid: uuid,
-                    apiUrl: apiUrl,
-                    apiKey: apiKey,
-                    profilkesColumn: profilkesColumn,
-                    satuDataColumn: satuDataColumn
-                },
-                dataType: "json",
-                success: function(response) {
-                    console.log(response);
-                    // Display or use the generated JSON
-                    $('#generatedJson').html('<pre>' + JSON.stringify(response.matchedData, null, 2) + '</pre>');
-                },
-                error: function(xhr, status, error) {
-                    $('#generatedJson').html("<p>Error generating data: " + error + "</p>");
-                },
-            });
-        }
 
 
         // Loading Spinner
@@ -615,13 +616,14 @@
             $('#loadingSpinner').addClass('d-none');
         });
 
-        // $('select').selectpicker();
+        // Move Button
         $('#moveRightProfilkes').click(function() {
             $('#selectkolomDatasetProfilkes option:selected').appendTo('#selectTransformFields');
         });
 
         $('#moveLeftProfilkes').click(function() {
             $('#selectTransformFields option:selected').appendTo('#selectkolomDatasetProfilkes');
+            
         });
 
         $('#moveRightSatuData').click(function() {
