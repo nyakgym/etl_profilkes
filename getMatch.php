@@ -59,39 +59,47 @@ if (isset($_GET['kode_wilayah']) && isset($_GET['urlProfilkes']) && isset($_GET[
     $uuid = $_GET['uuid'];
     $apiUrl = $_GET['apiUrl'];
     $apiKey = $_GET['apiKey'];
-    $profilkesColumn = $_GET['profilkesColumn'];
-    $satuDataColumn = $_GET['satuDataColumn'];
+    $profilkesColumn = explode(',', $_GET['profilkesColumn']); // Konversi kembali ke array
+    $satuDataColumn = explode(',', $_GET['satuDataColumn']);   // Konversi kembali ke array
 
-    if (count($profilkesColumn) !== count($satuDataColumn)) {
-        echo json_encode(['error' => 'Panjang kolom yang dipilih pada Profilkes dan SatuData harus sama.']);
+    if (empty($profilkesColumn) || empty($satuDataColumn)) {
+        echo json_encode(['error' => 'Kolom dataset tidak boleh kosong']);
         exit;
     }
-    
+
+    if (count($profilkesColumn) !== count($satuDataColumn)) {
+        echo json_encode(['error' => 'Banyak Kolom yang dipilih pada Dataset Profilkes dan SatuData harus sama.']);
+        exit;
+    }
+
     $profilkesData = getProfilkesData($kodeWilayah, $urlProfilkes, $tahun, $slug);
     $satuDataResponse = getSatuData($apiKey, $apiUrl, $uuid);
 
     if (isset($profilkesData['error']) || isset($satuDataResponse['error'])) {
-        echo json_encode(['error' => 'Failed to fetch data from one or more sources']);
+        echo json_encode(['error' => 'Gagal mengambil data dari satu atau beberapa kolom dataset']);
         exit;
     }
 
-    $matchedData = matchAndMapColumns($profilkesData, $satuDataResponse, $profilkesColumn, $satuDataColumn);
+    $matchedData = matchAndMapColumns($profilkesData, $satuDataResponse['data'], $profilkesColumn, $satuDataColumn);
     echo json_encode(['matchedData' => $matchedData]);
 } else {
     echo json_encode(['error' => 'Missing required parameters']);
 }
 
+// mencocokkan kolom dari dua dataset berdasarkan kolom yang dipilih.
 function matchAndMapColumns($profilkesData, $satuData, $profilkesColumn, $satuDataColumn) {
     $matchedData = [];
-
-    $length = min(count($profilkesData), count($satuData['data']));
+    $length = min(count($profilkesData), count($satuData));
     for ($i = 0; $i < $length; $i++) {
-        $matchedData[] = [
-            'profilkes' => $profilkesData[$i][$profilkesColumn],
-            'satuData' => $satuData['data'][$i][$satuDataColumn]
-        ];
+        $mappedRow = [];
+        for ($j = 0; $j < count($profilkesColumn); $j++) {
+            if (isset($profilkesData[$i][$profilkesColumn[$j]]) && isset($satuData[$i][$satuDataColumn[$j]])) {
+                $mappedRow['profilkes'][$profilkesColumn[$j]] = $profilkesData[$i][$profilkesColumn[$j]];
+                $mappedRow['satuData'][$satuDataColumn[$j]] = $satuData[$i][$satuDataColumn[$j]];
+            }
+        }
+        $matchedData[] = $mappedRow;
     }
-
     return $matchedData;
 }
 ?>

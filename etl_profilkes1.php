@@ -238,6 +238,9 @@
                                 <div class="card mb-3" style="border-color: #66CDAA;">
                                     <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Load Tabel</h5>
                                     <div class="card-body">
+                                        <div id='tableload' class='table-responsive'>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div> <!-- col-6 -->
@@ -490,13 +493,13 @@
             });
         });
 
-        // Event listener untuk dropdown tahun Profilkes
+        // Event listener untuk dropdown tahun Profilkes Responsif Ke dropdown tahun SatuData
         $('#tahunDropdown').change(function() {
             var selectedTahun = $(this).val();
             $('#tahunSatuData').val(selectedTahun); // Mengisi input Tahun SatuData dengan nilai yang dipilih
         });
 
-        //
+        //Dropdown DatasetSatuData
         $("#DatasetSatudataDropdown").change(function () {
             var uuid = $(this).val();
             var apiUrl = $("#apiUrlSatudata").val();
@@ -526,86 +529,131 @@
             });
         });
 
-        // //Match Button
+        // Macth Button
         // $('#matchButton').click(function() {
-        //     var urlProfilkesValue = $('#urlProfilkes').val();
-        //     var apiUrl = $("#apiUrlSatudata").val();
-        //     var apiKey = $("#apiKeySatudata").val();
-        //     var transfomfield = $('#selectTransformFields').val();
-        //     var insersatudata = $('#selectkolomInsertSatuData').val();
-        //     $.ajax({
-        //     type: "GET",
-        //     url: "getMatch.php",
-        //     data: {
-        //         transfomfield: transfomfield,
-        //         insersatudata: insersatudata,
-        //     },
-        //     dataType: "json",
-        //     success: function () {
+        //     var profilkesColumn = $('#selectkolomDatasetProfilkes').val();
+        //     var satuDataColumn = $('#selectkolomDatasetSatuData').val();
 
-        //     },
-        //     error: function(xhr, status,response, error) {
-        //         console.log(response);
-        //         console.error("Gagal mengambil dataset:", error);
+        //     if (profilkesColumn && satuDataColumn) {
+        //         if (profilkesColumn.length !== satuDataColumn.length) {
+        //             alert('Banyak kolom yang dipilih pada Profilkes dan SatuData harus sama.');
+        //             return;
+        //         }
+        //         matchAndGenerateJSON(profilkesColumn, satuDataColumn);
+        //     } else {
+        //         alert('Tolong pilih kedua kolom dataset sebelum Match.');
         //     }
-        //     });
+        //     function matchAndGenerateJSON(profilkesColumn, satuDataColumn) {
+        //         var slug = $('#datasetDropdown').val();
+        //         var tahun = $('#tahunDropdown').val();
+        //         var urlProfilkesValue = $('#urlProfilkes').val();
+        //         var kodeWilayah = $('#wilayahDropdown').val();
+        //         var uuid = $('#DatasetSatudataDropdown').val();
+        //         var apiUrl = $("#apiUrlSatudata").val();
+        //         var apiKey = $("#apiKeySatudata").val();
+        //         $.ajax({
+        //             url: "getMatch.php",
+        //             type: "GET",
+        //             data: {
+        //                 slug: slug,
+        //                 tahun: tahun,
+        //                 urlProfilkes: urlProfilkesValue,
+        //                 kode_wilayah: kodeWilayah,
+        //                 uuid: uuid,
+        //                 apiUrl: apiUrl,
+        //                 apiKey: apiKey,
+        //                 profilkesColumn: profilkesColumn,
+        //                 satuDataColumn: satuDataColumn
+        //             },
+        //             dataType: "json",
+        //             success: function(response, matchedData) {
+        //                 console.log(response);
+        //                 console.log(matchedData);
+        //                 if (response.error) {
+        //                     $('#generatedJson').html("<p>Error: " + response.error + "</p>");
+        //                 } else {
+        //                     $('#generatedJson').html('<pre>' + JSON.stringify(response.matchedData, null, 2) + '</pre>');
+        //                 }
+        //             },
+        //             error: function(xhr, status, error) {
+        //                 $('#generatedJson').html("<p>Error generating data: " + error + "</p>");
+        //             },
+        //         });
+        //     }
         // });
 
-        // Macth Button
+        // Match Button
         $('#matchButton').click(function() {
-            var profilkesColumn = $('#selectkolomDatasetProfilkes').val();
-            var satuDataColumn = $('#selectkolomDatasetSatuData').val();
+            var profilkesColumn = $('#selectTransformFields').val();
+            var satuDataColumn = $('#selectkolomInsertSatuData').val();
 
-            if (profilkesColumn && satuDataColumn) {
+            // console.log("profilkesColumn: ", profilkesColumn, typeof profilkesColumn); // Debug log
+            // console.log("satuDataColumn: ", satuDataColumn, typeof satuDataColumn); 
+
+            if (profilkesColumn.length > 0 && satuDataColumn.length > 0) {
                 if (profilkesColumn.length !== satuDataColumn.length) {
-                    alert('Panjang kolom yang dipilih pada Profilkes dan SatuData harus sama.');
+                    alert('Banyak kolom yang dipilih pada Profilkes dan SatuData harus sama.');
                     return;
                 }
+                console.log("Kolom Dataset Profilkes yang dipilih : ", profilkesColumn);
+                console.log("Kolom Dataset SatuData yang dipilih : ", satuDataColumn.map(column => column.value));              
                 matchAndGenerateJSON(profilkesColumn, satuDataColumn);
             } else {
                 alert('Tolong pilih kedua kolom dataset sebelum Match.');
             }
-
-            function matchAndGenerateJSON(profilkesColumn, satuDataColumn) {
-                var slug = $('#datasetDropdown').val();
-                var tahun = $('#tahunDropdown').val();
-                var urlProfilkesValue = $('#urlProfilkes').val();
-                var kodeWilayah = $('#wilayahDropdown').val();
-                var uuid = $('#DatasetSatudataDropdown').val();
-                var apiUrl = $("#apiUrlSatudata").val();
-                var apiKey = $("#apiKeySatudata").val();
-
-                $.ajax({
-                    url: "getMatch.php",
-                    type: "GET",
-                    data: {
-                        slug: slug,
-                        tahun: tahun,
-                        urlProfilkes: urlProfilkesValue,
-                        kode_wilayah: kodeWilayah,
-                        uuid: uuid,
-                        apiUrl: apiUrl,
-                        apiKey: apiKey,
-                        profilkesColumn: profilkesColumn,
-                        satuDataColumn: satuDataColumn
-                    },
-                    dataType: "json",
-                    success: function(response, matchedData) {
-                        console.log(response);
-                        console.log(matchedData);
-                        if (response.error) {
-                            $('#generatedJson').html("<p>Error: " + response.error + "</p>");
-                        } else {
-                            $('#generatedJson').html('<pre>' + JSON.stringify(response.matchedData, null, 2) + '</pre>');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        $('#generatedJson').html("<p>Error generating data: " + error + "</p>");
-                    },
-                });
-            }
         });
 
+        function matchAndGenerateJSON(profilkesColumn, satuDataColumn) {
+            var slug = $('#datasetDropdown').val();
+            var tahun = $('#tahunDropdown').val();
+            var urlProfilkesValue = $('#urlProfilkes').val();
+            var kodeWilayah = $('#wilayahDropdown').val();
+            var uuid = $('#DatasetSatudataDropdown').val();
+            var apiUrl = $("#apiUrlSatudata").val();
+            var apiKey = $("#apiKeySatudata").val();
+
+            console.log("Dataset: ", {
+                slug: slug,
+                tahun: tahun,
+                urlProfilkes: urlProfilkesValue,
+                kode_wilayah: kodeWilayah,
+                uuid: uuid,
+                apiUrl: apiUrl,
+                apiKey: apiKey,
+                profilkesColumn: profilkesColumn.join(','),
+                satuDataColumn: satuDataColumn.join(',')
+            });
+
+            $.ajax({
+                url: "getMatch.php",
+                type: "GET",
+                data: {
+                    slug: slug,
+                    tahun: tahun,
+                    urlProfilkes: urlProfilkesValue,
+                    kode_wilayah: kodeWilayah,
+                    uuid: uuid,
+                    apiUrl: apiUrl,
+                    apiKey: apiKey,
+                    profilkesColumn: profilkesColumn.join(','),
+                    satuDataColumn: satuDataColumn.join(',')
+                },
+                dataType: "json",
+                success: function(response) {
+                    console.log(profilkesColumn);
+                    console.log(satuDataColumn);
+                    console.log(response);
+                    if (response.error) {
+                        $('#generatedJson').html("<p>Error: " + response.error + "</p>");
+                    } else {
+                        $('#generatedJson').html('<p>' + "Berhasil melakukan Match" + '</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#generatedJson').html("<p>Error generating data: " + error + "</p>");
+                },
+            });
+        }
 
         // Loading Spinner
         $(document).ajaxStart(function() {
