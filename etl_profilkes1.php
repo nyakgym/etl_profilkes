@@ -455,20 +455,20 @@
                         // tableHtml += "<th>Satuan Profilkes</th>"; // Tambahkan kolom Satuan Profilkes
                         tableHtml += "</tr></thead>";
                         tableHtml += "<tbody class='table-group-divider'>";
-                        // response.forEach(function(data) {
-                        //     tableHtml += "<tr>";
-                        //     for (var key in data) {
-                        //         tableHtml += "<td>" + data[key] + "</td>";
-                        //     }
-                        //     // tableHtml += "<td>" + satuanProfilkes + "</td>"; // Tambahkan nilai Satuan Profilkes ke setiap baris
-                        //     tableHtml += "</tr>";
-                        // });
+                        response.forEach(function(data) {
+                            tableHtml += "<tr>";
+                            for (var key in data) {
+                                tableHtml += "<td>" + data[key] + "</td>";
+                            }
+                            // tableHtml += "<td>" + satuanProfilkes + "</td>"; // Tambahkan nilai Satuan Profilkes ke setiap baris
+                            tableHtml += "</tr>";
+                        });
                         tableHtml += "</tbody></table>";
                         $('#tabledata').html(tableHtml);
                         
                         // Mengisi dropdown "Pilih Kolom Dataset" dengan kolom tabel
                         var columnDropdown = $('#selectkolomDatasetProfilkes');
-                        columnDropdown.empty().append('<option value=""></option>');
+                        // columnDropdown.empty().append('<option value=""></option>');
                         for (var key in response[0]) {
                             columnDropdown.append('<option value="' + key + '">' + key + '</option>');
                         }
@@ -525,33 +525,40 @@
             $('#tahunSatuData').val(selectedTahun); // Mengisi input Tahun SatuData dengan nilai yang dipilih
         });
 
-        //Dropdown DatasetSatuData
+        // Dropdown DatasetSatuData
         $("#DatasetSatudataDropdown").change(function () {
             var uuid = $(this).val();
             var apiUrl = $("#apiUrlSatudata").val();
             var apiKey = $("#apiKeySatudata").val();
-            console.log(uuid);
+            var satuSatuData = $('#satuanSatuData').val(); // Ambil nilai satuan SatuData
+
             $.ajax({
-            type: "GET",
-            url: "getDatasetSatuData.php",
-            data: {
-                uuid: uuid,
-                apiUrl: apiUrl,
-                apiKey: apiKey,
-            },
-            dataType: "json",
-            success: function (data) {
-                console.log(data)
-                var options = "";
-                var dataset = data.data.fields;
-                console.log(dataset);
-                // Mengisi dropdown "Pilih Kolom Dataset SatuData" dengan kolom dataset
-                var columnDropdownSatuData = $('#selectkolomDatasetSatuData');     
-                for (var i = 0; i < dataset.length; i++) {
-                    options += '<option value="' + dataset[i] + '">' + dataset[i].name + "</option>";
-                }
-                columnDropdownSatuData.append(options);
-            },
+                type: "GET",
+                url: "getDatasetSatuData.php",
+                data: {
+                    uuid: uuid,
+                    apiUrl: apiUrl,
+                    apiKey: apiKey,
+                },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var options = "";
+                    var dataset = data.data.fields;
+                    console.log(dataset);
+                    
+                    // Mengisi dropdown "Pilih Kolom Dataset SatuData" dengan kolom dataset
+                    var columnDropdownSatuData = $('#selectkolomDatasetSatuData');     
+                    // columnDropdownSatuData.empty().append('<option value="">Pilih Kolom</option>'); // Kosongkan dan tambahkan opsi default
+                    
+                    for (var i = 0; i < dataset.length; i++) {
+                        options += '<option value="' + dataset[i].name + '">' + dataset[i].name + "</option>";
+                    }
+                    columnDropdownSatuData.append(options);
+                    
+                    // Menambahkan nilai satuan SatuData sebagai kolom tambahan (misalnya, di akhir dropdown)
+                    columnDropdownSatuData.append('<option value="satuan">' + satuSatuData + '</option>'); // Menambahkan satuan SatuData
+                },
             });
         });
 
