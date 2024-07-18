@@ -38,7 +38,7 @@
             <div class="col-lg-12 col-md-auto col-sm-12">
                 <div class="row">
                     <!-- Form URL Profilkes -->
-                    <div class="col-lg-4 col-md-auto col-sm-12">
+                    <div class="col-lg-3 col-md-auto col-sm-12">
                         <h5 class="text" for="urlProfilkes" style="color: black;">URL Profilkes</h5>
                         <div class="input-group">
                             <input id="urlProfilkes" name="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" value="https://profilkes.acehprov.go.id/">
@@ -47,18 +47,26 @@
                     </div>
 
                     <!-- Dropdown Wilayah Profilkes -->
-                    <div class="col-lg-4 col-md-auto col-sm-12">
+                    <div class="col-lg-3 col-md-auto col-sm-12">
                     <h5 class="text" style="color: black;">Wilayah Profilkes</h5>
                         <select id='wilayahDropdown' class='form-select'>
                             <option selected>Pilih Wilayah</option>
                         </select>
                     </div>
                     <!-- Dropdown Tahun Profilkes -->
-                    <div class="col-lg-4 col-md-auto col-sm-12">
+                    <div class="col-lg-3 col-md-auto col-sm-12">
                         <h5 class="text" style="color: black;">Tahun Profilkes</h5>
                         <select id='tahunDropdown' class='form-select'>
                             <option selected>Pilih Tahun</option>";
                         </select>
+                    </div>
+                    <!-- Dropdown Tahun Profilkes -->
+                    <div class="col-lg-3 col-md-auto col-sm-12">
+                        <h5 class="text" style="color: black;">Satuan Profilkes</h5>
+                        <input id="satuanProfilkes" name="satuanProfilkes" class="form-control" type="text" placeholder="Ketik Satuan" value="">
+                        <!-- <select id='tahunDropdown' class='form-select'>
+                            <option selected>Pilih Tahun</option>";
+                        </select> -->
                     </div>
                 </div>
                 <!-- Dropdown Dataset Profilkes -->
@@ -102,20 +110,24 @@
                     <!-- Tabpanel Transform -->
                     <div class="tab-pane fade" id="trasformtabpanel" role="tabpanel" aria-labelledby="trasform-tab">
                         <div class="row mb-3">
-                            <div class="col-lg-4 col-md-auto col-sm-12">
+                            <div class="col-lg-3 col-md-auto col-sm-12">
                                 <h5 class="text" style="color: black;">URL SatuData</h5>
                                 <input id="apiUrlSatudata" name="apiUrlSatudata" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata" value="https://satudata.latih.id/">
                             </div>
-                            <div class="col-lg-4 col-md-auto col-sm-12">
+                            <div class="col-lg-3 col-md-auto col-sm-12">
                                 <h5 class="text" style="color: black;">Key App SatuData</h5>
                                 <div class="input-group">
                                 <input id="apiKeySatudata" name="apiKeySatudata" class="form-control" type="text" placeholder="Ketik Key App" aria-label="keyappsatudata" value="$2b$10$tifEFHrbIcCvJAjabsuEOueM8PFNnnFYfUBp3U9Tmb/SSZcsF1kym">
                                 <!-- <button id="searchButton" name="searchButton" class="btn btn-success" type="submit">Search</button> -->
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-auto col-sm-12">
+                            <div class="col-lg-3 col-md-auto col-sm-12">
                                 <h5 class="text" style="color: black;">Tahun SatuData</h5>
                                 <input id="tahunSatuData" name="tahunSatuData" class="form-control" type="text" placeholder="" aria-label="default input example" disabled>    
+                            </div>
+                            <div class="col-lg-3 col-md-auto col-sm-12">
+                                <h5 class="text" style="color: black;">Satuan SatuData</h5>
+                                <input id="satuanSatuData" name="satuanSatuData" class="form-control" type="text" placeholder="Ketik Satuan" aria-label="default input example">    
                             </div>
                             <div class="col-lg-6 col-md-auto col-sm-12 mt-2">
                                 <h5 class="text" style="color: black;">Cari Dataset SatuData</h5>
@@ -405,8 +417,12 @@
             });
         });
 
+        //untuk mendalaptkan nilai satuan profilkes
+        $('#satuanProfilkes').change(function(){
+            var satuanProfilkes = $(this).val();
+        });
         // TableData id=tabledata
-        // Fungsi untuk mendapatkan dan menampilkan data tabel
+        //untuk mendapatkan dan menampilkan data tabel
         $('#datasetDropdown').change(function() {
             var selectedSlug = $(this).val();
             if (selectedSlug) {
@@ -417,13 +433,15 @@
             }
         });
         function getTabledata(slug) {
+            var satuanProfilkes = $('#satuanProfilkes').val();
             var tahun = $('#tahunDropdown').val();
             var urlProfilkesValue = $('#urlProfilkes').val();
             var kodeWilayah = $('#wilayahDropdown').val();
+            
             $.ajax({
                 url: "getTableData.php",
                 type: "GET",
-                data: { slug: slug, tahun: tahun, urlProfilkes: urlProfilkesValue, kode_wilayah: kodeWilayah },
+                data: { slug: slug, satuanProfilkes: satuanProfilkes, tahun: tahun, urlProfilkes: urlProfilkesValue, kode_wilayah: kodeWilayah },
                 dataType: "json",
                 success: function(response) {
                     console.log(response);
@@ -434,20 +452,23 @@
                         for (var key in response[0]) {
                             tableHtml += "<th>" + key + "</th>";
                         }
+                        // tableHtml += "<th>Satuan Profilkes</th>"; // Tambahkan kolom Satuan Profilkes
                         tableHtml += "</tr></thead>";
                         tableHtml += "<tbody class='table-group-divider'>";
-                        response.forEach(function(data) {
-                            tableHtml += "<tr>";
-                            for (var key in data) {
-                                tableHtml += "<td>" + data[key] + "</td>";
-                            }
-                            tableHtml += "</tr>";
-                        });
+                        // response.forEach(function(data) {
+                        //     tableHtml += "<tr>";
+                        //     for (var key in data) {
+                        //         tableHtml += "<td>" + data[key] + "</td>";
+                        //     }
+                        //     // tableHtml += "<td>" + satuanProfilkes + "</td>"; // Tambahkan nilai Satuan Profilkes ke setiap baris
+                        //     tableHtml += "</tr>";
+                        // });
                         tableHtml += "</tbody></table>";
                         $('#tabledata').html(tableHtml);
+                        
                         // Mengisi dropdown "Pilih Kolom Dataset" dengan kolom tabel
                         var columnDropdown = $('#selectkolomDatasetProfilkes');
-                        // columnDropdown.empty().append('<option value=""></option>');
+                        columnDropdown.empty().append('<option value=""></option>');
                         for (var key in response[0]) {
                             columnDropdown.append('<option value="' + key + '">' + key + '</option>');
                         }
@@ -462,7 +483,12 @@
                 },
             });
         }
-        
+
+        //Satuan SatuData
+        $('#satuanSatuData').change(function(){
+            //
+        })
+
         //Pada Tabpanel Transform, Find dataset SatuData id=findButton
         $('#findButton').click(function() {
             var apiKey = $('#apiKeySatudata').val();
@@ -529,66 +555,13 @@
             });
         });
 
-        // Macth Button
-        // $('#matchButton').click(function() {
-        //     var profilkesColumn = $('#selectkolomDatasetProfilkes').val();
-        //     var satuDataColumn = $('#selectkolomDatasetSatuData').val();
-
-        //     if (profilkesColumn && satuDataColumn) {
-        //         if (profilkesColumn.length !== satuDataColumn.length) {
-        //             alert('Banyak kolom yang dipilih pada Profilkes dan SatuData harus sama.');
-        //             return;
-        //         }
-        //         matchAndGenerateJSON(profilkesColumn, satuDataColumn);
-        //     } else {
-        //         alert('Tolong pilih kedua kolom dataset sebelum Match.');
-        //     }
-        //     function matchAndGenerateJSON(profilkesColumn, satuDataColumn) {
-        //         var slug = $('#datasetDropdown').val();
-        //         var tahun = $('#tahunDropdown').val();
-        //         var urlProfilkesValue = $('#urlProfilkes').val();
-        //         var kodeWilayah = $('#wilayahDropdown').val();
-        //         var uuid = $('#DatasetSatudataDropdown').val();
-        //         var apiUrl = $("#apiUrlSatudata").val();
-        //         var apiKey = $("#apiKeySatudata").val();
-        //         $.ajax({
-        //             url: "getMatch.php",
-        //             type: "GET",
-        //             data: {
-        //                 slug: slug,
-        //                 tahun: tahun,
-        //                 urlProfilkes: urlProfilkesValue,
-        //                 kode_wilayah: kodeWilayah,
-        //                 uuid: uuid,
-        //                 apiUrl: apiUrl,
-        //                 apiKey: apiKey,
-        //                 profilkesColumn: profilkesColumn,
-        //                 satuDataColumn: satuDataColumn
-        //             },
-        //             dataType: "json",
-        //             success: function(response, matchedData) {
-        //                 console.log(response);
-        //                 console.log(matchedData);
-        //                 if (response.error) {
-        //                     $('#generatedJson').html("<p>Error: " + response.error + "</p>");
-        //                 } else {
-        //                     $('#generatedJson').html('<pre>' + JSON.stringify(response.matchedData, null, 2) + '</pre>');
-        //                 }
-        //             },
-        //             error: function(xhr, status, error) {
-        //                 $('#generatedJson').html("<p>Error generating data: " + error + "</p>");
-        //             },
-        //         });
-        //     }
-        // });
-
         // Match Button
         $('#matchButton').click(function() {
             var profilkesColumn = $('#selectTransformFields').val();
             var satuDataColumn = $('#selectkolomInsertSatuData').val();
 
-            // console.log("profilkesColumn: ", profilkesColumn, typeof profilkesColumn); // Debug log
-            // console.log("satuDataColumn: ", satuDataColumn, typeof satuDataColumn); 
+            console.log("profilkesColumn: ", profilkesColumn, typeof profilkesColumn); // Debug log
+            console.log("satuDataColumn: ", satuDataColumn, typeof satuDataColumn); 
 
             if (profilkesColumn.length > 0 && satuDataColumn.length > 0) {
                 if (profilkesColumn.length !== satuDataColumn.length) {
@@ -612,17 +585,6 @@
             var apiUrl = $("#apiUrlSatudata").val();
             var apiKey = $("#apiKeySatudata").val();
 
-            console.log("Dataset: ", {
-                slug: slug,
-                tahun: tahun,
-                urlProfilkes: urlProfilkesValue,
-                kode_wilayah: kodeWilayah,
-                uuid: uuid,
-                apiUrl: apiUrl,
-                apiKey: apiKey,
-                profilkesColumn: profilkesColumn.join(','),
-                satuDataColumn: satuDataColumn.join(',')
-            });
 
             $.ajax({
                 url: "getMatch.php",

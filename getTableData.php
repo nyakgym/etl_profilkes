@@ -20,14 +20,18 @@ function getTableData($kode_wilayah, $urlProfilkes, $tahun, $slug) {
     return getData($url);
 }
 
-// Mengecek apakah parameter 'kode_wilayah', 'urlProfilkes', 'tahun', dan 'slug' ada dalam permintaan GET
-if (isset($_GET['kode_wilayah']) && isset($_GET['urlProfilkes']) && isset($_GET['tahun']) && isset($_GET['slug'])) {
+// Mengecek apakah parameter 'kode_wilayah', 'urlProfilkes', 'tahun', 'satuanProfilkes', dan 'slug' ada dalam permintaan GET
+if (isset($_GET['kode_wilayah']) && isset($_GET['urlProfilkes']) && isset($_GET['tahun']) && isset($_GET['satuanProfilkes']) && isset($_GET['slug'])) {
     $kode_wilayah = $_GET['kode_wilayah'];
     $tahun = $_GET['tahun'];
+    $satuanProfilkes = $_GET['satuanProfilkes'];
     $urlProfilkes = $_GET['urlProfilkes'];
     $slug = $_GET['slug'];
 
     $data = getTableData($kode_wilayah, $urlProfilkes, $tahun, $slug);
+    foreach ($data as &$row) {
+        $row['satuan'] = $satuanProfilkes; // Tambahkan nilai satuanProfilkes ke setiap baris data
+    }
     echo json_encode($data);
 } else {
     echo json_encode(['error' => 'Missing required parameters']);
