@@ -250,7 +250,7 @@
                                 <div class="card mb-3" style="border-color: #66CDAA;">
                                     <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Load Tabel</h5>
                                     <div class="card-body">
-                                        <div id='tableload' class='table-responsive'>
+                                        <div id='tableload' name="tableload" class='table-responsive'>
 
                                         </div>
                                     </div>
@@ -421,6 +421,7 @@
         $('#satuanProfilkes').change(function(){
             var satuanProfilkes = $(this).val();
         });
+        
         // TableData id=tabledata
         //untuk mendapatkan dan menampilkan data tabel
         $('#datasetDropdown').change(function() {
@@ -452,7 +453,7 @@
                         for (var key in response[0]) {
                             tableHtml += "<th>" + key + "</th>";
                         }
-                        // tableHtml += "<th>Satuan Profilkes</th>"; // Tambahkan kolom Satuan Profilkes
+                        
                         tableHtml += "</tr></thead>";
                         tableHtml += "<tbody class='table-group-divider'>";
                         response.forEach(function(data) {
@@ -460,7 +461,7 @@
                             for (var key in data) {
                                 tableHtml += "<td>" + data[key] + "</td>";
                             }
-                            // tableHtml += "<td>" + satuanProfilkes + "</td>"; // Tambahkan nilai Satuan Profilkes ke setiap baris
+                        
                             tableHtml += "</tr>";
                         });
                         tableHtml += "</tbody></table>";
@@ -484,10 +485,7 @@
             });
         }
 
-        //Satuan SatuData
-        $('#satuanSatuData').change(function(){
-            //
-        })
+        
 
         //Pada Tabpanel Transform, Find dataset SatuData id=findButton
         $('#findButton').click(function() {
@@ -525,12 +523,17 @@
             $('#tahunSatuData').val(selectedTahun); // Mengisi input Tahun SatuData dengan nilai yang dipilih
         });
 
+        //Satuan SatuData
+        $('#satuanSatuData').change(function(){
+            var satuanSatuData = $(this).val();
+        })
+
         // Dropdown DatasetSatuData
         $("#DatasetSatudataDropdown").change(function () {
             var uuid = $(this).val();
             var apiUrl = $("#apiUrlSatudata").val();
             var apiKey = $("#apiKeySatudata").val();
-            var satuSatuData = $('#satuanSatuData').val(); // Ambil nilai satuan SatuData
+            var satuanSatuData = $('#satuanSatuData').val(); // Ambil nilai satuan SatuData
 
             $.ajax({
                 type: "GET",
@@ -539,6 +542,7 @@
                     uuid: uuid,
                     apiUrl: apiUrl,
                     apiKey: apiKey,
+                    satuanSatuData: satuanSatuData,
                 },
                 dataType: "json",
                 success: function (data) {
@@ -549,7 +553,7 @@
                     
                     // Mengisi dropdown "Pilih Kolom Dataset SatuData" dengan kolom dataset
                     var columnDropdownSatuData = $('#selectkolomDatasetSatuData');     
-                    // columnDropdownSatuData.empty().append('<option value="">Pilih Kolom</option>'); // Kosongkan dan tambahkan opsi default
+                    
                     
                     for (var i = 0; i < dataset.length; i++) {
                         options += '<option value="' + dataset[i].name + '">' + dataset[i].name + "</option>";
@@ -557,7 +561,7 @@
                     columnDropdownSatuData.append(options);
                     
                     // Menambahkan nilai satuan SatuData sebagai kolom tambahan (misalnya, di akhir dropdown)
-                    columnDropdownSatuData.append('<option value="satuan">' + satuSatuData + '</option>'); // Menambahkan satuan SatuData
+                    columnDropdownSatuData.append('<option value="satuanSatuData">' + satuanSatuData + '</option>'); // Menambahkan satuan SatuData
                 },
             });
         });
@@ -616,6 +620,24 @@
                         $('#generatedJson').html("<p>Error: " + response.error + "</p>");
                     } else {
                         $('#generatedJson').html('<p>' + "Berhasil melakukan Match" + '</p>');
+
+                        // Membuat tabel dari data yang diterima
+                        var tableHtml = "<table class='table table-bordered border-dark table-striped'>";
+                        tableHtml += "<thead><tr>";
+                        for (var key in response[0]) {
+                            tableHtml += "<th>" + key + "</th>";
+                        }
+                        tableHtml += "</tr></thead>";
+                        tableHtml += "<tbody class='table-group-divider'>";
+                        response.forEach(function(data) {
+                            tableHtml += "<tr>";
+                            for (var key in data) {
+                                tableHtml += "<td>" + data[key] + "</td>";
+                            }
+                            tableHtml += "</tr>";
+                        });
+                        tableHtml += "</tbody></table>";
+                        $('#tableload').html(tableHtml);
                     }
                 },
                 error: function(xhr, status, error) {
@@ -623,7 +645,6 @@
                 },
             });
         }
-
         // Loading Spinner
         $(document).ajaxStart(function() {
             $('#loadingSpinner').removeClass('d-none');
