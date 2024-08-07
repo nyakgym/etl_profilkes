@@ -12,7 +12,8 @@
     <body>
         <!-- <h1>ETL - PROFILKES</h1> -->
         <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-dark mb-3" style="background-color: #66CDAA; border-color: 66CDAA;">
+        <!-- <nav class="navbar navbar-expand-lg navbar-dark mb-3" style="background-color: #66CDAA; border-color: 66CDAA;"> -->
+        <nav class="navbar navbar-expand-lg bg-primary navbar-dark mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand mb-0 h1 navbar-light"><i class="bi bi-globe"></i> ETL - PROFILKES</a>
                 <ul class="nav nav-underline justify-content-end" role="tablist">
@@ -30,7 +31,8 @@
         <div class="tab-pane fade show active" id="etlprocesstabpanel" role="tabpanel" aria-labelledby="etlprocess-tab">
         <div class="row px-3">
             <div class="card" style="border-color: #66CDAA;"> <!-- Card ETL PROCESS -->
-            <div class="card-header" style=" color: white; background-color: #66CDAA; border-color: #66CDAA;"> <!-- Card HEADER ETL PROCESS -->
+            
+            <div class="card-header bg-primary text-white"> <!-- Card HEADER ETL PROCESS -->
                 ETL Process
             </div> <!-- Card HEADER ETL PROCESS -->
 
@@ -38,36 +40,34 @@
             <div class="col-lg-12 col-md-auto col-sm-12">
                 <div class="row">
                     <!-- Form URL Profilkes -->
-                    <div class="col-lg-3 col-md-auto col-sm-12">
+                    <div class="col-lg-4 col-md-auto col-sm-12">
                         <h5 class="text" for="urlProfilkes" style="color: black;">URL Profilkes</h5>
                         <div class="input-group">
                             <input id="urlProfilkes" name="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" value="https://profilkes.acehprov.go.id/">
-                            <button class="btn btn-success" id="loadButton" type="submit" style="background-color: #66CDAA; border-color: 66CDAA;">Cari data</button>
+                            <!-- <button class="btn btn-success" id="loadButton" type="submit" style="background-color: #66CDAA; border-color: 66CDAA;">Cari data</button> -->
+                            <button class="btn btn-primary" id="loadButton" type="submit">Cari data</button>
                         </div>
                     </div>
 
                     <!-- Dropdown Wilayah Profilkes -->
-                    <div class="col-lg-3 col-md-auto col-sm-12">
+                    <div class="col-lg-4 col-md-auto col-sm-12">
                     <h5 class="text" style="color: black;">Wilayah Profilkes</h5>
                         <select id='wilayahDropdown' class='form-select'>
                             <option selected>Pilih Wilayah</option>
                         </select>
                     </div>
                     <!-- Dropdown Tahun Profilkes -->
-                    <div class="col-lg-3 col-md-auto col-sm-12">
+                    <div class="col-lg-4 col-md-auto col-sm-12">
                         <h5 class="text" style="color: black;">Tahun Profilkes</h5>
                         <select id='tahunDropdown' class='form-select'>
                             <option selected>Pilih Tahun</option>";
                         </select>
                     </div>
-                    <!-- Dropdown Tahun Profilkes -->
-                    <div class="col-lg-3 col-md-auto col-sm-12">
+                    <!-- Dropdown Satuan Profilkes -->
+                    <!-- <div class="col-lg-3 col-md-auto col-sm-12">
                         <h5 class="text" style="color: black;">Satuan Profilkes</h5>
                         <input id="satuanProfilkes" name="satuanProfilkes" class="form-control" type="text" placeholder="Ketik Satuan" value="">
-                        <!-- <select id='tahunDropdown' class='form-select'>
-                            <option selected>Pilih Tahun</option>";
-                        </select> -->
-                    </div>
+                    </div> -->
                 </div>
                 <!-- Dropdown Dataset Profilkes -->
                 <div class="row mt-2 mb-2">
@@ -97,8 +97,8 @@
                 <div class="tab-content">
                     <!-- Tabpanel Extract -->
                     <div class="tab-pane fade show active" id="extracttabpanel" role="tabpanel" aria-labelledby="extract-tab">
-                        <div class="card  mb-3" style="border-color: #66CDAA;">
-                            <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Tabel Dataset</h5>
+                        <div class="card  mb-3">
+                            <h5 class="card-header bg-primary text-white">Tabel Dataset</h5>
                             <div class="card-body"> 
                                 <div class='col'>
                                     <div id='tabledata' class='table-responsive'></div>
@@ -126,8 +126,8 @@
                                 <input id="tahunSatuData" name="tahunSatuData" class="form-control" type="text" placeholder="" aria-label="default input example" disabled>    
                             </div>
                             <div class="col-lg-3 col-md-auto col-sm-12">
-                                <h5 class="text" style="color: black;">Satuan SatuData</h5>
-                                <input id="satuanSatuData" name="satuanSatuData" class="form-control" type="text" placeholder="Ketik Satuan" aria-label="default input example">    
+                                <h5 class="text" style="color: black;">Satuan</h5>
+                                <input id="satuan" name="satuan" class="form-control" type="text" placeholder="Ketik Satuan" aria-label="default input example">    
                             </div>
                             <div class="col-lg-6 col-md-auto col-sm-12 mt-2">
                                 <h5 class="text" style="color: black;">Cari Dataset SatuData</h5>
@@ -148,7 +148,7 @@
                             <div class="col-lg-2 col-md-auto col-sm-12">
                                 <!-- Form Kolom Dataset Profilkes -->
                                 <div class="card mb-3" style="border-color: #66CDAA;">
-                                    <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Dataset Profilkes</h5>
+                                    <h5 class="card-header bg-primary text-white">Dataset Profilkes</h5>
                                     <div class="card-body">
                                         <form class="mb-4"> <!-- Ubah id formulir agar unik -->
                                             <label for="kolomDatasetProfilkes" class="form-label multiple">Pilih Kolom Dataset: </label>
@@ -165,20 +165,20 @@
                             <!-- Button Move Column -->
                             <div class="col-lg-1 col-md-auto col-sm-12 align-self-center text-center">
                                 <div class="mb-2">
-                                    <button type="button" id="moveRightProfilkes" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">&gt;&gt;</button>
+                                    <button type="button" id="moveRightProfilkes" class="btn btn-primary">&gt;&gt;</button>
                                 </div>
                                 <div class="mb-2">
-                                    <button type="button" id="moveLeftProfilkes" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">&lt;&lt;</button>
+                                    <button type="button" id="moveLeftProfilkes" class="btn btn-primary">&lt;&lt;</button>
                                 </div>
                             </div>
 
                             <!-- Form Transform Fields -->
                             <div class="col-lg-2 col-md-auto col-sm-12">
                                 <div class="card mb-3" style="border-color: #66CDAA;">
-                                    <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Transform Fields</h5>
+                                    <h5 class="card-header bg-primary text-white">Profilkes Insert</h5>
                                     <div class="card-body">
                                         <form class="mb-4">
-                                            <label for="transformFields" class="form-label multiple">Pilih Transform Fields: </label>
+                                            <label for="transformFields" class="form-label multiple">Pilih Profilkes Insert: </label>
                                             <div id="transformFields">
                                                 <select id="selectTransformFields" class="form-select" multiple>
                                                     <!-- <option value=""></option> -->
@@ -192,15 +192,15 @@
                             <!-- Button Matching -->
                             <div class="col-lg-2 col-md-auto col-sm-12 align-self-center text-center">
                                 <div class="mb-2">
-                                    <button type="button" id="matchButton" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">Match</button>
+                                    <button type="button" id="matchButton" class="btn btn-dark">Match</button>
                                     <div id="generatedJson"></div>
                                 </div>
                             </div>
 
                             <!-- Form Kolom Insert SatuData -->
                             <div class="col-lg-2 col-md-auto col-sm-12">
-                                <div class="card mb-3" style="border-color: #66CDAA;">
-                                    <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Insert SatuData</h5>
+                                <div class="card mb-3">
+                                    <h5 class="card-header bg-success text-white">Insert SatuData</h5>
                                     <div class="card-body">
                                         <form class="mb-4">
                                             <label for="kolomInsertSatuData" class="form-label multiple">Pilih Kolom Insert: </label>
@@ -217,17 +217,17 @@
                             <!-- Button Move Column -->
                             <div class="col-lg-1 col-md-auto col-sm-12 align-self-center text-center">
                                 <div class="mb-2">
-                                    <button type="button" id="moveRightSatuData" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">&gt;&gt;</button>
+                                    <button type="button" id="moveRightSatuData" class="btn btn-success">&gt;&gt;</button>
                                 </div>
                                 <div class="mb-2">
-                                    <button type="button" id="moveLeftSatuData" class="btn btn-primary" style="background-color: #66CDAA; border-color: #66CDAA;">&lt;&lt;</button>
+                                    <button type="button" id="moveLeftSatuData" class="btn btn-success">&lt;&lt;</button>
                                 </div>
                             </div>
 
                             <!-- Form Kolom Dataset SatuData -->
                             <div class="col-lg-2 col-md-auto col-sm-12">
                                 <div class="card mb-3" style="border-color: #66CDAA;">
-                                    <h5 class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;">Dataset SatuData</h5>
+                                    <h5 class="card-header bg-success text-white">Dataset SatuData</h5>
                                     <div class="card-body">
                                         <form class="mb-4">
                                             <label for="kolomDatasetSatuData" class="form-label multiple">Pilih Kolom Dataset: </label>
@@ -248,14 +248,19 @@
                         <div class="row">
                             <div class="col-lg-12 col-md-auto col-sm-12">
                                 <div class="card mb-3" style="border-color: #66CDAA;">
-                                    <h5 class="card-header" style="background-color: #66CDAA; border-color: #66CDAA;">Load Tabel</h5>
+                                    <h5 class="card-header bg-primary text-white">Load Tabel</h5>
                                     <div class="card-body">
                                         <div id='tableload' name="tableload" class='table-responsive'>
-
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-2 justify-content-end">
+                                                <button type="button" id="sendButton" class="btn btn-dark float-end">Send</button>
+                                                <div id="generatedJsonSatuData"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div> <!-- col-6 -->
+                            </div> <
                         </div> <!-- row -->
                     </div> <!-- akhir tabpanel Load -->
 
@@ -271,7 +276,7 @@
         <div class="tab-pane fade" id="infotabpanel" role="tabpanel" aria-labelledby="info-tab">
             <div class="row px-3">
             <div class="card"> <!-- Card INFO -->
-                <div class="card-header" style="color: white; background-color: #66CDAA; border-color: #66CDAA;"> <!-- Card HEADER INFO -->
+                <div class="card-header bg-primary text-white"> <!-- Card HEADER INFO -->
                     Info
                 </div> <!-- Card HEADER ETL PROCESS -->
                 <div class="card-body"> <!-- Card  BODY INFO -->
@@ -418,9 +423,9 @@
         });
 
         //untuk mendalaptkan nilai satuan profilkes
-        $('#satuanProfilkes').change(function(){
-            var satuanProfilkes = $(this).val();
-        });
+        // $('#satuanProfilkes').change(function(){
+        //     var satuanProfilkes = $(this).val();
+        // });
         
         // TableData id=tabledata
         //untuk mendapatkan dan menampilkan data tabel
@@ -434,7 +439,7 @@
             }
         });
         function getTabledata(slug) {
-            var satuanProfilkes = $('#satuanProfilkes').val();
+            var satuan = $('#satuan').val();
             var tahun = $('#tahunDropdown').val();
             var urlProfilkesValue = $('#urlProfilkes').val();
             var kodeWilayah = $('#wilayahDropdown').val();
@@ -442,7 +447,7 @@
             $.ajax({
                 url: "getTableData.php",
                 type: "GET",
-                data: { slug: slug, satuanProfilkes: satuanProfilkes, tahun: tahun, urlProfilkes: urlProfilkesValue, kode_wilayah: kodeWilayah },
+                data: { slug: slug, tahun: tahun, urlProfilkes: urlProfilkesValue, kode_wilayah: kodeWilayah },
                 dataType: "json",
                 success: function(response) {
                     console.log(response);
@@ -473,6 +478,7 @@
                         for (var key in response[0]) {
                             columnDropdown.append('<option value="' + key + '">' + key + '</option>');
                         }
+                        // columnDropdown.append('<option value="' + satuan  + '">' + satuan + '</option>');
                     } else {
                         $('#tabledata').html("<p>Tidak ada datanya</p>");
                         $('#selectkolomDatasetProfilkes').empty().append('<option value=""></option>');
@@ -523,17 +529,17 @@
             $('#tahunSatuData').val(selectedTahun); // Mengisi input Tahun SatuData dengan nilai yang dipilih
         });
 
-        //Satuan SatuData
-        $('#satuanSatuData').change(function(){
-            var satuanSatuData = $(this).val();
-        })
+        // //Satuan Profilkes & SatuData
+        // $('#satuan').change(function(){
+        //     var satuan = $(this).val();
+        // })
 
         // Dropdown DatasetSatuData
         $("#DatasetSatudataDropdown").change(function () {
             var uuid = $(this).val();
             var apiUrl = $("#apiUrlSatudata").val();
             var apiKey = $("#apiKeySatudata").val();
-            var satuanSatuData = $('#satuanSatuData').val(); // Ambil nilai satuan SatuData
+            var satuan = $('#satuan').val(); // Ambil nilai satuan SatuData
 
             $.ajax({
                 type: "GET",
@@ -542,7 +548,7 @@
                     uuid: uuid,
                     apiUrl: apiUrl,
                     apiKey: apiKey,
-                    satuanSatuData: satuanSatuData,
+                    satuan: satuan,
                 },
                 dataType: "json",
                 success: function (data) {
@@ -553,7 +559,7 @@
                     
                     // Mengisi dropdown "Pilih Kolom Dataset SatuData" dengan kolom dataset
                     var columnDropdownSatuData = $('#selectkolomDatasetSatuData');     
-                    
+                    var columnDropdown = $('#selectkolomDatasetProfilkes');
                     
                     for (var i = 0; i < dataset.length; i++) {
                         options += '<option value="' + dataset[i].name + '">' + dataset[i].name + "</option>";
@@ -561,7 +567,8 @@
                     columnDropdownSatuData.append(options);
                     
                     // Menambahkan nilai satuan SatuData sebagai kolom tambahan (misalnya, di akhir dropdown)
-                    columnDropdownSatuData.append('<option value="satuanSatuData">' + satuanSatuData + '</option>'); // Menambahkan satuan SatuData
+                    columnDropdownSatuData.append('<option value="satuan">' + satuan + '</option>'); // Menambahkan satuan SatuData
+                    columnDropdown.append('<option value="satuan">' + satuan + '</option>'); // Menambahkan satuan SatuData
                 },
             });
         });
@@ -645,6 +652,46 @@
                 },
             });
         }
+
+        //Send Button
+        $("#sendButton").click(function() {
+            var tableData = [];
+            // Loop melalui setiap baris dalam tabel untuk mengambil data
+            $("#tableload table tbody tr").each(function() {
+                var rowData = {};
+                // Loop melalui setiap sel dalam baris untuk mengambil data kolom
+                $(this).find("td").each(function(index) {
+                    // Mengambil nama kolom dari tabel header
+                    var key = $("#tableload table thead th").eq(index).text();
+                    rowData[key] = $(this).text();
+                });
+                tableData.push(rowData);
+            });
+
+            // Mendapatkan UUID, apiUrl, dan apiKey dari elemen form
+            var uuid = $('#DatasetSatudataDropdown').val();
+            var apiUrl = $("#apiUrlSatudata").val();
+            var apiKey = $("#apiKeySatudata").val();
+
+            // Mengirim data ke API SatuData
+            $.ajax({
+                url: apiUrl + '/api/v1.1/datasets/' + uuid + '/data',
+                type: "POST",
+                headers: {
+                    'APIKEY': apiKey,
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(tableData),
+                success: function(response) {
+                    $('#generatedJsonSatuData').html('<p>Data berhasil dikirim ke SatuData</p>');
+                },
+                error: function(xhr, status, error) {
+                    $('#generatedJsonSatuData').html("<p>Gagal Mengirim data: " + error + "</p>");
+                },
+            });
+        });
+
+
         // Loading Spinner
         $(document).ajaxStart(function() {
             $('#loadingSpinner').removeClass('d-none');
@@ -661,7 +708,6 @@
 
         $('#moveLeftProfilkes').click(function() {
             $('#selectTransformFields option:selected').appendTo('#selectkolomDatasetProfilkes');
-            
         });
 
         $('#moveRightSatuData').click(function() {
