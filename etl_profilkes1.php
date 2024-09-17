@@ -40,34 +40,34 @@
             <div class="col-lg-12 col-md-auto col-sm-12">
                 <div class="row">
                     <!-- Form URL Profilkes -->
-                    <div class="col-lg-4 col-md-auto col-sm-12">
+                    <div class="col-lg-3 col-md-auto col-sm-12">
                         <h5 class="text" for="urlProfilkes" style="color: black;">URL Profilkes</h5>
                         <div class="input-group">
-                            <input id="urlProfilkes" name="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" value="https://profilkes.acehprov.go.id/">
+                            <input id="urlProfilkes" name="urlProfilkes" class="form-control" type="text" placeholder="Ketik URL" value="">
                             <!-- <button class="btn btn-success" id="loadButton" type="submit" style="background-color: #66CDAA; border-color: 66CDAA;">Cari data</button> -->
                             <button class="btn btn-primary" id="loadButton" type="submit">Cari data</button>
                         </div>
                     </div>
 
                     <!-- Dropdown Wilayah Profilkes -->
-                    <div class="col-lg-4 col-md-auto col-sm-12">
+                    <div class="col-lg-3 col-md-auto col-sm-12">
                     <h5 class="text" style="color: black;">Wilayah Profilkes</h5>
                         <select id='wilayahDropdown' class='form-select'>
                             <option selected>Pilih Wilayah</option>
                         </select>
                     </div>
                     <!-- Dropdown Tahun Profilkes -->
-                    <div class="col-lg-4 col-md-auto col-sm-12">
+                    <div class="col-lg-3 col-md-auto col-sm-12">
                         <h5 class="text" style="color: black;">Tahun Profilkes</h5>
                         <select id='tahunDropdown' class='form-select'>
                             <option selected>Pilih Tahun</option>";
                         </select>
                     </div>
                     <!-- Dropdown Satuan Profilkes -->
-                    <!-- <div class="col-lg-3 col-md-auto col-sm-12">
+                    <div class="col-lg-3 col-md-auto col-sm-12">
                         <h5 class="text" style="color: black;">Satuan Profilkes</h5>
                         <input id="satuanProfilkes" name="satuanProfilkes" class="form-control" type="text" placeholder="Ketik Satuan" value="">
-                    </div> -->
+                    </div>
                 </div>
                 <!-- Dropdown Dataset Profilkes -->
                 <div class="row mt-2 mb-2">
@@ -112,12 +112,12 @@
                         <div class="row mb-3">
                             <div class="col-lg-3 col-md-auto col-sm-12">
                                 <h5 class="text" style="color: black;">URL SatuData</h5>
-                                <input id="apiUrlSatudata" name="apiUrlSatudata" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata" value="https://satudata.latih.id/">
+                                <input id="apiUrlSatudata" name="apiUrlSatudata" class="form-control" type="text" placeholder="Ketik URL" aria-label="urlsatudata" value="">
                             </div>
                             <div class="col-lg-3 col-md-auto col-sm-12">
                                 <h5 class="text" style="color: black;">Key App SatuData</h5>
                                 <div class="input-group">
-                                <input id="apiKeySatudata" name="apiKeySatudata" class="form-control" type="text" placeholder="Ketik Key App" aria-label="keyappsatudata" value="$2b$10$tifEFHrbIcCvJAjabsuEOueM8PFNnnFYfUBp3U9Tmb/SSZcsF1kym">
+                                <input id="apiKeySatudata" name="apiKeySatudata" class="form-control" type="text" placeholder="Ketik Key App" aria-label="keyappsatudata" value="">
                                 <!-- <button id="searchButton" name="searchButton" class="btn btn-success" type="submit">Search</button> -->
                                 </div>
                             </div>
